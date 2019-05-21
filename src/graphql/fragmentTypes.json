@@ -1,0 +1,1 @@
+{"__schema":{"types":[{"kind":"INTERFACE","name":"BaseUserAnswerType","possibleTypes":[{"name":"UserAnswerYesOrNoType"},{"name":"UserAnswerOpenType"},{"name":"UserAnswerMultipleType"}]},{"kind":"INTERFACE","name":"BaseQuestionType","possibleTypes":[{"name":"QuestionYesOrNoType"},{"name":"QuestionOpenType"},{"name":"QuestionMultipleType"}]}]}}
