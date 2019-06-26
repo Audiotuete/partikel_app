@@ -1,6 +1,9 @@
 // Configuration for your app
 require('./src/graphql/extractFragmentTypes')
 
+const ManifestPlugin = require('webpack-manifest-plugin');
+
+
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -27,18 +30,29 @@ module.exports = function (ctx) {
 
       components: [
         'QLayout',
-        'QHeader',
-        'QDrawer',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
         'QPageContainer',
         'QPage',
-        'QToolbar',
-        'QToolbarTitle',
+        'QFab',
+        'QFabAction',
+        'QPageSticky',
+        'QScrollArea',
+        'QVideo',
+        'QTabs',
+        'QTab',
+        'QRouteTab',
         'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
+        'QToolbar',
+        'QFooter',
+        'QHeader',
+        // 'QToolbarTitle'
+        // 'QIcon',
+        // 'QList',
+        // 'QItem',
+        // 'QItemSection',
+        // 'QItemLabel'
       ],
 
       directives: [
@@ -64,6 +78,11 @@ module.exports = function (ctx) {
       // analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {
+        cfg.plugins.push(               
+          new ManifestPlugin({
+            fileName: 'asset-manifest.json',
+          })
+        )
       }
     },
 

@@ -1,26 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          @click="leftDrawerOpen = !leftDrawerOpen"
-          aria-label="Menu"
-        >
-          <q-icon name="menu" />
-        </q-btn>
-
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-      </q-toolbar>
-    </q-header>
-
-  
-
+  <q-layout view="lHh lpr lFf">
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -34,7 +13,7 @@ export default {
   name: 'MyLayout',
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      isDesktop: this.$q.platform.is.desktop
     }
   },
   methods: {
