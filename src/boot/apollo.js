@@ -36,7 +36,7 @@ export default async ({ app, Vue }) => {
 
   // Send JWT from local storage with every request
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('CRkTFzpd')
+    const token = localStorage.getItem(process.env.TOKEN_KEY)
     return {
       headers: {
         ...headers,
@@ -51,7 +51,7 @@ export default async ({ app, Vue }) => {
     link: ApolloLink.from([
       authLink,
       // new HttpLink({uri: 'http://localhost/graphql'})]
-      new HttpLink({uri: 'http://localhost:8000/graphql'})]
+      new HttpLink({uri: process.env.ROOT_API + "/graphql", fetch: fetch})]
     ),
     connectToDevTools: true,
   })

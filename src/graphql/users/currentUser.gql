@@ -1,7 +1,60 @@
 query currentUser {
-    currentUser {
-      username
-      dateJoined
-    } 
+  currentUser {
+    username
+    dateJoined
+    lessonsViewed
+    lessonsCompleted
+    currentChallenge {
+    title
+      challengesectionSet {
+        id
+        title
+        challengesectionunitSet {
+          id
+            title
+            categories {
+              name
+              slug
+            }
+            thumbnail {
+              rendition(max: "600x400") {
+                url
+              }
+            }
+            content{
+              __typename
+              ... on HeadingType {
+                value
+              }
+              ... on ParagraphType {
+                value
+              }
+              ... on ImageType {
+                imageData {
+                  title
+                  caption
+                  rendition(max: "800x600"){
+                    url
+                  }
+                }
+              }
+              ... on GalleryType {
+                galleryData{
+                  title
+                  caption
+                  rendition(max: "800x600") {
+                    url
+                  }
+
+                }
+              }
+              ... on VideoType {
+                value
+              }
+            }
+        }
+      }
+    }
   }
+}
 

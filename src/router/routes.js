@@ -4,6 +4,7 @@ import Error404 from '../components/pages/Error404'
 // Screens
 import WelcomeScreen from '../screens/WelcomeScreen'
 import OverviewScreen from '../screens/OverviewScreen'
+import LessonScreen from '../screens/LessonScreen'
 
 
 const routes = [
@@ -11,8 +12,9 @@ const routes = [
     path: '/',
     component: BaseLayout,
     children: [
-      { path: 'welcome', component: WelcomeScreen },
-      { path: '', component: OverviewScreen}
+      {name: 'WelcomeScreen', path: 'welcome', component: WelcomeScreen },
+      {name: 'OverviewScreen', path: '', component: OverviewScreen},
+      {name: 'LessonScreen', path: 'lesson/:id', component: LessonScreen, props: true}
     ]
   }
 ]

@@ -13,6 +13,7 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'apollo',
+      'vue-youtube'
     ],
 
     css: [
@@ -50,6 +51,7 @@ module.exports = function (ctx) {
         'QToolbar',
         'QFooter',
         'QHeader',
+        'QImg',
         // 'QToolbarTitle'
         // 'QIcon',
         // 'QList',
