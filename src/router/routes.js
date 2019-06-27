@@ -1,13 +1,18 @@
-import MyLayout from '../layouts/MyLayout'
-import Index from '../pages'
-import Error404 from '../pages'
+import BaseLayout from '../layouts/BaseLayout'
+import Error404 from '../components/pages/Error404'
+
+// Screens
+import WelcomeScreen from '../screens/WelcomeScreen'
+import OverviewScreen from '../screens/OverviewScreen'
+
 
 const routes = [
   {
     path: '/',
-    component: MyLayout,
+    component: BaseLayout,
     children: [
-      { path: '', component: Index}
+      { path: 'welcome', component: WelcomeScreen },
+      { path: '', component: OverviewScreen}
     ]
   }
 ]

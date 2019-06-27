@@ -45,11 +45,22 @@
 
 
 <script>
+import CURRENT_USER from '../graphql/users/currentUser.gql'
+
 export default {
-  name: 'PageIndex',
+  name: 'overview-screen',
   data() {
     return {
-      tab: ''
+      currentUser: {}
+    }
+  },
+  apollo: {
+    currentUser: {
+      query: CURRENT_USER,
+      fetchPolicy: 'network-only',
+      update(data) {
+        return data.currentUser
+      }
     }
   },
   methods: {

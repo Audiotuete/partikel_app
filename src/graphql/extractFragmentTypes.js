@@ -3,9 +3,9 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 
-console.log('ATTENTION: Fragment types are fetched from https://leidenschaftlich-fuehren.de/graphql !!!')
+console.log('ATTENTION: Fragment types are fetched from http://localhost:8000/graphql !!!')
 
-fetch('https://leidenschaftlich-fuehren.de/graphql', {
+fetch('http://localhost:8000/graphql', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({

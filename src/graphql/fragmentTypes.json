@@ -1,1 +1,1 @@
-{"__schema":{"types":[{"kind":"INTERFACE","name":"BaseUserAnswerType","possibleTypes":[{"name":"UserAnswerYesOrNoType"},{"name":"UserAnswerOpenType"},{"name":"UserAnswerMultipleType"}]},{"kind":"INTERFACE","name":"BaseQuestionType","possibleTypes":[{"name":"QuestionYesOrNoType"},{"name":"QuestionOpenType"},{"name":"QuestionMultipleType"}]}]}}
+{"__schema":{"types":[{"kind":"UNION","name":"ContentType","possibleTypes":[{"name":"DefaultStreamType"},{"name":"ParagraphType"},{"name":"HeadingType"},{"name":"ImageType"},{"name":"VideoType"},{"name":"GalleryType"}]}]}}

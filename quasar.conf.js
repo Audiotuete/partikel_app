@@ -1,6 +1,9 @@
 // Configuration for your app
 require('./src/graphql/extractFragmentTypes')
 
+const env_dev =  require('./.env/env.dev.js')
+const env_prod =  require('./.env/env.prod.js')
+
 const ManifestPlugin = require('webpack-manifest-plugin');
 
 
@@ -71,6 +74,20 @@ module.exports = function (ctx) {
     supportIE: false,
 
     build: {
+      env: ctx.dev
+      ? { // so on dev we'll have
+        ROOT_API: env_dev.ROOT_API,
+        USER_PASSWORD: env_dev.USER_PASSWORD,
+        TOKEN_ID: env_dev.TOKEN_KEY,
+        CHALLENGE_ID: env_dev.CHALLENGE_ID,
+      }
+      : { // and on build (production):
+        ROOT_API: env_prod.ROOT_API,
+        USER_PASSWORD: env_prod.USER_PASSWORD,
+        TOKEN_ID: env_prod.TOKEN_KEY,
+        CHALLENGE_ID: env_prod.CHALLENGE_ID,
+      },
+      
       scopeHoisting: true,
       // vueRouterMode: 'history',
       // vueCompiler: true,
@@ -82,7 +99,11 @@ module.exports = function (ctx) {
           new ManifestPlugin({
             fileName: 'asset-manifest.json',
           })
-        )
+        ),
+        cfg.module.rules.push({
+          test: /\.(gql|graphql)$/,
+          loader: 'graphql-tag/loader'
+        })
       }
     },
 

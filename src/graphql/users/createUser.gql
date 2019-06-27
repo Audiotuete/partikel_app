@@ -1,0 +1,11 @@
+mutation createUser($challengeId: ID!, $browserInfo: String!, $osInfo: String!) {
+    createUser(
+      challengeId: $challengeId,
+      browserInfo: $browserInfo,
+      osInfo: $osInfo,
+    ) {
+      user {
+        username
+      }
+    }
+  }

@@ -51,7 +51,7 @@ export default async ({ app, Vue }) => {
     link: ApolloLink.from([
       authLink,
       // new HttpLink({uri: 'http://localhost/graphql'})]
-      new HttpLink({uri: 'https://leidenschaftlich-fuehren.de/graphql'})]
+      new HttpLink({uri: 'http://localhost:8000/graphql'})]
     ),
     connectToDevTools: true,
   })
