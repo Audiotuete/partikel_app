@@ -33,7 +33,7 @@ query currentUser {
                 imageData {
                   title
                   caption
-                  rendition(max: "800x600"){
+                  rendition(max: "600x400"){
                     url
                   }
                 }
@@ -42,7 +42,7 @@ query currentUser {
                 galleryData{
                   title
                   caption
-                  rendition(max: "800x600") {
+                  rendition(max: "600x400") {
                     url
                   }
 

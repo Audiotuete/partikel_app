@@ -9,7 +9,7 @@
       >
         <div class="row no-wrap card-container">
           <q-card @click="goToLesson(unit)" v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card ">
-            <div class="overlay-viewed" v-if="currentUser.lessonsViewed.includes(parseInt(unit.id))"></div>
+            <!-- <div class="overlay-viewed" v-if="currentUser.lessonsViewed.includes(parseInt(unit.id))"></div> -->
             <img class='thumbnail' :src="rootURL + unit.thumbnail.rendition.url">
               <!-- <div class="absolute-bottom text-subtitle2 text-center">
                 Title
@@ -77,8 +77,11 @@ export default {
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
     },
     onClick() {
-      // console.log(this.currentUser.currentChallenge.challengesectionSet[0].challengesectionunitSet[0].id)
+      console.log(this.currentUser)
     }
+  },
+  updated() {
+    window.scrollTo(0,document.body.scrollHeight);
   }
 }
 </script>
@@ -99,21 +102,24 @@ export default {
  .my-card {
   margin: 0.5rem;
   /* margin-bottom: 1rem; */
-  min-width: 80vw;
-  max-width: 80vw;
+  min-width: 18rem;
+  max-width: 18rem;
+  min-height: 14rem;
+  // min-width: 80vw;
+  // max-width: 80vw;
   overflow: hidden;
 
   .overlay-viewed {
     position: absolute;
     // z-index: 0;
-    min-width: 80vw;
-    max-width: 80vw;
+    min-width: 18rem;
+    max-width: 18rem;
     height: 100%;
     background: rgba(0,0,0,0.5)
   }
 
   .thumbnail {
-    max-height: 9rem;
+    max-height: 10rem;
     object-fit: cover;
   }
 

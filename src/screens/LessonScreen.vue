@@ -1,6 +1,7 @@
 <template>
   <q-page class='flex column no-wrap'>
     <q-img
+      class='q-mb-lg'
       :src='rootURL + data.thumbnail.rendition.url'
       style='width: 100%'
     >
@@ -8,15 +9,33 @@
         {{data.title}}
       </div>
     </q-img>
-    <router-link to='/'>back</router-link>
-    <div class='content-container' v-for='(element, index) in data.content' :key='index'>
-      <span v-if="element.__typename == 'HeadingType'" v-html='element.value'></span>
-      <q-img class="lesson-image" v-else-if="element.__typename == 'ImageType'" :src='rootURL + element.imageData.rendition.url'></q-img>
-      <p class="text-body1" v-else-if="element.__typename == 'ParagraphType'" v-html='element.value'></p>
-      <div v-else-if="element.__typename == 'VideoType'" class="video-wrapper">
+    <div class='lesson-content-container q-mx-md q-mb-md' v-for='(element, index) in data.content' :key='index'>
+      <span v-if="element.__typename == 'HeadingType'" v-html='element.value' class="lesson-heading"></span>
+      <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body1 lesson-paragraph"></span>
+      <q-img v-else-if="element.__typename == 'ImageType'" :src='rootURL + element.imageData.rendition.url' class="lesson-image"></q-img>
+      <div v-else-if="element.__typename == 'VideoType'" class="lesson-video-wrapper">
         <youtube :video-id='getYoutubeId(element.value)' :player-vars="playerVars" ref="youtube"></youtube>
       </div>
+      
+      <q-carousel  v-else-if="element.__typename == 'GalleryType'"
+        class="gallery"
+        arrows
+        animated
+        infinite
+        v-model="slide"
+        height="28vh"
+      >
+        <q-carousel-slide class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="rootURL + image.rendition.url">
+          <div class="absolute-bottom custom-caption">
+            <div class="text-subtitle1">{{image.caption}}</div>
+          </div>
+        </q-carousel-slide>
+
+      </q-carousel>
     </div>
+    <q-page-sticky class='raise-it'  position="top-left" :offset="[18, 18]">
+      <q-btn to="/" round color="white" text-color="black" icon="arrow_back" />
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -28,7 +47,7 @@ export default {
   props: ['data'],
   data() {
     return {
-      currentUser: {},
+      slide: 1,
       rootURL: process.env.ROOT_API,
       playerVars: {
         autoplay: 0,
@@ -62,20 +81,24 @@ export default {
 
   },
   mounted() {
-    console.log(this.data.content)
-    // for (var item in this.data.content) {
-    //   console.log(item)
-    // }
+    if (!this.$router.currentRoute.params.data) {
+      this.$router.push('/')
+    }
+    console.log(this.data.content[4].galleryData)
+
   }
 }
 </script>
 
 
 <style lang='scss' scoped>
-.content-container {
+.lesson-content-container {
   max-width: 100vw;
-  margin: 0 1.2rem 0 1.2rem;
-  
+  margin: 0 1rem 0.75rem 1rem;
+}
+
+.lesson-thumbnail {
+  margin-bottom: 1.5rem;
 }
 
 .lesson-image {
@@ -83,13 +106,20 @@ export default {
   overflow: hidden;
 }
 
-.video-wrapper {
+.custom-caption {
+  text-align: center;
+  padding: 12px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.lesson-video-wrapper {
   position: relative;
   padding-bottom: 56.5%; /* beWirken Ratio */
   height: 0;
   border-radius: 4px;
   overflow: hidden;
-} 
+}
 
 
 </style>
