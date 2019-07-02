@@ -6,7 +6,6 @@ export default async ({ app, router }) => {
   router.beforeEach((to, from, next) => {
   
     if (to.matched.some(record => record.meta.requiresNoChallenge)) {
-      console.log('Required NoChallenge')
       getUser().then((data) => {
         if(data.currentChallenge) {
           next('/overview')
@@ -15,8 +14,6 @@ export default async ({ app, router }) => {
         }
       })
     } else if (to.matched.some(record => record.meta.requiresAuth)) {
-      console.log('Required Auth')
-
       getUser().then((data) => {
         if(!data.currentChallenge) {
           next('/')

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <q-page-container>
-      <keep-alive>
+      <keep-alive :max="10">
       <!-- <DesktopWarning v-if='!isMobile'><BaseButton style='width: 16rem' @click='openMobileWindow()'>Mobile Ansicht öffnen</BaseButton></DesktopWarning> -->
         <router-view id='router-view' :key="$route.fullPath" v-show='isPortrait'></router-view>
       </keep-alive>

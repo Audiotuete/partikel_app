@@ -3,9 +3,10 @@
     <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
       <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
-      horizontal
-      style="width: 100vw;"
-      class="bg-white-1 vertical-scroll-area"
+        horizontal
+        ref='scrollbars'
+        style="width: 100vw;"
+        class="bg-white-1 vertical-scroll-area"
       >
         <div class="row no-wrap card-container">
           <q-card @click="goToLesson(unit)" v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card ">
@@ -34,7 +35,7 @@
         </q-tabs>
     </q-header> -->
     </div>
-    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 18]">
+    <!-- <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 18]">
       <q-fab
         icon="add"
         direction="down"
@@ -43,7 +44,7 @@
         <q-fab-action @click="onClick()" color="primary" icon="person_add" />
         <q-fab-action @click="onClick()" color="primary" icon="mail" />
       </q-fab>
-    </q-page-sticky>
+    </q-page-sticky> -->
   </q-page>
 </template>
 
@@ -60,7 +61,7 @@ export default {
           challengesectionSet: []
         }
       },
-      rootURL: process.env.ROOT_API
+      rootURL: process.env.ROOT_API,
     }
   },
   apollo: {
@@ -74,14 +75,40 @@ export default {
   },
   methods: {
     goToLesson(unit) {
+      let scrollPositionsHorizontal = []
+      for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
+        scrollPositionsHorizontal.push(scrollbar.getScrollPosition())
+      }
+      localStorage.setItem('Scroll Position', JSON.stringify({
+        scrollPositionVertical: window.pageYOffset, 
+        scrollPositionsHorizontal: scrollPositionsHorizontal}))
+
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
     },
     onClick() {
-      console.log(this)
-    }
+
+    },
+    resetScrollPostions(onlyVertical = false) {
+      let scrollPositions = JSON.parse(localStorage.getItem('Scroll Position'))
+      if (scrollPositions && onlyVertical == false ) {
+        setTimeout(() => window.scrollTo(0,scrollPositions.scrollPositionVertical), 0)
+        setTimeout(() => {
+          for (let [index, position] of scrollPositions.scrollPositionsHorizontal.entries()) {
+            this.$refs.scrollbars[index].setScrollPosition(position)
+          }
+        }, 0)
+      } else if (onlyVertical == true) {
+        setTimeout(() => window.scrollTo(0,scrollPositions.scrollPositionVertical), 0)
+      } else {
+        setTimeout(() => window.scrollTo(0,document.body.scrollHeight), 0)
+      }
+    },
+  },
+  activated() {
+    this.resetScrollPostions()
   },
   updated() {
-    window.scrollTo(0,document.body.scrollHeight);
+    this.resetScrollPostions(true)
   }
 }
 </script>
