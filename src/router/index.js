@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import routes from './routes'
 
+
 Vue.use(VueRouter)
 
 /*
@@ -25,17 +26,3 @@ export default function (/* { store, ssrContext } */) {
   return Router
 }
 
-// Router.beforeEach((to, from, next) => {
-
-//   if (to.matched.some(record => record.meta.requiresNoPoll)) {
-//     getUser().then((data) => {
-//       if(data.currentPoll) {
-//         next('/umfrage')
-//       } else {
-//         next()
-//       }
-//     })    
-//   } else {
-//     next()
-//   }
-// })

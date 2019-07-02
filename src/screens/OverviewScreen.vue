@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex column justify-around">
     <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
-      <span class="text-h4 text-weight-light">{{section.title}}</span>
+      <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
       horizontal
       style="width: 100vw;"
@@ -10,7 +10,7 @@
         <div class="row no-wrap card-container">
           <q-card @click="goToLesson(unit)" v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card ">
             <!-- <div class="overlay-viewed" v-if="currentUser.lessonsViewed.includes(parseInt(unit.id))"></div> -->
-            <img class='thumbnail' :src="rootURL + unit.thumbnail.rendition.url">
+            <img class='thumbnail' :src="unit.thumbnail.rendition.url">
               <!-- <div class="absolute-bottom text-subtitle2 text-center">
                 Title
               </div> -->
@@ -77,7 +77,7 @@ export default {
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
     },
     onClick() {
-      console.log(this.currentUser)
+      console.log(this)
     }
   },
   updated() {

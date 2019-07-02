@@ -13,6 +13,7 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'apollo',
+      'global-router-guards',
       'vue-youtube'
     ],
 

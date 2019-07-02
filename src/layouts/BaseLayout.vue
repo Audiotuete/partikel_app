@@ -1,8 +1,11 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <q-page-container>
+      <keep-alive>
       <!-- <DesktopWarning v-if='!isMobile'><BaseButton style='width: 16rem' @click='openMobileWindow()'>Mobile Ansicht öffnen</BaseButton></DesktopWarning> -->
-      <router-view id='router-view' v-show='isPortrait'></router-view>
+        <router-view id='router-view' :key="$route.fullPath" v-show='isPortrait'></router-view>
+      </keep-alive>
+
       <!-- Shown when phone is in landscape mode -->
       <LandscapeWarning v-show='!isPortrait'></LandscapeWarning>
     </q-page-container>

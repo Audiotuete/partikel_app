@@ -2,7 +2,7 @@
   <div class='rotation-container'>
     <span class='rotation-icon'><i class='sl-icon icon-refresh'></i></span>
     <span class='rotation-text'>Querformat gibt's nicht...</span>
-    <BaseParagraph>Drehe dein Gerät um weiter zu machen.</BaseParagraph>
+    <p>Drehe dein Gerät um weiter zu machen.</p>
   </div> 
 </template>
 

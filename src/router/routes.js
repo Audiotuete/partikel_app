@@ -7,17 +7,52 @@ import OverviewScreen from '../screens/OverviewScreen'
 import LessonScreen from '../screens/LessonScreen'
 
 
+
 const routes = [
   {
     path: '/',
     component: BaseLayout,
     children: [
-      {name: 'WelcomeScreen', path: 'welcome', component: WelcomeScreen },
-      {name: 'OverviewScreen', path: '', component: OverviewScreen},
-      {name: 'LessonScreen', path: 'lesson/:id', component: LessonScreen, props: true}
+      {
+        name: 'WelcomeScreen', 
+        path: '', 
+        component: WelcomeScreen,
+        meta: { requiresNoChallenge: true }
+      },
+      {
+        name: 'OverviewScreen', 
+        path: 'overview', 
+        component: OverviewScreen,
+        meta: { requiresAuth: true }
+      },
+      {
+        name: 'LessonScreen', 
+        path: 'lesson/:id', 
+        component: LessonScreen, 
+        props: true
+      },
     ]
   }
 ]
+
+// routes: [
+//   { path: '/', 
+//     components: { default: WelcomeScreen },
+//     meta: { requiresNoPoll: true }
+//   },
+//   { path: '/tutorial',
+//   components: { default: TutorialScreen, },
+//   meta: { requiresAuth: true },
+//   },
+//   { path: '/umfrage',
+//     components: { default: SwiperScreen },
+//     meta: { requiresAuth: true },
+//   },
+//   { path: '/verify/:activation_key',
+//     components: { default: VerificationScreen },
+//     meta: { requiresAuth: false },
+//   },
+// ]
 
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {

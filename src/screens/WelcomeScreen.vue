@@ -1,20 +1,8 @@
 
 <template>
-  <div class='main-container'>
-    <div class='startscreen-container-outer'>
-      <div class='startscreen-container-inner'>
-        <div class='startscreen-heading' style='margin-top: 12%'>Verkehr im Vorderen Westen<br> ist dir nicht Wurst?</div>
-        <span class='call-to-action-text'>Dann gib jetzt deinen </span>
-        <div :style='background' class='image'><span class='text-block'>dazu!</span></div>
-        <div class='startscreen-heading' style='margin: 0rem'>Abstimmen und gewinnen!</div>
-        <BaseParagraph style='margin: 0; text-align: left'> Zum Dank verlosen wir unter allen
-Teilnehmenden im <strong> Alter von 10 bis 21 Jahren Gutscheine</strong> für Läden und Gastronomie im Vorderen Westen.</BaseParagraph>
-        <!-- <div class='startscreen-heading'>Umfrage endete am 15.03.2019</div> -->
-      </div>
-      <BaseButton @click='register()'>Umfrage starten</BaseButton>
-      <p class='impressum-link' @click='showImpressum = true' style='margin-top: 0.5rem'>Impressum | Datenschutz</p>
-    </div>
-  </div>
+  <q-page style="display:flex">
+    <q-btn @click='register()' style="width:100%" class="">Challenge Starten</q-btn>
+  </q-page>
 </template>
 
 <script>
@@ -57,16 +45,16 @@ export default {
       this.$apollo.mutate({
         mutation: CREATE_USER,
         variables: {
-          challengeId: 3,
+          challengeId: process.env.CHALLENGE_ID,
           browserInfo: this.getBrowserInfo(),
-          osInfo: navigator.platform
+          osInfo: navigator.platform,
+
         }
       }).then((data) => {
         this.login(data.data.createUser.user.username)
 
       }).catch((error) => {
         // Error
-        console.log('This is sparta')
         console.error(error)
       })
     },
@@ -83,7 +71,7 @@ export default {
         const token = data.data.tokenAuth.token
         localStorage.setItem(process.env.TOKEN_KEY, token)
         if (localStorage.getItem(process.env.TOKEN_KEY)) {
-          this.$router.push('/')
+          this.$router.push('/overview')
         }
       }).catch((error) => {
         // Error
