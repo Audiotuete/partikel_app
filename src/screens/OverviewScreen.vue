@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex column justify-around">
-    {{lessonsCompleted}}
+    {{lessonsViewed}}
     <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
       <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
@@ -81,14 +81,6 @@ export default {
     }
   },
   computed: {
-    // lessonsViewed() {
-    //   if(localStorage.getItem('lessons_viewed')) {
-    //     console.log(JSON.parse(localStorage.getItem('lessons_viewed')))
-    //     return JSON.parse(localStorage.getItem('lessons_viewed'))
-    //   } else {
-    //     return []
-    //   }
-    // },
     lessonsCompleted(){
       return this.currentUser.lessonsCompleted
 
@@ -97,31 +89,22 @@ export default {
   methods: {
     goToLesson(unit) {
       this.getScrollPostitions()
-      this.markLessonViewed(unit)
-
-
-      // Save viewed lessons
-      // if (!this.tempLessonsViewed.includes(parseInt(unit.id)) && !this.lessonsViewed.includes(parseInt(unit.id)) ) {
-      //   this.tempLessonsViewed.push(parseInt(unit.id))
-      // }
-      // localStorage.setItem('lessons_viewed', JSON.stringify(this.tempLessonsViewed.concat(this.lessonsViewed)))
+      this.markLessonViewed(unit.id)
 
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
     },
     onClick() {
 
     },
-    markLessonViewed(unit) {
-      let tempLessonsViewed = []
-      if (tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))) {
-        if(!tempLessonsViewed.includes(parseInt(unit.id))) {
-          tempLessonsViewed.push(parseInt(unit.id))
-          this.lessonsViewed.push(parseInt(unit.id))
-          localStorage.setItem('lessons_viewed', JSON.stringify(tempLessonsViewed))
+    markLessonViewed(id) {
+      if (this.lessonsViewed) {
+        if(!this.lessonsViewed.includes(parseInt(id))) {
+          this.lessonsViewed.push(parseInt(id))
+          localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsViewed))
         }
       } else {
-        this.lessonsViewed.push(parseInt(unit.id))
-        return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(unit.id)]))
+        this.lessonsViewed.push(parseInt(id))
+        return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(id)]))
       }
     },
     // markLessonCompleted(unit, completed=false) {
@@ -171,11 +154,8 @@ export default {
   },
   created() {
     let tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))
-    console.log(tempLessonsViewed)
     if (tempLessonsViewed) {
       this.lessonsViewed = tempLessonsViewed
-    } else {
-      this.lessonsViewed = []
     }
   },
   updated() {
