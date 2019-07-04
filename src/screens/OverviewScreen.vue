@@ -1,6 +1,8 @@
 <template>
-  <q-page class="flex column justify-around">
-    {{lessonsViewed}}
+  <q-page v-if='currentUser' class="flex column justify-around">
+    <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
+      <q-spinner-ios color="grey-10" size="4em"/>
+    </div>
     <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
       <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
@@ -10,8 +12,17 @@
         class="bg-white-1 vertical-scroll-area"
       >
         <div class="row no-wrap card-container">
-          <q-card @click="goToLesson(unit)" v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card ">
-            <div class="overlay-viewed" v-if="!lessonsViewed.includes(parseInt(unit.id))"></div>
+          <q-card 
+          @click="goToLesson(unit)" 
+          v-for="unit in section.challengesectionunitSet" 
+          :key="unit.id"
+          class="my-card"
+          >
+            <div class="overlay-not-viewed" v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))">
+              <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
+            </div>
+            <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
+
             <img class='thumbnail' :src="unit.thumbnail.rendition.url">
               <!-- <div class="absolute-bottom text-subtitle2 text-center">
                 Title
@@ -52,7 +63,8 @@
 
 <script>
 import CURRENT_USER from '../graphql/users/currentUser.gql'
-import UPDATE_USER_VIEWS from '../graphql/users/updateUserViews.gql'
+import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
+
 import { setTimeout } from 'timers';
 
 
@@ -91,7 +103,7 @@ export default {
       this.getScrollPostitions()
       this.markLessonViewed(unit.id)
 
-      this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
+      this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
     },
     onClick() {
 
@@ -107,24 +119,6 @@ export default {
         return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(id)]))
       }
     },
-    // markLessonCompleted(unit, completed=false) {
-    //   if(!this.lessonsViewed.includes(parseInt(unit.id))) {
-    //     this.lessonsViewed.push(parseInt(unit.id))
-    //     // localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsViewed))
-    //     this.$apollo.mutate({
-    //       mutation: UPDATE_USER_VIEWS,
-    //       variables: {
-    //         challengeSectionUnitId: unit.id,
-    //         isCompleted: completed
-    //       }
-    //     }).then((data) => {
-
-    //     }).catch((error) => {
-    //       // Error
-    //       console.error(error)
-    //     })
-    //   }
-    // },
     getScrollPostitions() {
       let scrollPositionsHorizontal = []
       for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
@@ -153,6 +147,23 @@ export default {
     },
   },
   created() {
+    this.$apollo.query({
+      query: CHECK_CURRENT_USER,
+      fetchPolicy: 'no-cache',
+    }).then((data) => {
+        // Do nothing
+    }).catch((error) => {
+      // localStorage.removeItem(process.env.TOKEN_ID);
+      localStorage.clear()
+      location.reload()
+    })
+  },
+  mounted() {
+    this.isLoading = true
+    setTimeout(() => {
+      this.isLoading = false
+    }, 1500)
+
     let tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))
     if (tempLessonsViewed) {
       this.lessonsViewed = tempLessonsViewed
@@ -173,34 +184,80 @@ export default {
 
 
 <style lang="scss" scoped>
- .card-container {
-   &::before {
-     content: 'W';
-     color: transparent;
-   }
-   &::after {
-     content: 'W';
-     color: transparent;
-   }
- }
+  .card-container {
+    &::before {
+      content: 'W';
+      color: transparent;
+    }
+    &::after {
+      content: 'W';
+      color: transparent;
+    }
+  }
 
- .my-card {
-  margin: 0.5rem;
-  /* margin-bottom: 1rem; */
-  min-width: 18rem;
-  max-width: 18rem;
-  min-height: 14rem;
-  // min-width: 80vw;
-  // max-width: 80vw;
-  overflow: hidden;
+  .overlay-loading-long {
+    position: fixed; /* Sit on top of the page content */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%; 
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white; 
+    z-index: 3; 
+    /* Duration must be indentical to animation duration */
+    animation: 1.5s cubic-bezier(1,0,.25,.5) 0s 1 fadeIn;
+  } 
+  @keyframes fadeIn {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 
-  .overlay-viewed {
+  .my-card {
+    margin: 0.5rem;
+    /* margin-bottom: 1rem; */
+    min-width: 18rem;
+    max-width: 18rem;
+    min-height: 14rem;
+    // min-width: 80vw;
+    // max-width: 80vw;
+    overflow: hidden;
+
+  .overlay-not-viewed {
     position: absolute;
+    display: flex;
+    justify-content: center;
     // z-index: 0;
     min-width: 18rem;
     max-width: 18rem;
     height: 100%;
-    background: rgba(0,0,0,0.5)
+    background: rgba(0,0,0,0.6);
+
+    .overlay-not-viewed-icon{
+      top: 20%;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 4rem;
+    }
+  }
+
+
+  .overlay-completed {
+    z-index: 2;
+    position: absolute;
+    right: 5%;
+    bottom: 18%;
+    // FlatUI Dutch Palette
+    color: #A3CB38; // Android Green
+    font-size: 4rem;
+    text-shadow: 0 0px 4px rgba(0, 148, 50, 0.7) // Pixelated Grass
+
   }
 
   .thumbnail {
