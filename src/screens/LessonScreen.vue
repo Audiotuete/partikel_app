@@ -1,16 +1,16 @@
 <template>
-  <q-page class='flex column no-wrap'>
-    <q-img v-if="data.thumbnail.rendition.url"
+  <q-page v-if="unitData" class='flex column no-wrap'>
+    <q-img
       basic
       class='q-mb-lg'
-      :src='data.thumbnail.rendition.url'
+      :src='unitData.thumbnail.rendition.url'
       style='width: 100%'
     >
       <div class='absolute-bottom text-h6 text-left q-pa-xs'>
-        {{data.title}}
+        {{unitData.title}}
       </div>
     </q-img>
-    <div class='lesson-content-container q-mx-md q-mb-md' v-for='(element, index) in data.content' :key='index'>
+    <div class='lesson-content-container q-mx-md q-mb-md' v-for='(element, index) in unitData.content' :key='index'>
       <span v-if="element.__typename == 'HeadingType'" v-html='element.value' class="lesson-heading"></span>
       <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body1 lesson-paragraph"></span>
       <q-img v-else-if="element.__typename == 'ImageType'" :src='element.imageData.rendition.url' class="lesson-image"></q-img>
@@ -34,16 +34,28 @@
 
       </q-carousel>
     </div>
-    <q-btn to="/overview" class="lesson-back-button" round color="white" text-color="black" icon="arrow_back" />
+      <q-page-sticky class='lesson-back-button-container'  position="top-left" :offset="[16, 16]">
+        <!-- <q-btn to="/overview" round color="white" text-color="black" icon="arrow_back" /> -->
+        <router-link  to="/overview" class="lesson-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
+
+      <!-- <q-fab
+        icon="add"
+        direction="down"
+        color="white"
+      >
+      </q-fab> -->
+    </q-page-sticky>
+    <q-btn style="margin: 1rem" color='green' @click="markLessonCompleted(unitData.id)">markieren</q-btn>
   </q-page>
 </template>
 
 
 <script>
+import UPDATE_USER_VIEWS from '../graphql/users/updateUserViews.gql'
 
 export default {
   name: 'lesson-screen',
-  props: ['data'],
+  props: ['unitData', 'lessonsCompleted'],
   data() {
     return {
       slide: 1,
@@ -65,6 +77,24 @@ export default {
     }
   },
   methods: {
+    markLessonCompleted(id, completed=true) {
+      if(!this.lessonsCompleted.includes(parseInt(id))) {
+        this.lessonsCompleted.push(parseInt(id))
+        // localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsCompleted))
+        this.$apollo.mutate({
+          mutation: UPDATE_USER_VIEWS,
+          variables: {
+            challengeSectionUnitId: id,
+            isCompleted: completed
+          }
+        }).then((data) => {
+          this.$router.push('/overview')
+        }).catch((error) => {
+          location.reload()
+          // console.error(error)
+        })
+      }
+    },
     getYoutubeId(url){
       let ID = '';
       url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
@@ -82,12 +112,16 @@ export default {
   mounted() {
     setTimeout(() => window.scrollTo(0,0), 50)
 
-    if (!this.$router.currentRoute.params.data) {
+    if (!this.$router.currentRoute.params.unitData) {
       this.$router.push('/overview')
     }
   },
   activated() {
     setTimeout(() => window.scrollTo(0,0), 50)
+
+    if (!this.$router.currentRoute.params.unitData) {
+      this.$router.push('/overview')
+    }
   }
 
 }
@@ -95,10 +129,19 @@ export default {
 
 
 <style lang='scss' scoped>
-.lesson-back-button {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
+.lesson-back-button-container {
+  height: 3em;
+  width: 3em;
+  min-width: 3em;
+  min-height: 3em;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+}
+
+.lesson-back-button-link {
+  text-decoration: none;
+  color: #000000;
 }
 
 .lesson-content-container {

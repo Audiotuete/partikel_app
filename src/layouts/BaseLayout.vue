@@ -100,7 +100,7 @@ export default {
   right: 0;
   bottom: 0;
   background-color: black; 
-  z-index: 2; 
+  z-index: 3; 
   /* Duration must be indentical to animation duration */
   animation: 0.5s ease-in 0s 1 fadeIn;
 } 
