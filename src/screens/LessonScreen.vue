@@ -65,7 +65,7 @@ export default {
     }
   },
   methods: {
-   getYoutubeId(url){
+    getYoutubeId(url){
       let ID = '';
       url = url.replace(/(>|<)/gi,'').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
       if(url[2] !== undefined) {
@@ -78,12 +78,18 @@ export default {
         return ID;
     },
 
-  },
+},
   mounted() {
+    setTimeout(() => window.scrollTo(0,0), 50)
+
     if (!this.$router.currentRoute.params.data) {
       this.$router.push('/overview')
     }
+  },
+  activated() {
+    setTimeout(() => window.scrollTo(0,0), 50)
   }
+
 }
 </script>
 

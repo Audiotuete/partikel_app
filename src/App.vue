@@ -1,13 +1,20 @@
 <template>
   <div id="q-app">
+
     <router-view />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
-}
+  name: 'App',
+  data() {
+    return {
+      isLoading: false
+    }
+  },
+
+} 
 </script>
 
 <style>
@@ -30,4 +37,5 @@ iframe {
   width: 100%;
   height: 100%;
 }
+
 </style>

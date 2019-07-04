@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <q-page-container>
+      <div v-show='isLoading' class="overlay-loading">        
+        <q-spinner-puff color="grey-10" size="30em"/>
+      </div>
       <keep-alive :max="10">
       <!-- <DesktopWarning v-if='!isMobile'><BaseButton style='width: 16rem' @click='openMobileWindow()'>Mobile Ansicht öffnen</BaseButton></DesktopWarning> -->
         <router-view id='router-view' :key="$route.fullPath" v-show='isPortrait'></router-view>
@@ -28,8 +31,17 @@ export default {
       allUsers: [],
       isPortrait: true,
       isMobile: false,
+      isLoading: false,
     }
   },
+  watch:{
+    $route(to, from) {
+      this.isLoading = true
+      setTimeout(() => {
+        this.isLoading = false
+        }, 500)
+    }
+  }, 
   methods: {
     checkWindow() {
       if(Math.abs(window.orientation) === 90) {
@@ -75,4 +87,30 @@ export default {
 </script>
 
 <style>
+
+.overlay-loading {
+  position: fixed; /* Sit on top of the page content */
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%; 
+  top: 0; 
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black; 
+  z-index: 2; 
+  /* Duration must be indentical to animation duration */
+  animation: 0.5s ease-in 0s 1 fadeIn;
+} 
+@keyframes fadeIn {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 </style>

@@ -36,7 +36,7 @@ export default async ({ app, Vue }) => {
 
   // Send JWT from local storage with every request
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem(process.env.TOKEN_KEY)
+    const token = localStorage.getItem(process.env.TOKEN_ID)
     return {
       headers: {
         ...headers,

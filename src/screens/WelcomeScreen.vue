@@ -48,7 +48,6 @@ export default {
           challengeId: process.env.CHALLENGE_ID,
           browserInfo: this.getBrowserInfo(),
           osInfo: navigator.platform,
-
         }
       }).then((data) => {
         this.login(data.data.createUser.user.username)
@@ -69,8 +68,9 @@ export default {
       }).then((data) => {
         // Result
         const token = data.data.tokenAuth.token
-        localStorage.setItem(process.env.TOKEN_KEY, token)
-        if (localStorage.getItem(process.env.TOKEN_KEY)) {
+        console.log(process.env)
+        localStorage.setItem(process.env.TOKEN_ID, token)
+        if (localStorage.getItem(process.env.TOKEN_ID)) {
           this.$router.push('/overview')
         }
       }).catch((error) => {

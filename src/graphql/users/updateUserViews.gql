@@ -1,0 +1,11 @@
+mutation updateUserViews($challengeSectionUnitId: Int!, $isCompleted: Boolean) {
+    updateUserViews(
+      challengeSectionUnitId: $challengeSectionUnitId,
+      isCompleted: $isCompleted
+    ) {
+      user {
+        lessonsViewed
+        lessonsCompleted
+      } 
+    }
+  }

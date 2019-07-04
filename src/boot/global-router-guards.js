@@ -14,13 +14,22 @@ export default async ({ app, router }) => {
         }
       })
     } else if (to.matched.some(record => record.meta.requiresAuth)) {
-      getUser().then((data) => {
-        if(!data.currentChallenge) {
+    // Auth check without network request - Experimental!
+        if(!localStorage.getItem(process.env.TOKEN_ID)) {
+          localStorage.removeItem('lessons_viewed');
+          localStorage.removeItem('scroll_positions');
           next('/')
         } else {
           next()
         }
-      })     
+    // Auth check with network request
+      // getUser().then((data) => {
+      //   if(!data.currentChallenge) {
+      //     next('/')
+      //   } else {
+      //     next()
+      //   }
+      // })     
     } else {
       next()
     }

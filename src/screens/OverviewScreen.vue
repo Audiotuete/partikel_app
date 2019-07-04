@@ -1,5 +1,6 @@
 <template>
   <q-page class="flex column justify-around">
+    {{lessonsCompleted}}
     <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
       <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
@@ -10,7 +11,7 @@
       >
         <div class="row no-wrap card-container">
           <q-card @click="goToLesson(unit)" v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card ">
-            <!-- <div class="overlay-viewed" v-if="currentUser.lessonsViewed.includes(parseInt(unit.id))"></div> -->
+            <div class="overlay-viewed" v-if="!lessonsViewed.includes(parseInt(unit.id))"></div>
             <img class='thumbnail' :src="unit.thumbnail.rendition.url">
               <!-- <div class="absolute-bottom text-subtitle2 text-center">
                 Title
@@ -51,6 +52,9 @@
 
 <script>
 import CURRENT_USER from '../graphql/users/currentUser.gql'
+import UPDATE_USER_VIEWS from '../graphql/users/updateUserViews.gql'
+import { setTimeout } from 'timers';
+
 
 export default {
   name: 'overview-screen',
@@ -61,7 +65,10 @@ export default {
           challengesectionSet: []
         }
       },
+      tempLessonsViewed: [],
       rootURL: process.env.ROOT_API,
+      isLoading: false,
+      lessonsViewed: []
     }
   },
   apollo: {
@@ -73,43 +80,114 @@ export default {
       // }
     }
   },
+  computed: {
+    // lessonsViewed() {
+    //   if(localStorage.getItem('lessons_viewed')) {
+    //     console.log(JSON.parse(localStorage.getItem('lessons_viewed')))
+    //     return JSON.parse(localStorage.getItem('lessons_viewed'))
+    //   } else {
+    //     return []
+    //   }
+    // },
+    lessonsCompleted(){
+      return this.currentUser.lessonsCompleted
+
+    }
+  },
   methods: {
     goToLesson(unit) {
-      let scrollPositionsHorizontal = []
-      for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
-        scrollPositionsHorizontal.push(scrollbar.getScrollPosition())
-      }
-      localStorage.setItem('Scroll Position', JSON.stringify({
-        scrollPositionVertical: window.pageYOffset, 
-        scrollPositionsHorizontal: scrollPositionsHorizontal}))
+      this.getScrollPostitions()
+      this.markLessonViewed(unit)
+
+
+      // Save viewed lessons
+      // if (!this.tempLessonsViewed.includes(parseInt(unit.id)) && !this.lessonsViewed.includes(parseInt(unit.id)) ) {
+      //   this.tempLessonsViewed.push(parseInt(unit.id))
+      // }
+      // localStorage.setItem('lessons_viewed', JSON.stringify(this.tempLessonsViewed.concat(this.lessonsViewed)))
 
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, data: unit} })
     },
     onClick() {
 
     },
-    resetScrollPostions(onlyVertical = false) {
-      let scrollPositions = JSON.parse(localStorage.getItem('Scroll Position'))
-      if (scrollPositions && onlyVertical == false ) {
+    markLessonViewed(unit) {
+      let tempLessonsViewed = []
+      if (tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))) {
+        if(!tempLessonsViewed.includes(parseInt(unit.id))) {
+          tempLessonsViewed.push(parseInt(unit.id))
+          this.lessonsViewed.push(parseInt(unit.id))
+          localStorage.setItem('lessons_viewed', JSON.stringify(tempLessonsViewed))
+        }
+      } else {
+        this.lessonsViewed.push(parseInt(unit.id))
+        return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(unit.id)]))
+      }
+    },
+    // markLessonCompleted(unit, completed=false) {
+    //   if(!this.lessonsViewed.includes(parseInt(unit.id))) {
+    //     this.lessonsViewed.push(parseInt(unit.id))
+    //     // localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsViewed))
+    //     this.$apollo.mutate({
+    //       mutation: UPDATE_USER_VIEWS,
+    //       variables: {
+    //         challengeSectionUnitId: unit.id,
+    //         isCompleted: completed
+    //       }
+    //     }).then((data) => {
+
+    //     }).catch((error) => {
+    //       // Error
+    //       console.error(error)
+    //     })
+    //   }
+    // },
+    getScrollPostitions() {
+      let scrollPositionsHorizontal = []
+      for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
+        scrollPositionsHorizontal.push(scrollbar.getScrollPosition())
+      }
+      localStorage.setItem('scroll_positions', JSON.stringify({
+        scrollPositionVertical: window.pageYOffset, 
+        scrollPositionsHorizontal: scrollPositionsHorizontal}))
+    },
+    resetScrollPostions() {
+      let scrollPositions = JSON.parse(localStorage.getItem('scroll_positions'))
+      if (scrollPositions) {
         setTimeout(() => window.scrollTo(0,scrollPositions.scrollPositionVertical), 0)
         setTimeout(() => {
           for (let [index, position] of scrollPositions.scrollPositionsHorizontal.entries()) {
-            this.$refs.scrollbars[index].setScrollPosition(position)
+            try {
+              this.$refs.scrollbars[index].setScrollPosition(position)
+            } catch (err) {
+              // Ignore
+            }
           }
         }, 0)
-      } else if (onlyVertical == true) {
-        setTimeout(() => window.scrollTo(0,scrollPositions.scrollPositionVertical), 0)
       } else {
         setTimeout(() => window.scrollTo(0,document.body.scrollHeight), 0)
       }
     },
   },
+  created() {
+    let tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))
+    console.log(tempLessonsViewed)
+    if (tempLessonsViewed) {
+      this.lessonsViewed = tempLessonsViewed
+    } else {
+      this.lessonsViewed = []
+    }
+  },
+  updated() {
+    this.resetScrollPostions()
+  },
   activated() {
     this.resetScrollPostions()
   },
-  updated() {
-    this.resetScrollPostions(true)
-  }
+  // deactivated() {
+  //   setTimeout(() => window.scrollTo(0, 0), 100)
+  // }
+
 }
 </script>
 
