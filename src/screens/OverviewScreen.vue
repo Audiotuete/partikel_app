@@ -220,15 +220,15 @@ export default {
     }
   }
 
-  .my-card {
-    margin: 0.5rem;
-    /* margin-bottom: 1rem; */
-    min-width: 18rem;
-    max-width: 18rem;
-    min-height: 14rem;
-    // min-width: 80vw;
-    // max-width: 80vw;
-    overflow: hidden;
+.my-card {
+  margin: 0.5rem;
+  /* margin-bottom: 1rem; */
+  min-width: 18rem;
+  max-width: 18rem;
+  min-height: 14rem;
+  // min-width: 80vw;
+  // max-width: 80vw;
+  overflow: hidden;
 
   .overlay-not-viewed {
     position: absolute;
@@ -256,9 +256,18 @@ export default {
     // FlatUI Dutch Palette
     color: #A3CB38; // Android Green
     font-size: 4rem;
-    text-shadow: 0 0px 4px rgba(0, 148, 50, 0.7) // Pixelated Grass
+    text-shadow: 0 0px 4px rgba(0, 148, 50, 0.7); // Pixelated Grass
+    // animation-name: pulse;
+    // animation-duration: 1s;
+    // animation-iteration-count: 1;
 
+    // @keyframes pulse {
+    //   from { transform: scale(1); }
+    //   50% { transform: scale(0.85); }
+    //   to { transform: scale(1); }
+    // }
   }
+
 
   .thumbnail {
     max-height: 10rem;
