@@ -10,6 +10,7 @@ query currentUser {
       challengesectionSet {
         id
         title
+        hardlockDuration
         challengesectionunitSet {
           id
             title

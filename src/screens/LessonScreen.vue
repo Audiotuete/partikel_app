@@ -110,14 +110,14 @@ export default {
 
 },
   mounted() {
-    setTimeout(() => window.scrollTo(0,0), 50)
+    // setTimeout(() => window.scrollTo(0,0), 50)
 
     if (!this.$router.currentRoute.params.unitData) {
       this.$router.push('/overview')
     }
   },
   activated() {
-    setTimeout(() => window.scrollTo(0,0), 50)
+    // setTimeout(() => window.scrollTo(0,0), 50)
 
     if (!this.$router.currentRoute.params.unitData) {
       this.$router.push('/overview')

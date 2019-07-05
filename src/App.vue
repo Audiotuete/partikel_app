@@ -38,4 +38,22 @@ iframe {
   height: 100%;
 }
 
+  .q-stepper {
+    max-width: 100vw;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent
+  }
+
+  .q-stepper__dot {
+    height: 2rem;
+    width: 2rem;
+    font-size: 1rem;
+  }
+
+.q-stepper--horizontal .q-stepper__step-inner {
+  padding: 0;
+}
+
+
 </style>

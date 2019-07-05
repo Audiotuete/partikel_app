@@ -1,9 +1,85 @@
 <template>
-  <q-page v-if='currentUser' class="flex column justify-around">
+
+  <q-page v-if='currentUser' class="flex column">
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
       <q-spinner-ios color="grey-10" size="4em"/>
     </div>
-    <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
+
+    <q-stepper
+      v-model="currentStep"
+      color="primary"
+      animated
+      header-nav
+      keep-alive
+      contracted
+      
+      
+    >
+      <q-step v-for="(section, index) in currentUser.currentChallenge.challengesectionSet.slice()" :key="section.id"
+        title=""
+        :name="index"
+        :active-icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
+        :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
+      >
+      <q-scroll-area
+        horizontal
+        ref='scrollbars'
+        style="width: 100vw;"
+        class="bg-white-1 vertical-scroll-area"
+      >
+      <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
+          <q-card
+          @click="goToLesson(unit)" 
+          v-for="unit in section.challengesectionunitSet" 
+          :key="unit.id"
+          class="my-card"
+          >
+            <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
+              <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
+            </div>
+            <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
+
+            <img class='thumbnail' :src="unit.thumbnail.rendition.url">
+
+            <q-card-section class="card-section" align="around">
+              <div class="text-body1 text-left">{{unit.title}}</div>
+            </q-card-section>
+     
+   
+          </q-card>
+        </div>
+        <div v-else class="row no-wrap card-container">
+          <q-card
+          v-for="unit in section.challengesectionunitSet" 
+          :key="unit.id"
+          class="my-card"
+          >
+            <div class="overlay-locked">
+              <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
+            </div>
+
+            <div class='thumbnail'></div>
+
+            <q-card-section class="card-section" align="around">
+              <div class="text-body1 text-left">{{unit.title}}</div>
+            </q-card-section>
+     
+   
+          </q-card>
+        </div>
+      </q-scroll-area> 
+        <!-- For each ad campaign that you create, you can control how much you're willing to
+        spend on clicks and conversions, which networks and geographical locations you want
+        your ads to show on, and more.
+
+        <q-stepper-navigation>
+          <q-btn @click="step = 1" color="primary" label="Continue" />
+        </q-stepper-navigation> -->
+      </q-step>
+
+    </q-stepper>
+
+    <!-- <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
       <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
       <q-scroll-area
         horizontal
@@ -11,30 +87,47 @@
         style="width: 100vw;"
         class="bg-white-1 vertical-scroll-area"
       >
-        <div class="row no-wrap card-container">
-          <q-card 
+      <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
+          <q-card
           @click="goToLesson(unit)" 
           v-for="unit in section.challengesectionunitSet" 
           :key="unit.id"
           class="my-card"
           >
-            <div class="overlay-not-viewed" v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))">
+            <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
               <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
             </div>
             <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
 
             <img class='thumbnail' :src="unit.thumbnail.rendition.url">
-              <!-- <div class="absolute-bottom text-subtitle2 text-center">
-                Title
-              </div> -->
-            
+
             <q-card-section class="card-section" align="around">
               <div class="text-body1 text-left">{{unit.title}}</div>
             </q-card-section>
+     
    
           </q-card>
         </div>
-      </q-scroll-area>
+        <div v-else class="row no-wrap card-container">
+          <q-card
+          v-for="unit in section.challengesectionunitSet" 
+          :key="unit.id"
+          class="my-card"
+          >
+            <div class="overlay-locked">
+              <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
+            </div>
+
+            <div class='thumbnail'></div>
+
+            <q-card-section class="card-section" align="around">
+              <div class="text-body1 text-left">{{unit.title}}</div>
+            </q-card-section>
+     
+   
+          </q-card>
+        </div>
+      </q-scroll-area> -->
       <!-- <q-header>
         <q-tabs
           v-model="tab"
@@ -46,17 +139,18 @@
           <q-tab :ripple="{ color: 'orange' }" name="movies" icon="movie" label="Movies" />
         </q-tabs>
     </q-header> -->
-    </div>
-    <!-- <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 18]">
-      <q-fab
-        icon="add"
+    <!-- </div> -->
+    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 18]">
+      <!-- <q-fab
+        icon="menu"
         direction="down"
         color="primary"
+        text-color="white"
       >
-        <q-fab-action @click="onClick()" color="primary" icon="person_add" />
-        <q-fab-action @click="onClick()" color="primary" icon="mail" />
-      </q-fab>
-    </q-page-sticky> -->
+        <q-fab-action @click="onClick()" color="primary" text-color="white" icon="person_add" />
+        <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" />
+      </q-fab> -->
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -72,6 +166,7 @@ export default {
   name: 'overview-screen',
   data() {
     return {
+      currentStep: 0,
       currentUser: {
         currentChallenge: {
           challengesectionSet: []
@@ -95,7 +190,6 @@ export default {
   computed: {
     lessonsCompleted(){
       return this.currentUser.lessonsCompleted
-
     }
   },
   methods: {
@@ -124,16 +218,16 @@ export default {
       for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
         scrollPositionsHorizontal.push(scrollbar.getScrollPosition())
       }
-      localStorage.setItem('scroll_positions', JSON.stringify({
-        scrollPositionVertical: window.pageYOffset, 
+      localStorage.setItem('nav_positions', JSON.stringify({
+        currentStep: this.currentStep, 
         scrollPositionsHorizontal: scrollPositionsHorizontal}))
     },
     resetScrollPostions() {
-      let scrollPositions = JSON.parse(localStorage.getItem('scroll_positions'))
-      if (scrollPositions) {
-        setTimeout(() => window.scrollTo(0,scrollPositions.scrollPositionVertical), 0)
+      let navPositions = JSON.parse(localStorage.getItem('nav_positions'))
+      if (navPositions) {
+        this.step = navPositions.currentStep
         setTimeout(() => {
-          for (let [index, position] of scrollPositions.scrollPositionsHorizontal.entries()) {
+          for (let [index, position] of navPositions.scrollPositionsHorizontal.entries()) {
             try {
               this.$refs.scrollbars[index].setScrollPosition(position)
             } catch (err) {
@@ -142,9 +236,17 @@ export default {
           }
         }, 0)
       } else {
-        setTimeout(() => window.scrollTo(0,document.body.scrollHeight), 0)
+        // setTimeout(() => window.scrollTo(0,document.body.scrollHeight), 0)
       }
     },
+    isLocked(days) {
+      console.log()
+      if ((Date.parse(this.currentUser.dateJoined) + (days * 24 * 60 * 60 * 1000) - Date.now()) <= 0) {
+        return false 
+      } else {
+        return true
+      }
+    }
   },
   created() {
     this.$apollo.query({
@@ -159,6 +261,7 @@ export default {
     })
   },
   mounted() {
+    this.currentStep = JSON.parse(localStorage.getItem('nav_positions')).currentStep
     this.isLoading = true
     setTimeout(() => {
       this.isLoading = false
@@ -195,6 +298,7 @@ export default {
     }
   }
 
+ 
   .overlay-loading-long {
     position: fixed; /* Sit on top of the page content */
     display: flex; 
@@ -220,6 +324,10 @@ export default {
     }
   }
 
+  .raise-it{
+    z-index: 100;
+  }
+
 .my-card {
   margin: 0.5rem;
   /* margin-bottom: 1rem; */
@@ -230,6 +338,24 @@ export default {
   // max-width: 80vw;
   overflow: hidden;
 
+
+  .overlay-locked {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+    min-width: 18rem;
+    max-width: 18rem;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+
+    .overlay-locked-icon{
+      top: 25%;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 4rem;
+    }
+  }
+
   .overlay-not-viewed {
     position: absolute;
     display: flex;
@@ -238,11 +364,11 @@ export default {
     min-width: 18rem;
     max-width: 18rem;
     height: 100%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.5);
 
     .overlay-not-viewed-icon{
       top: 20%;
-      color: rgba(255, 255, 255, 0.5);
+      color: rgba(255, 255, 255, 0.75);
       font-size: 4rem;
     }
   }
@@ -256,7 +382,7 @@ export default {
     // FlatUI Dutch Palette
     color: #A3CB38; // Android Green
     font-size: 4rem;
-    text-shadow: 0 0px 4px rgba(0, 148, 50, 0.7); // Pixelated Grass
+    text-shadow: 0 0px 4px rgba(0, 0, 0, 0.5); // Pixelated Grass
     // animation-name: pulse;
     // animation-duration: 1s;
     // animation-iteration-count: 1;
@@ -271,7 +397,9 @@ export default {
 
   .thumbnail {
     max-height: 10rem;
+    min-height: 10rem;
     object-fit: cover;
+    background: #000;
   }
 
   .card-section {
@@ -282,11 +410,6 @@ export default {
     align-items: center;
     min-height: 4rem;
     padding: 0 1rem;
-  }
-
-  .raise-it{
-    position: absolute;
-    z-index: 1 !important;
   }
  }
 </style>
