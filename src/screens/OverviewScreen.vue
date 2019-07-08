@@ -7,149 +7,95 @@
 
     <q-stepper
       v-model="currentStep"
-      color="primary"
       animated
       header-nav
       keep-alive
       contracted
-      
-      
+      @input="getScrollPositions()"
     >
+ 
+      
       <q-step v-for="(section, index) in currentUser.currentChallenge.challengesectionSet.slice()" :key="section.id"
         title=""
         :name="index"
         :active-icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
-        :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
+        :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
       >
-      <q-scroll-area
-        horizontal
-        ref='scrollbars'
-        style="width: 100vw;"
-        class="bg-white-1 vertical-scroll-area"
-      >
-      <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
-          <q-card
-          @click="goToLesson(unit)" 
-          v-for="unit in section.challengesectionunitSet" 
-          :key="unit.id"
-          class="my-card"
-          >
-            <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
-              <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
-            </div>
-            <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
 
-            <img class='thumbnail' :src="unit.thumbnail.rendition.url">
+      <!-- <transition name="fade">
+        <div class='overlay-scroll-indicator left' v-show="activeScrollIndicators.left"></div>
+      </transition>
+      <transition name="fade">
+        <div class='overlay-scroll-indicator right' v-show="activeScrollIndicators.right"></div>
+      </transition> -->
+       <!-- :class="{
+            'scrollarea-indicator': true,
+            'left-indicator': activeScrollIndicators.left,
+            'right-indicator': activeScrollIndicators.right,
 
-            <q-card-section class="card-section" align="around">
-              <div class="text-body1 text-left">{{unit.title}}</div>
-            </q-card-section>
-     
+          }" -->
+
+        <q-scroll-area
+          horizontal
+          ref='scrollareas'
+          style="width:100vw;"
    
-          </q-card>
-        </div>
-        <div v-else class="row no-wrap card-container">
-          <q-card
-          v-for="unit in section.challengesectionunitSet" 
-          :key="unit.id"
-          class="my-card"
-          >
-            <div class="overlay-locked">
-              <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
-            </div>
+        >
+        <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
+            <q-card
+            @click="goToLesson(unit)" 
+            v-for="unit in section.challengesectionunitSet" 
+            :key="unit.id"
+            class="my-card"
+            >
+              <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
+                <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
+              </div>
+              <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
 
-            <div class='thumbnail'></div>
+              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
 
-            <q-card-section class="card-section" align="around">
-              <div class="text-body1 text-left">{{unit.title}}</div>
-            </q-card-section>
-     
-   
-          </q-card>
-        </div>
-      </q-scroll-area> 
-        <!-- For each ad campaign that you create, you can control how much you're willing to
-        spend on clicks and conversions, which networks and geographical locations you want
-        your ads to show on, and more.
+              <q-card-section class="card-section" align="around">
+                <div class="text-body1 text-left">{{unit.title}}</div>
+              </q-card-section>
+      
+    
+            </q-card>
+          </div>
+          <div v-else class="row no-wrap card-container">
+            <q-card
+            v-for="unit in section.challengesectionunitSet" 
+            :key="unit.id"
+            class="my-card"
+            >
+              <div class="overlay-locked">
+                <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
+              </div>
 
-        <q-stepper-navigation>
-          <q-btn @click="step = 1" color="primary" label="Continue" />
-        </q-stepper-navigation> -->
+              <div class='thumbnail'></div>
+
+              <q-card-section class="card-section" align="around">
+                <div class="text-body1 text-left">{{unit.title}}</div>
+              </q-card-section>
+      
+    
+            </q-card>
+          </div>
+          <q-scroll-observer horizontal debounce="250" @scroll="setScrollPositions" />
+        </q-scroll-area> 
       </q-step>
-
     </q-stepper>
 
-    <!-- <div v-for="section in currentUser.currentChallenge.challengesectionSet.slice().reverse()" :key="section.id" class="">
-      <span class="text-h4 text-weight-light q-mx-md">{{section.title}}</span>
-      <q-scroll-area
-        horizontal
-        ref='scrollbars'
-        style="width: 100vw;"
-        class="bg-white-1 vertical-scroll-area"
-      >
-      <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
-          <q-card
-          @click="goToLesson(unit)" 
-          v-for="unit in section.challengesectionunitSet" 
-          :key="unit.id"
-          class="my-card"
-          >
-            <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
-              <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
-            </div>
-            <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
-
-            <img class='thumbnail' :src="unit.thumbnail.rendition.url">
-
-            <q-card-section class="card-section" align="around">
-              <div class="text-body1 text-left">{{unit.title}}</div>
-            </q-card-section>
-     
-   
-          </q-card>
-        </div>
-        <div v-else class="row no-wrap card-container">
-          <q-card
-          v-for="unit in section.challengesectionunitSet" 
-          :key="unit.id"
-          class="my-card"
-          >
-            <div class="overlay-locked">
-              <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
-            </div>
-
-            <div class='thumbnail'></div>
-
-            <q-card-section class="card-section" align="around">
-              <div class="text-body1 text-left">{{unit.title}}</div>
-            </q-card-section>
-     
-   
-          </q-card>
-        </div>
-      </q-scroll-area> -->
-      <!-- <q-header>
-        <q-tabs
-          v-model="tab"
-          align="justify"
-          class="text-white bg-gray-1"
-        >
-          <q-tab :ripple="{ color: 'orange' }" name="mails" icon="mail" label="Mails" />
-          <q-tab :ripple="{ color: 'orange' }" name="alarms" icon="alarm" label="Alarms" />
-          <q-tab :ripple="{ color: 'orange' }" name="movies" icon="movie" label="Movies" />
-        </q-tabs>
-    </q-header> -->
-    <!-- </div> -->
-    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 18]">
-      <!-- <q-fab
+    <q-page-sticky class='raise-it'  position="bottom-right" :offset="[18, 18]">
+      <q-fab
         icon="menu"
-        direction="down"
+        direction="up"
         color="primary"
         text-color="white"
       >
         <q-fab-action @click="onClick()" color="primary" text-color="white" icon="person_add" />
         <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" />
-      </q-fab> -->
+      </q-fab>
     </q-page-sticky>
   </q-page>
 </template>
@@ -158,24 +104,23 @@
 <script>
 import CURRENT_USER from '../graphql/users/currentUser.gql'
 import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
-
 import { setTimeout } from 'timers';
-
 
 export default {
   name: 'overview-screen',
   data() {
     return {
-      currentStep: 0,
       currentUser: {
         currentChallenge: {
           challengesectionSet: []
         }
       },
-      tempLessonsViewed: [],
       rootURL: process.env.ROOT_API,
       isLoading: false,
-      lessonsViewed: []
+      lessonsViewed: [],
+      currentStep: 0,
+      scrollPositionsHorizontal: {},
+      // activeScrollIndicators: {left: false, right: false}
     }
   },
   apollo: {
@@ -190,16 +135,14 @@ export default {
   computed: {
     lessonsCompleted(){
       return this.currentUser.lessonsCompleted
-    }
+    },
   },
   methods: {
     goToLesson(unit) {
-      this.getScrollPostitions()
       this.markLessonViewed(unit.id)
-
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
     },
-    onClick() {
+    onClick(value) {
 
     },
     markLessonViewed(id) {
@@ -213,59 +156,80 @@ export default {
         return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(id)]))
       }
     },
-    getScrollPostitions() {
-      let scrollPositionsHorizontal = []
-      for (let [index, scrollbar] of this.$refs.scrollbars.entries()) {
-        scrollPositionsHorizontal.push(scrollbar.getScrollPosition())
+
+    setScrollPositions(event) {        
+
+      for (let [index, scrollarea] of this.$refs.scrollareas.entries()) {
+        if(!scrollarea._inactive) {
+          this.scrollPositionsHorizontal[scrollarea._uid] = event.position
+        }
       }
-      localStorage.setItem('nav_positions', JSON.stringify({
-        currentStep: this.currentStep, 
-        scrollPositionsHorizontal: scrollPositionsHorizontal}))
+    // Only Userfull with reload (when Vue Instance is destroyed)
+      // localStorage.setItem('nav_positions', JSON.stringify({
+      //   scrollPositionsHorizontal: this.scrollPositionsHorizontal}))
     },
-    resetScrollPostions() {
-      let navPositions = JSON.parse(localStorage.getItem('nav_positions'))
-      if (navPositions) {
-        this.step = navPositions.currentStep
+    getScrollPositions() {
+      // Only Userfull with reload (when Vue Instance is destroyed)
+      // let navPositions = JSON.parse(localStorage.getItem('nav_positions'))
         setTimeout(() => {
-          for (let [index, position] of navPositions.scrollPositionsHorizontal.entries()) {
+          for (const [index, position] of Object.entries(this.scrollPositionsHorizontal)) {
             try {
-              this.$refs.scrollbars[index].setScrollPosition(position)
+              this.$refs.scrollareas.find(bar => { return bar._uid == index}).setScrollPosition(position)
             } catch (err) {
+              // console.log(err)
               // Ignore
             }
           }
-        }, 0)
-      } else {
-        // setTimeout(() => window.scrollTo(0,document.body.scrollHeight), 0)
-      }
+        }, 100)
     },
     isLocked(days) {
-      console.log()
       if ((Date.parse(this.currentUser.dateJoined) + (days * 24 * 60 * 60 * 1000) - Date.now()) <= 0) {
         return false 
       } else {
         return true
       }
-    }
+    },
+    // showScrollIndicator() {
+    //   // Left an right scrollarea functions?
+    //   if (!this.activeScrollArea._uid) {
+    //     return false
+    //   }
+    //   console.log(this.activeScrollIndicators)
+    //   if (this.scrollPositionsHorizontal[this.activeScrollArea._uid] === 0) {
+    //     this.activeScrollIndicators = {left: false, right: true}
+
+    //   } else if(this.activeScrollArea.getScrollTarget().scrollWidth - window.innerWidth == this.scrollPositionsHorizontal[this.activeScrollArea._uid]) {
+    //     this.activeScrollIndicators = {left: true, right: false}
+        
+    //   } else {
+    //     this.activeScrollIndicators = {left: true, right: true}
+
+    //   }
+      
+    // },
+
+    
   },
   created() {
     this.$apollo.query({
       query: CHECK_CURRENT_USER,
       fetchPolicy: 'no-cache',
     }).then((data) => {
-        // Do nothing
+
+
     }).catch((error) => {
-      // localStorage.removeItem(process.env.TOKEN_ID);
       localStorage.clear()
       location.reload()
     })
+
   },
   mounted() {
-    this.currentStep = JSON.parse(localStorage.getItem('nav_positions')).currentStep
+    localStorage.removeItem('nav_positions')
     this.isLoading = true
     setTimeout(() => {
       this.isLoading = false
     }, 1500)
+
 
     let tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))
     if (tempLessonsViewed) {
@@ -273,20 +237,23 @@ export default {
     }
   },
   updated() {
-    this.resetScrollPostions()
+
   },
   activated() {
-    this.resetScrollPostions()
+    this.getScrollPositions()
   },
-  // deactivated() {
-  //   setTimeout(() => window.scrollTo(0, 0), 100)
-  // }
+  deactivated() {
+  }
 
 }
 </script>
 
 
 <style lang="scss" scoped>
+
+
+
+
   .card-container {
     &::before {
       content: 'W';
@@ -296,8 +263,10 @@ export default {
       content: 'W';
       color: transparent;
     }
+
   }
 
+ 
  
   .overlay-loading-long {
     position: fixed; /* Sit on top of the page content */
@@ -313,7 +282,7 @@ export default {
     background-color: white; 
     z-index: 3; 
     /* Duration must be indentical to animation duration */
-    animation: 1.5s cubic-bezier(1,0,.25,.5) 0s 1 fadeIn;
+    animation: 1.5s ease-in 0s 1 fadeIn;
   } 
   @keyframes fadeIn {
     0% {
@@ -323,6 +292,8 @@ export default {
       opacity: 0;
     }
   }
+
+  
 
   .raise-it{
     z-index: 100;
@@ -382,7 +353,7 @@ export default {
     // FlatUI Dutch Palette
     color: #A3CB38; // Android Green
     font-size: 4rem;
-    text-shadow: 0 0px 4px rgba(0, 0, 0, 0.5); // Pixelated Grass
+    text-shadow: 0 0px 4px rgba(0, 148, 49, 0.5); // Pixelated Grass
     // animation-name: pulse;
     // animation-duration: 1s;
     // animation-iteration-count: 1;
@@ -412,5 +383,72 @@ export default {
     padding: 0 1rem;
   }
  }
+
+ // .overlay-scroll-indicator {
+  //   z-index: 3;
+  //   height: 99%;
+  //   top: 0px;
+  //   position: absolute;
+  //   width: 25px;
+  //   box-shadow: 0 0 5px #027be3;
+  //   background: rgba(2, 122, 227, 0.2);
+
+  //     &.left {
+  //       left: 0;
+  //     }
+
+  //     &.right {
+  //       right: 0;
+  //     }
+  //   }
+  // .fade-enter-active, .fade-leave-active {
+  //   transition: opacity .5s;
+  // }
+  // .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  //   opacity: 0;
+  // }
+
+   // .scrollarea-indicator {
+  //   padding: 0.25rem 0 0.35rem 0;
+  //   border-bottom: 1px solid rgba(0,0,0,0.12);
+
+  //   &.left-indicator {
+
+  //     &::before {
+  //       box-shadow: 8px 0px 15px -15px inset #027be3;
+  //       content: " ";
+  //       height: 100%;
+  //       left: 0;
+  //       position: absolute;
+  //       top: 0px;
+  //       width: 10px;
+  //       z-index: 3;
+  //     }
+  //   }
+  //   &.right-indicator {
+  //     &::after {
+  //       box-shadow: -8px 0px 15px -15px inset #027be3;
+  //       content: " ";
+  //       height: 100%;
+  //       right: 0;
+  //       position: absolute;
+  //       top: 0px;
+  //       width: 10px;
+  //       z-index: 3;
+  //     }
+  //   }
+
+    
+
+  // }
+
+    // .left-scroll-indicator {
+  //   border-left: 2px solid green
+  // }
+
+  // .right-scroll-indicator {
+  //   border-right: 2px solid green
+  // }
+  
 </style>
 

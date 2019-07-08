@@ -1,6 +1,5 @@
 <template>
   <div id="q-app">
-
     <router-view />
   </div>
 </template>
@@ -17,7 +16,14 @@ export default {
 } 
 </script>
 
-<style>
+<style lang='scss'>
+
+html, body {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 h2 {
   font-size: 1.1rem;
   padding: 0;
@@ -45,14 +51,49 @@ iframe {
     background: transparent
   }
 
+
+
+  .q-stepper__header {
+    /* width: 200vw; */
+    /* float:left; */
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    // justify-content: space-between;
+    /* padding: 0 10%; */
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .q-stepper__tab {
+    display: flex;
+    min-width: 24% !important;
+
+
+    &:last-child {
+      padding-right: 0.5vw !important;
+    }
+    &:first-child {
+      padding-left: 0.5vw !important;
+    }
+  }
+
   .q-stepper__dot {
     height: 2rem;
     width: 2rem;
     font-size: 1rem;
   }
 
-.q-stepper--horizontal .q-stepper__step-inner {
-  padding: 0;
+  .q-stepper--horizontal .q-stepper__step-inner {
+    padding: 0;
+  }
+
+.scroll {
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 

@@ -68,7 +68,6 @@ export default {
       }).then((data) => {
         // Result
         const token = data.data.tokenAuth.token
-        console.log(process.env)
         localStorage.setItem(process.env.TOKEN_ID, token)
         if (localStorage.getItem(process.env.TOKEN_ID)) {
           this.$router.push('/overview')

@@ -47,6 +47,7 @@ module.exports = function (ctx) {
         'QFabAction',
         'QPageSticky',
         'QScrollArea',
+        'QScrollObserver',
         'QStepper',
         'QStep',
         'QStepperNavigation',
