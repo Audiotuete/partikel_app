@@ -5,7 +5,7 @@
         <q-spinner-puff color="grey-10" size="30em"/>
       </div>
       <keep-alive :max="10">
-      <!-- <DesktopWarning v-if='!isMobile'><BaseButton style='width: 16rem' @click='openMobileWindow()'>Mobile Ansicht öffnen</BaseButton></DesktopWarning> -->
+      <DesktopWarning v-if='!isMobile'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
         <router-view id='router-view' :key="$route.fullPath" v-show='isPortrait'></router-view>
       </keep-alive>
 
@@ -19,13 +19,13 @@
 
 <script>
 import LandscapeWarning from '../components/pages/LandscapeWarning'
-// import DesktopWarning from '../components/pages/DesktopWarning'
+import DesktopWarning from '../components/pages/DesktopWarning'
 
 import { openURL } from 'quasar'
 
 export default {
   name: 'MyLayout',
-  components: {LandscapeWarning},
+  components: {LandscapeWarning, DesktopWarning},
   data () {
     return {
       allUsers: [],

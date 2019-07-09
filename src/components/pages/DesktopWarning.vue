@@ -1,10 +1,10 @@
 <template>
   <div class='desktop-warning-container'>
-    <span class='desktop-warning-icon'><i class='sl-icon icon-screen-smartphone'></i></span>
-    <span class='desktop-warning-text'>App ist für mobile Geräte optimiert!</span>
-    <BaseParagraph>In der mobilen Ansicht kannst du die Web-App aber trotzdem nutzen</BaseParagraph>
+    <span class='desktop-warning-icon'><q-icon name='fas fa-mobile-alt'></q-icon name='fas fa-lock'></span>
+    <span class='desktop-warning-text'>Die App ist für mobile Geräte optimiert!</span>
+    <p>In der mobilen Ansicht kannst du die Web-App aber trotzdem nutzen</p>
     <slot></slot>
-    <BaseParagraph style='margin-top: 1rem; font-size: 0.75rem'>Wenn du hier bist, um deine Mailadresse zu bestätigen öffne einfach die mobile Ansicht</BaseParagraph>
+    <p style='margin-top: 1rem; font-size: 0.75rem'>Wenn du hier bist, um deine Mailadresse zu bestätigen, öffne einfach die mobile Ansicht</p>
   </div> 
 </template>
 
