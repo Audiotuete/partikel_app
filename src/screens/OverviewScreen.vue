@@ -1,6 +1,6 @@
 <template>
 
-  <q-page v-if='currentUser' class="flex column">
+  <q-page v-if='currentUser' class="flex">
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
       <q-spinner-ios color="grey-10" size="4em"/>
     </div>
@@ -24,12 +24,12 @@
 
 
         <q-scroll-area
-          horizontal
           ref='scrollareas'
-          style="width:100vw;"
+          :style="{width: '100vw', height: scrollAreaHeight + 'px'}"
+          class="scrollarea"
    
         >
-        <div v-if="!isLocked(section.hardlockDuration)" class="row no-wrap card-container">
+        <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
             @click="goToLesson(unit)" 
             v-for="unit in section.challengesectionunitSet" 
@@ -69,7 +69,7 @@
     
             </q-card>
           </div>
-          <q-scroll-observer horizontal debounce="250" @scroll="setScrollPositions" />
+          <q-scroll-observer debounce="250" @scroll="setScrollPositions" />
         </q-scroll-area> 
       </q-step>
     </q-stepper>
@@ -92,7 +92,6 @@
 <script>
 import CURRENT_USER from '../graphql/users/currentUser.gql'
 import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
-import { setTimeout } from 'timers';
 
 export default {
   name: 'overview-screen',
@@ -108,6 +107,7 @@ export default {
       lessonsViewed: [],
       currentStep: 0,
       scrollPositionsHorizontal: {},
+      scrollAreaHeight: 0
       // activeScrollIndicators: {left: false, right: false}
     }
   },
@@ -124,6 +124,7 @@ export default {
     lessonsCompleted(){
       return this.currentUser.lessonsCompleted
     },
+
   },
   methods: {
     goToLesson(unit) {
@@ -204,11 +205,14 @@ export default {
     if (tempLessonsViewed) {
       this.lessonsViewed = tempLessonsViewed
     }
+
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
   },
   updated() {
 
   },
   activated() {
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
     this.getScrollPositions()
   },
   deactivated() {
@@ -220,16 +224,22 @@ export default {
 
 <style lang="scss" scoped>
 
-
+  .scrollarea {}
 
 
   .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
     &::before {
-      content: 'W';
+      content: '-';
+      height: 1rem;
       color: transparent;
     }
     &::after {
-      content: 'W';
+      content: '-';
+      height: 5rem;
       color: transparent;
     }
 
