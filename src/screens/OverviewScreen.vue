@@ -22,18 +22,6 @@
         :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
       >
 
-      <!-- <transition name="fade">
-        <div class='overlay-scroll-indicator left' v-show="activeScrollIndicators.left"></div>
-      </transition>
-      <transition name="fade">
-        <div class='overlay-scroll-indicator right' v-show="activeScrollIndicators.right"></div>
-      </transition> -->
-       <!-- :class="{
-            'scrollarea-indicator': true,
-            'left-indicator': activeScrollIndicators.left,
-            'right-indicator': activeScrollIndicators.right,
-
-          }" -->
 
         <q-scroll-area
           horizontal
@@ -189,25 +177,6 @@ export default {
         return true
       }
     },
-    // showScrollIndicator() {
-    //   // Left an right scrollarea functions?
-    //   if (!this.activeScrollArea._uid) {
-    //     return false
-    //   }
-    //   console.log(this.activeScrollIndicators)
-    //   if (this.scrollPositionsHorizontal[this.activeScrollArea._uid] === 0) {
-    //     this.activeScrollIndicators = {left: false, right: true}
-
-    //   } else if(this.activeScrollArea.getScrollTarget().scrollWidth - window.innerWidth == this.scrollPositionsHorizontal[this.activeScrollArea._uid]) {
-    //     this.activeScrollIndicators = {left: true, right: false}
-        
-    //   } else {
-    //     this.activeScrollIndicators = {left: true, right: true}
-
-    //   }
-      
-    // },
-
     
   },
   created() {
@@ -383,72 +352,6 @@ export default {
     padding: 0 1rem;
   }
  }
-
- // .overlay-scroll-indicator {
-  //   z-index: 3;
-  //   height: 99%;
-  //   top: 0px;
-  //   position: absolute;
-  //   width: 25px;
-  //   box-shadow: 0 0 5px #027be3;
-  //   background: rgba(2, 122, 227, 0.2);
-
-  //     &.left {
-  //       left: 0;
-  //     }
-
-  //     &.right {
-  //       right: 0;
-  //     }
-  //   }
-  // .fade-enter-active, .fade-leave-active {
-  //   transition: opacity .5s;
-  // }
-  // .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  //   opacity: 0;
-  // }
-
-   // .scrollarea-indicator {
-  //   padding: 0.25rem 0 0.35rem 0;
-  //   border-bottom: 1px solid rgba(0,0,0,0.12);
-
-  //   &.left-indicator {
-
-  //     &::before {
-  //       box-shadow: 8px 0px 15px -15px inset #027be3;
-  //       content: " ";
-  //       height: 100%;
-  //       left: 0;
-  //       position: absolute;
-  //       top: 0px;
-  //       width: 10px;
-  //       z-index: 3;
-  //     }
-  //   }
-  //   &.right-indicator {
-  //     &::after {
-  //       box-shadow: -8px 0px 15px -15px inset #027be3;
-  //       content: " ";
-  //       height: 100%;
-  //       right: 0;
-  //       position: absolute;
-  //       top: 0px;
-  //       width: 10px;
-  //       z-index: 3;
-  //     }
-  //   }
-
-    
-
-  // }
-
-    // .left-scroll-indicator {
-  //   border-left: 2px solid green
-  // }
-
-  // .right-scroll-indicator {
-  //   border-right: 2px solid green
-  // }
   
 </style>
 
