@@ -5,7 +5,7 @@
         <q-spinner-puff color="grey-10" size="30em"/>
       </div>
       <keep-alive :max="10">
-      <DesktopWarning v-if='!isMobile'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
+      <DesktopWarning v-if='!$q.platform.is.mobile && $q.screen.width > 1024'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
         <router-view id='router-view' :key="$route.fullPath" v-show='isPortrait'></router-view>
       </keep-alive>
 
@@ -57,28 +57,7 @@ export default {
   created() {
     window.addEventListener('orientationchange', () => this.checkWindow(), false)
     window.addEventListener("resize", () => this.checkWindow(), false)
-    
-    if(navigator.userAgent.match(/Android/i)
-      || navigator.userAgent.match(/webOS/i)
-      || navigator.userAgent.match(/iPhone/i)
-      || navigator.userAgent.match(/iPad/i)
-      || navigator.userAgent.match(/iPod/i)
-      || navigator.userAgent.match(/BlackBerry/i)
-      || navigator.userAgent.match(/Windows Phone/i)
-      || window.innerWidth < 1024) {
-        this.isMobile = true
-      }
-    // else if( navigator.userAgent.match(/Windows/i) 
-    //   || navigator.userAgent.match(/X11/i)
-    //   || navigator.userAgent.match(/Macintosh/i)
-    //   || navigator.userAgent.match(/Mac/i)
-    //   || navigator.userAgent.match(/Ubuntu/i)
-    //   || navigator.userAgent.match(/CrOS/i)) {
-    //     console.log("false")
-    //     this.isMobile = false
-    //   }
   },
-
   destroyed() {
     window.removeEventListener('orientationchange', () => this.checkWindow(), false)
     window.removeEventListener("resize", () => this.checkWindow(), false) 
