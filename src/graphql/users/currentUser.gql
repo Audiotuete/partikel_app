@@ -3,7 +3,6 @@ query currentUser {
     id
     username
     dateJoined
-    lessonsViewed
     lessonsCompleted
     currentChallenge {
     title

@@ -4,7 +4,6 @@ mutation updateUserViews($challengeSectionUnitId: Int!, $isCompleted: Boolean) {
       isCompleted: $isCompleted
     ) {
       user {
-        lessonsViewed
         lessonsCompleted
       } 
     }

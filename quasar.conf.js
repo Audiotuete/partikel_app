@@ -71,15 +71,13 @@ module.exports = function (ctx) {
       ],
 
       directives: [
-        'Ripple'
+        // 'Ripple'
       ],
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        // 'Notify'
       ],
-
-      // iconSet: 'ionicons-v4'
       lang: 'de' // Quasar language
     },
 

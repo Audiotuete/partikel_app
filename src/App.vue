@@ -7,21 +7,15 @@
 <script>
 export default {
   name: 'App',
-  data() {
-    return {
-      isLoading: false
-    }
-  },
-
 } 
 </script>
 
 <style lang='scss'>
 
 html, body {
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  // &::-webkit-scrollbar {
+  //   display: none;
+  // }
 }
 
 h2 {
@@ -69,7 +63,7 @@ iframe {
     -webkit-overflow-scrolling: touch;
 
     &::-webkit-scrollbar {
-      // display: none;
+      display: none;
     }
   }
   .q-stepper__content {

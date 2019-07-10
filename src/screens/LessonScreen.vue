@@ -45,7 +45,9 @@
       >
       </q-fab> -->
     </q-page-sticky>
-    <q-btn style="margin: 1rem" color='green' @click="markLessonCompleted(unitData.id)">markieren</q-btn>
+    <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin: 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
+    <q-btn v-else style="margin: 1rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
+
   </q-page>
 </template>
 
@@ -77,10 +79,13 @@ export default {
     }
   },
   methods: {
-    markLessonCompleted(id, completed=true) {
-      if(!this.lessonsCompleted.includes(parseInt(id))) {
+    markLessonCompleted(id, completed) {
+      if(!this.lessonsCompleted.includes(id) && completed){
         this.lessonsCompleted.push(parseInt(id))
-        // localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsCompleted))
+      } else {
+        let idIndex = this.lessonsCompleted.indexOf(id)
+        this.lessonsCompleted.splice(idIndex,1)
+      }
         this.$apollo.mutate({
           mutation: UPDATE_USER_VIEWS,
           variables: {
@@ -93,7 +98,6 @@ export default {
           location.reload()
           // console.error(error)
         })
-      }
     },
     getYoutubeId(url){
       let ID = '';
