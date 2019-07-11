@@ -53,8 +53,8 @@ export default async ({ app, Vue }) => {
       // new HttpLink({uri: 'http://localhost/graphql'})]
       new HttpLink({uri: process.env.ROOT_API + "/graphql", fetch: fetch})]
     ),
-    // connectToDevTools: process.env.MODE = "development" ? true : false,
-    connectToDevTools: true,
+    connectToDevTools: process.env.MODUS == "development" ? true : false,
+    // connectToDevTools: true,
   })
 
   const apolloProvider = new VueApollo({

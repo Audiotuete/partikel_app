@@ -11,23 +11,21 @@
       header-nav
       keep-alive
       contracted
+      swipeable
       @input="getScrollPositions()"
     >
- 
       
-      <q-step v-for="(section, index) in currentUser.currentChallenge.challengesectionSet.slice()" :key="section.id"
+      <q-step v-for="(section, index) in activeChallengeSections" :key="section.id"
         title=""
         :name="index"
         :active-icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
         :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
       >
 
-
         <q-scroll-area
           ref='scrollareas'
           :style="{width: '100vw', height: scrollAreaHeight + 'px'}"
-          class="scrollarea"
-   
+          class=""
         >
         <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
@@ -121,7 +119,13 @@ export default {
     }
   },
   computed: {
-    lessonsCompleted(){
+    activeChallengeSections() {
+      return this.currentUser.currentChallenge.challengesectionSet.slice().filter((section) => {
+        return section.isPublic
+      })
+  
+    },
+    lessonsCompleted() {
       return this.currentUser.lessonsCompleted
     },
 
@@ -223,9 +227,6 @@ export default {
 
 
 <style lang="scss" scoped>
-
-  .scrollarea {}
-
 
   .card-container {
     display: flex;

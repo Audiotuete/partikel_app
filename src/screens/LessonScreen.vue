@@ -45,8 +45,8 @@
       >
       </q-fab> -->
     </q-page-sticky>
-    <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin: 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
-    <q-btn v-else style="margin: 1rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
+    <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin:  2rem 2rem 4rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
+    <q-btn v-else style="margin: 2rem 2rem 4rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
 
   </q-page>
 </template>
@@ -80,10 +80,11 @@ export default {
   },
   methods: {
     markLessonCompleted(id, completed) {
-      if(!this.lessonsCompleted.includes(id) && completed){
-        this.lessonsCompleted.push(parseInt(id))
+      let unitId = parseInt(id)
+      if(!this.lessonsCompleted.includes(unitId) && completed){
+        this.lessonsCompleted.push(unitId)
       } else {
-        let idIndex = this.lessonsCompleted.indexOf(id)
+        let idIndex = this.lessonsCompleted.indexOf(unitId)
         this.lessonsCompleted.splice(idIndex,1)
       }
         this.$apollo.mutate({
@@ -144,6 +145,7 @@ export default {
 }
 
 .lesson-back-button-link {
+  padding: 1.5rem 0.6rem;
   text-decoration: none;
   color: #000000;
 }

@@ -56,13 +56,13 @@ module.exports = function (ctx) {
         // 'QTab',
         // 'QRouteTab',
         'QBtn',
+        // 'QCheckbox',
         // 'QToolbar',
         // 'QFooter',
         // 'QHeader',
         'QImg',
         'QSpinnerPuff',
         'QSpinnerIos',
-        // 'QToolbarTitle'
         'QIcon',
         // 'QList',
         // 'QItem',
@@ -86,12 +86,14 @@ module.exports = function (ctx) {
     build: {
       env: ctx.dev
       ? { // so on dev we'll have
+        MODUS: env_dev.MODUS,
         ROOT_API: env_dev.ROOT_API,
         USER_PASSWORD: env_dev.USER_PASSWORD,
         TOKEN_ID: env_dev.TOKEN_ID,
         CHALLENGE_ID: env_dev.CHALLENGE_ID,
       }
       : { // and on build (production):
+        MODUS: env_prod.MODUS,
         ROOT_API: env_prod.ROOT_API,
         USER_PASSWORD: env_prod.USER_PASSWORD,
         TOKEN_ID: env_prod.TOKEN_ID,

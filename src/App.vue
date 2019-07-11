@@ -12,6 +12,14 @@ export default {
 
 <style lang='scss'>
 
+// body {
+//   position: fixed;
+//   top: 0;
+//   bottom: 0;
+//   left: 24px;
+//   right: 24px;
+// }
+
 h2 {
   font-size: 1.1rem;
   padding: 0;
