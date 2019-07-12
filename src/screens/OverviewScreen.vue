@@ -29,10 +29,10 @@
         >
         <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
-            @click="goToLesson(unit)" 
-            v-for="unit in section.challengesectionunitSet" 
-            :key="unit.id"
-            class="my-card"
+              @click="goToLesson(unit)" 
+              v-for="unit in section.challengesectionunitSet" 
+              :key="unit.id"
+              class="my-card"
             >
               <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
                 <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
@@ -79,8 +79,8 @@
         color="primary"
         text-color="white"
       >
-        <q-fab-action @click="onClick()" color="primary" text-color="white" icon="person_add" />
-        <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" />
+        <q-fab-action @click="goToImpressum()" color="primary" text-color="white" icon="info" />
+        <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
       </q-fab>
     </q-page-sticky>
   </q-page>
@@ -135,7 +135,12 @@ export default {
       this.markLessonViewed(unit.id)
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
     },
+    goToImpressum() {
+      this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
+
+    },
     onClick(value) {
+      this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
     },
     markLessonViewed(id) {

@@ -5,6 +5,7 @@ import Error404 from '../components/pages/Error404'
 import WelcomeScreen from '../screens/WelcomeScreen'
 import OverviewScreen from '../screens/OverviewScreen'
 import LessonScreen from '../screens/LessonScreen'
+import ImpressumScreen from '../screens/ImpressumScreen'
 
 
 
@@ -24,11 +25,18 @@ const routes = [
         path: 'overview', 
         component: OverviewScreen,
         meta: { requiresAuth: true }
-      },
+      },      
       {
         name: 'LessonScreen', 
         path: 'lesson/:id', 
-        component: LessonScreen, 
+        component: LessonScreen,
+        meta: { requiresAuth: true },
+        props: true
+      },
+      {
+        name: 'ImpressumScreen', 
+        path: 'impressum', 
+        component: ImpressumScreen,
         props: true
       },
     ]

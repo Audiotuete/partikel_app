@@ -32,6 +32,14 @@ p {
   margin: 0
 }
 
+p + p {
+  margin-top: 0.75rem
+}
+
+a {
+  text-decoration: none
+}
+
 iframe {
   position: absolute;
   top: 0;
@@ -40,6 +48,7 @@ iframe {
   height: 100%;
 }
 
+// Q-Stepper costumisation
 
 .q-stepper {
   display: flex;
@@ -96,7 +105,24 @@ iframe {
 
 .q-stepper--horizontal .q-stepper__step-inner {
   padding: 0;
+}
 
+// Custom nav back button
+
+.nav-back-button-container {
+  height: 3em;
+  width: 3em;
+  min-width: 3em;
+  min-height: 3em;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+}
+
+.nav-back-button-link {
+  padding: 1.5rem 0.6rem;
+  text-decoration: none;
+  color: #000000;
 }
 
 

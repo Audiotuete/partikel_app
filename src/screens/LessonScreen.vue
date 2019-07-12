@@ -6,7 +6,7 @@
       :src='unitData.thumbnail.rendition.url'
       style='width: 100%'
     >
-      <div class='absolute-bottom text-h6 text-left q-pa-xs'>
+      <div class='absolute-bottom text-h6 text-left q-pa-sx'>
         {{unitData.title}}
       </div>
     </q-img>
@@ -34,17 +34,9 @@
 
       </q-carousel>
     </div>
-      <q-page-sticky class='lesson-back-button-container'  position="top-left" :offset="[16, 16]">
-        <!-- <q-btn to="/overview" round color="white" text-color="black" icon="arrow_back" /> -->
-        <router-link  to="/overview" class="lesson-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
-
-      <!-- <q-fab
-        icon="add"
-        direction="down"
-        color="white"
-      >
-      </q-fab> -->
-    </q-page-sticky>
+      <q-page-sticky class='nav-back-button-container'  position="top-left" :offset="[16, 16]">
+        <router-link  to="/overview" class="nav-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
+      </q-page-sticky>
     <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin:  2rem 2rem 4rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
     <q-btn v-else style="margin: 2rem 2rem 4rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
 
@@ -134,25 +126,25 @@ export default {
 
 
 <style lang='scss' scoped>
-.lesson-back-button-container {
-  height: 3em;
-  width: 3em;
-  min-width: 3em;
-  min-height: 3em;
-  border-radius: 50%;
-  background: white;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
-}
+// .lesson-back-button-container {
+//   height: 3em;
+//   width: 3em;
+//   min-width: 3em;
+//   min-height: 3em;
+//   border-radius: 50%;
+//   background: white;
+//   box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
+// }
 
-.lesson-back-button-link {
-  padding: 1.5rem 0.6rem;
-  text-decoration: none;
-  color: #000000;
-}
+// .lesson-back-button-link {
+//   padding: 1.5rem 0.6rem;
+//   text-decoration: none;
+//   color: #000000;
+// }
 
 .lesson-content-container {
   max-width: 100vw;
-  margin: 0 1rem 0.75rem 1rem;
+  margin: 0 1.2rem 0.75rem 1.2rem;
 }
 
 .lesson-thumbnail {
