@@ -36,8 +36,10 @@ p + p {
   margin-top: 0.75rem
 }
 
+
 a {
-  text-decoration: none
+  text-decoration: none;
+  color: #027be3;
 }
 
 iframe {
@@ -122,7 +124,7 @@ iframe {
 .nav-back-button-link {
   padding: 1.5rem 0.6rem;
   text-decoration: none;
-  color: #000000;
+  color: #333;
 }
 
 

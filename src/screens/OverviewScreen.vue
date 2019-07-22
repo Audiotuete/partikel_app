@@ -1,6 +1,6 @@
 <template>
-
   <q-page v-if='currentUser' class="flex">
+
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
       <q-spinner-ios color="grey-10" size="4em"/>
     </div>
@@ -27,7 +27,7 @@
           :style="{width: '100vw', height: scrollAreaHeight + 'px'}"
           class=""
         >
-        <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
+          <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
               @click="goToLesson(unit)" 
               v-for="unit in section.challengesectionunitSet" 
@@ -45,9 +45,10 @@
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
       
-    
+  
             </q-card>
           </div>
+
           <div v-else class="row no-wrap card-container">
             <q-card
             v-for="unit in section.challengesectionunitSet" 
@@ -63,7 +64,6 @@
               <q-card-section class="card-section" align="around">
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
-      
     
             </q-card>
           </div>
@@ -83,6 +83,7 @@
         <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
       </q-fab>
     </q-page-sticky>
+
   </q-page>
 </template>
 
@@ -197,8 +198,8 @@ export default {
 
 
     }).catch((error) => {
-      localStorage.clear()
-      location.reload()
+      // localStorage.clear()
+      // location.reload()
     })
 
   },
