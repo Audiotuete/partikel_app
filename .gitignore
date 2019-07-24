@@ -3,6 +3,7 @@
 .DS_Store
 .thumbs.db
 node_modules
+/android
 /dist
 /src-cordova/node_modules
 /src-cordova/platforms

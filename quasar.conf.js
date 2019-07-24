@@ -41,6 +41,7 @@ module.exports = function (ctx) {
         'QCarousel',
         'QCarouselControl',
         'QCarouselSlide',
+        'QDialog',
         'QPageContainer',
         'QPage',
         'QFab',
@@ -48,6 +49,7 @@ module.exports = function (ctx) {
         'QPageSticky',
         'QScrollArea',
         'QScrollObserver',
+        'QSpace',
         'QStepper',
         'QStep',
         'QStepperNavigation',
@@ -56,6 +58,7 @@ module.exports = function (ctx) {
         // 'QTab',
         // 'QRouteTab',
         'QBtn',
+        'QBtnGroup',
         // 'QCheckbox',
         // 'QToolbar',
         // 'QFooter',
@@ -72,6 +75,7 @@ module.exports = function (ctx) {
 
       directives: [
         // 'Ripple'
+        'ClosePopup'
       ],
 
       // Quasar plugins

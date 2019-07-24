@@ -4,7 +4,6 @@
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
       <q-spinner-ios color="grey-10" size="4em"/>
     </div>
-
     <q-stepper
       v-model="currentStep"
       animated
@@ -72,10 +71,40 @@
       </q-step>
     </q-stepper>
 
-    <q-page-sticky class='raise-it'  position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky class='raise-it' position="top-left" :offset="[18, 24]">
+      <q-btn-group rounded>
+        <!-- <q-btn @click="changeSection(-1)" style="padding: 0 0.25rem 0 0.25rem" push icon="arrow_left" color="primary" text-color="white" /> -->
+        <q-btn @click="showSectionOverview = true" style="font-weight: bold" rounded :label="'Level ' + parseInt(currentStep + 1)" color="primary" text-color="white"/>
+        <!-- <q-btn @click="changeSection(1)" style="padding: 0 0.25rem 0 0.25rem " push icon="arrow_right" color="primary" text-color="white"/> -->
+      </q-btn-group>
+    </q-page-sticky>
+
+    <q-dialog v-model="showSectionOverview" position="left">
+      <q-card class="dialog-card" >
+        <q-card-section>
+          <div class="text-h6 text-center">Übersicht:</div>
+        </q-card-section>
+
+        <q-card-section class="flex justify-start">
+         <q-btn 
+          v-for="(section, index) in activeChallengeSections" :key="section.id"
+          :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
+          @click="selectSection(index)"
+          color="primary"
+          class="dialog-icons"
+          push
+          v-close-popup
+          >
+         </q-btn>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+
+    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 14]">
       <q-fab
         icon="menu"
-        direction="up"
+        direction="down"
         color="primary"
         text-color="white"
       >
@@ -103,6 +132,7 @@ export default {
       },
       rootURL: process.env.ROOT_API,
       isLoading: false,
+      showSectionOverview: false,
       lessonsViewed: [],
       currentStep: 0,
       scrollPositionsHorizontal: {},
@@ -140,8 +170,11 @@ export default {
       this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
     },
+    selectSection(index) {
+      this.currentStep = index
+      this.getScrollPositions()
+    },
     onClick(value) {
-      this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
     },
     markLessonViewed(id) {
@@ -179,7 +212,7 @@ export default {
               // Ignore
             }
           }
-        }, 100)
+        }, 10)
     },
     isLocked(days) {
       if ((Date.parse(this.currentUser.dateJoined) + (days * 24 * 60 * 60 * 1000) - Date.now()) <= 0) {
@@ -241,18 +274,32 @@ export default {
 
     &::before {
       content: '-';
-      height: 1rem;
+      height: 2rem;
       color: transparent;
     }
     &::after {
       content: '-';
-      height: 5rem;
+      height: 4rem;
       color: transparent;
     }
 
   }
 
- 
+
+    .dialog-card {
+      width: 95vw;
+      padding: 5vw 7vw 5vw 8vw;
+    }
+
+    .dialog-icons {
+      width: 13vw;
+      height: 13vw;
+      font-size: 4.25vw;
+      margin: 2.25vw;
+   }
+
+
+
  
   .overlay-loading-long {
     position: fixed; /* Sit on top of the page content */
