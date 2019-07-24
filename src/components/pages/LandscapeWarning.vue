@@ -1,8 +1,8 @@
 <template>
   <div class='rotation-container'>
-    <span class='rotation-icon'><q-icon name="fas fa-sync-alt"></q-icon></span>
-    <span class='rotation-text'>Querformat gibt's nicht...</span>
-    <p>Drehe dein Gerät um weiter zu machen.</p>
+    <span class='rotation-icon'><q-icon color="grey-9" name="fas fa-sync-alt"></q-icon></span>
+    <span class='rotation-text'>Querformat gibt's für diesen Bereich nicht...</span>
+    <p>Drehe dein Gerät um weiter zu machen :)</p>
   </div> 
 </template>
 

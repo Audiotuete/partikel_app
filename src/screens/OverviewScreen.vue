@@ -74,21 +74,24 @@
     <q-page-sticky class='raise-it' position="top-left" :offset="[18, 24]">
       <q-btn-group rounded>
         <!-- <q-btn @click="changeSection(-1)" style="padding: 0 0.25rem 0 0.25rem" push icon="arrow_left" color="primary" text-color="white" /> -->
-        <q-btn @click="showSectionOverview = true" style="font-weight: bold" rounded :label="'Level ' + parseInt(currentStep + 1)" color="primary" text-color="white"/>
+        <q-btn @click="showSectionOverview = true" style="font-weight: bold" rounded :label="'Woche ' + parseInt(currentStep + 1)" color="primary" text-color="white"/>
         <!-- <q-btn @click="changeSection(1)" style="padding: 0 0.25rem 0 0.25rem " push icon="arrow_right" color="primary" text-color="white"/> -->
       </q-btn-group>
     </q-page-sticky>
 
     <q-dialog v-model="showSectionOverview" position="left">
-      <q-card class="dialog-card" >
+      <q-card class="dialog-card" v-touch-swipe.mouse.left="closeSectionOverview">
         <q-card-section>
-          <div class="text-h6 text-center">Übersicht:</div>
+          <div class="text-h6">Wochenübersicht</div>
         </q-card-section>
 
         <q-card-section class="flex justify-start">
          <q-btn 
           v-for="(section, index) in activeChallengeSections" :key="section.id"
-          :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
+          :label="isLocked(section.hardlockDuration) ? '' : index + 1"
+          :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
+          :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
+
           @click="selectSection(index)"
           color="primary"
           class="dialog-icons"
@@ -169,6 +172,9 @@ export default {
     goToImpressum() {
       this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
+    },
+    closeSectionOverview(event) {
+      this.showSectionOverview = false
     },
     selectSection(index) {
       this.currentStep = index
@@ -294,13 +300,15 @@ export default {
     .dialog-icons {
       width: 13vw;
       height: 13vw;
-      font-size: 4.25vw;
+      // font-size: 4.25vw;
+      font-weight: 900;
       margin: 2.25vw;
-   }
 
+      :nth-child(2) {
+        line-height: 0;
+      }
+    }
 
-
- 
   .overlay-loading-long {
     position: fixed; /* Sit on top of the page content */
     display: flex; 

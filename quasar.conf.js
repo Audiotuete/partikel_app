@@ -75,7 +75,8 @@ module.exports = function (ctx) {
 
       directives: [
         // 'Ripple'
-        'ClosePopup'
+        'ClosePopup',
+        'TouchSwipe',
       ],
 
       // Quasar plugins

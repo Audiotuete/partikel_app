@@ -1,6 +1,6 @@
 <template>
   <div class='desktop-warning-container'>
-    <span class='desktop-warning-icon'><q-icon name='fas fa-mobile-alt'></q-icon></span>
+    <span class='desktop-warning-icon'><q-icon color="grey-9" name='fas fa-mobile-alt'></q-icon></span>
     <span class='desktop-warning-text'>Die App ist für mobile Geräte optimiert!</span>
     <p>In der mobilen Ansicht kannst du die Web-App aber trotzdem nutzen</p>
     <slot></slot>

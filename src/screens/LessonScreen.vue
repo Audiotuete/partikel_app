@@ -4,7 +4,7 @@
       basic
       class='q-mb-lg'
       :src='unitData.thumbnail.rendition.url'
-      style='width: 100%'
+      style='width: 100%; max-height: 50vh'
     >
       <div class='absolute-bottom text-h6 text-left q-pa-sx'>
         {{unitData.title}}
@@ -15,7 +15,7 @@
       <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body1 lesson-paragraph"></span>
       <q-img v-else-if="element.__typename == 'ImageType'" :src='element.imageData.rendition.url' class="lesson-image"></q-img>
       <div v-else-if="element.__typename == 'VideoType'" class="lesson-video-wrapper">
-        <youtube :video-id='getYoutubeId(element.value)' :player-vars="playerVars" ref="youtube"></youtube>
+        <youtube id='video-player' :video-id='getYoutubeId(element.value)' :player-vars="playerVars" ref="youtube"></youtube>
       </div>
       
       <q-carousel v-else-if="element.__typename == 'GalleryType'"
@@ -24,7 +24,7 @@
         animated
         infinite
         v-model="slide"
-        height="32vh"
+        height="12rem"
       >
         <q-carousel-slide class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="image.rendition.url">
           <div class="absolute-bottom custom-caption">
