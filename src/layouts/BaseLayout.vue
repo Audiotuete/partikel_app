@@ -6,12 +6,12 @@
       </div>
       <keep-alive :max="10">
       <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
-        <!-- <router-view id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view> -->
+        <router-view id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view>
         <router-view id='router-view' :key="$route.fullPath"></router-view>
       </keep-alive>
 
       <!-- Shown when phone is in landscape mode -->
-      <!-- <LandscapeWarning v-show='!isPortrait && !hasIframe'></LandscapeWarning> -->
+      <LandscapeWarning v-show='!isPortrait && !hasIframe'></LandscapeWarning>
     </q-page-container>
   </q-layout>
 </template>
@@ -33,7 +33,7 @@ export default {
       isPortrait: true,
       isMobile: false,
       isLoading: false,
-      // hasIframe: false,
+      hasIframe: false,
     }
   },
   watch:{
@@ -56,13 +56,13 @@ export default {
       window.open(window.location.href, "", "width=400, height=720") // Opens a new window
     }
   },
-  // updated() {
-  //   if(document.getElementById('video-player')){
-  //     this.hasIframe = true
-  //   } else {
-  //     this.hasIframe = false
-  //   }
-  // },
+  updated() {
+    if(document.getElementById('video-player')){
+      this.hasIframe = true
+    } else {
+      this.hasIframe = false
+    }
+  },
   created() {
     window.addEventListener('orientationchange', () => this.checkWindow(), false)
     window.addEventListener("resize", () => this.checkWindow(), false)

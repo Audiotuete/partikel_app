@@ -17,8 +17,6 @@
       <q-step v-for="(section, index) in activeChallengeSections" :key="section.id"
         title=""
         :name="index"
-        :active-icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1) "
-        :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : 'filter_' + (index+1)"
       >
 
         <q-scroll-area
@@ -91,9 +89,9 @@
           :label="isLocked(section.hardlockDuration) ? '' : index + 1"
           :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
           :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
-
-          @click="selectSection(index)"
-          color="primary"
+          :color="isLocked(section.hardlockDuration) ? 'grey-6' : 'primary'"
+          :text-color="isLocked(section.hardlockDuration) ? 'grey-2' : 'white'"
+          @click="selectSection(section, index)"
           class="dialog-icons"
           push
           v-close-popup
@@ -176,9 +174,15 @@ export default {
     closeSectionOverview(event) {
       this.showSectionOverview = false
     },
-    selectSection(index) {
-      this.currentStep = index
-      this.getScrollPositions()
+    selectSection(section, index) {
+      if (!this.isLocked(section.hardlockDuration)) {
+        this.currentStep = index
+        this.getScrollPositions()
+      } else {
+        alert('Is still locked')
+        this.currentStep = index
+      }
+
     },
     onClick(value) {
 
