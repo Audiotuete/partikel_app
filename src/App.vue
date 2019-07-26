@@ -10,15 +10,6 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-
-body.cordova .my-selector
-  padding-top constant(safe-area-inset-top)
-  padding-top env(safe-area-inset-top)
-  
-</style>
-
-
 <style lang='scss'>
 
 h2 {
@@ -53,9 +44,14 @@ iframe {
 
 // Q-Diaglog costumisation
 
-.fixed-left {
-  bottom: 70vh;
+.fixed-top {
+  top: -20px;
 }
+
+// .q-dialog__backdrop {
+//   pointer-events: none;
+//   background: rgba(255,255,255,0.9);
+// }
 
 // Q-Stepper costumisation
 
@@ -65,7 +61,7 @@ iframe {
   max-width: 100vw;
   border-radius: 0;
   box-shadow: none;
-  background: transparent
+  background: #fff
 }
 
 .q-stepper__header {

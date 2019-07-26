@@ -24,7 +24,7 @@
 
       </q-carousel>
     </div>
-    <q-page-sticky class='nav-back-button-container'  position="top-left" :offset="[16, 16]">
+    <q-page-sticky class='nav-back-button-container'  position="top-left" :offset="[16, 36]">
       <router-link  to="/overview" class="nav-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
     </q-page-sticky>
   </q-page>

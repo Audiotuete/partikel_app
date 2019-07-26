@@ -1,10 +1,12 @@
-.env*
+.env
 .quasar
 .DS_Store
 .thumbs.db
 node_modules
 /android
 /dist
+/src/statics/icons
+/src-cordova/google-services.json
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins

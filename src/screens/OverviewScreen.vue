@@ -76,9 +76,8 @@
       </q-step>
     </q-stepper>
 
-    <q-page-sticky class='raise-it' position="top-left" :offset="[18, 24]">
+    <q-page-sticky class='raise-it' position="top-left" :offset="[18, 40]">
       <q-btn-group rounded>
-        <!-- <q-btn @click="changeSection(-1)" style="padding: 0 0.25rem 0 0.25rem" push icon="arrow_left" color="primary" text-color="white" /> -->
         <q-btn 
           @click="showSectionOverview = true"
           v-touch-swipe.mouse.down="toggleSectionOverview"
@@ -88,7 +87,6 @@
           rounded 
           :label="'Woche ' + parseInt(currentStep + 1)" 
  />
-        <!-- <q-btn @click="changeSection(1)" style="padding: 0 0.25rem 0 0.25rem " push icon="arrow_right" color="primary" text-color="white"/> -->
       </q-btn-group>
     </q-page-sticky>
 
@@ -117,7 +115,7 @@
     </q-dialog>
 
 
-    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 14]">
+    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 30]">
       <q-fab
         icon="menu"
         direction="down"
@@ -294,7 +292,7 @@ export default {
 <style lang="scss" scoped>
 
   .top-bar {
-    min-height: 2.5rem;
+    min-height: 3.5rem;
     width: 100%;
     position: fixed;
     background: white;
@@ -308,7 +306,7 @@ export default {
 
     &::before {
       content: '-';
-      height: 4.5rem;
+      height: 5.5rem;
       color: transparent;
     }
     &::after {
@@ -323,7 +321,7 @@ export default {
     .dialog-card {
       min-width: 95vw;
       max-width: 95vw;
-      padding: 1vh 5vw 2.5vh 5vw;
+      padding: 20px 5vw 2.5vh 5vw;
     }
 
     .dialog-button-container {

@@ -14,6 +14,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <platform name="android">
+        <preference name="StatusBarStyle" value="lightcontent" />
         <allow-intent href="market:*" />
         <icon density="ldpi" src="res/android/icon-36-ldpi.png" />
         <icon density="mdpi" src="res/android/icon-48-mdpi.png" />
@@ -35,6 +36,7 @@
         <splash density="port-xxxhdpi" src="res/screen/android/screen-xxxhdpi-portrait.png" />
     </platform>
     <platform name="ios">
+        <preference name="StatusBarStyle" value="black" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="res/ios/icon.png" width="57" />
@@ -82,13 +84,11 @@
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="SplashScreenDelay" value="1500" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-wkwebview-engine" spec="~1.2.0" />
-    <plugin name="cordova-plugin-fcm-with-dependecy-updated" spec="~2.4.0" />
     <plugin name="cordova-plugin-statusbar" spec="~2.4.3" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
 </widget>

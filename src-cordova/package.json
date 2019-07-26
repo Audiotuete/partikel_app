@@ -29,9 +29,9 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-wkwebview-engine": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {},
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-splashscreen": {}
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-fcm-with-dependecy-updated": {}
     },
     "platforms": [
       "android",
