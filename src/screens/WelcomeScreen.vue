@@ -25,7 +25,7 @@ export default {
   },
     methods: {
   
-    getBrowserInfo() { 
+    getBrowserInfo() {
       var ua= navigator.userAgent, tem,
       M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
       if(/trident/i.test(M[1])){
@@ -46,8 +46,8 @@ export default {
         mutation: CREATE_USER,
         variables: {
           challengeId: process.env.CHALLENGE_ID,
-          browserInfo: this.getBrowserInfo(),
-          osInfo: navigator.platform,
+          browserInfo: "this.getBrowserInfo()",
+          osInfo: "navigator.platform",
         }
       }).then((data) => {
         this.login(data.data.createUser.user.username)
