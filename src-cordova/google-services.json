@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "888209693058",
+    "firebase_url": "https://partikel-push-notifications.firebaseio.com",
+    "project_id": "partikel-push-notifications",
+    "storage_bucket": "partikel-push-notifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888209693058:android:d300705904b7eab7",
+        "android_client_info": {
+          "package_name": "org.bewirken.partikel.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888209693058-tvabd0k9a5lkocb8h776mjr98on0do4k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGGoawa84Oi5tfNfzsUG2NxXbdH4t_9zc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888209693058-tvabd0k9a5lkocb8h776mjr98on0do4k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

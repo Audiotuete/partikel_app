@@ -14,7 +14,8 @@ module.exports = function (ctx) {
     boot: [
       'apollo',
       'global-router-guards',
-      'vue-youtube'
+      'vue-youtube',
+      'FCMPushNotifications',
     ],
 
     css: [
@@ -179,7 +180,7 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      // id: 'org.cordova.quasar.app'
+      id: 'org.bewirken.partikel.app'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
