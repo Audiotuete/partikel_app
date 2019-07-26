@@ -46,6 +46,7 @@ export default {
         mutation: CREATE_USER,
         variables: {
           challengeId: process.env.CHALLENGE_ID,
+          // browserInfo and osInfo must be requested differently on native WebViews
           browserInfo: "this.getBrowserInfo()",
           osInfo: "navigator.platform",
         }

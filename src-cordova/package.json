@@ -16,6 +16,8 @@
     "cordova-android": "^8.0.0",
     "cordova-ios": "^5.0.1",
     "cordova-plugin-fcm-with-dependecy-updated": "^2.4.0",
+    "cordova-plugin-splashscreen": "^5.0.3",
+    "cordova-plugin-statusbar": "^2.4.3",
     "cordova-plugin-wkwebview-engine": "^1.2.0",
     "cordova-support-google-services": "^1.1.0",
     "phonegap-plugin-multidex": "^1.0.0"
@@ -27,7 +29,9 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "cordova-plugin-wkwebview-engine": {},
-      "cordova-plugin-fcm-with-dependecy-updated": {}
+      "cordova-plugin-fcm-with-dependecy-updated": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-splashscreen": {}
     },
     "platforms": [
       "android",

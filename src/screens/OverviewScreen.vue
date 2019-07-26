@@ -38,7 +38,8 @@
               class="my-card"
             >
               <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
-                <q-icon name="fas fa-lock-open" class="overlay-not-viewed-icon"></q-icon>
+                <!-- gem, eye, carrot, brain, concierge-bell, ice-cream, mask, bolt, paw, parachute-box, seedling  -->
+                <q-icon name="fas fa-seedling" class="overlay-not-viewed-icon"></q-icon>
               </div>
               <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
 
@@ -297,7 +298,7 @@ export default {
     width: 100%;
     position: fixed;
     background: white;
-    box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
   }
 
   .card-container {

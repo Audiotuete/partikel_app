@@ -10,15 +10,16 @@ export default {
 }
 </script>
 
-<style lang='scss'>
+<style lang="stylus">
 
-// body {
-//   position: fixed;
-//   top: 0;
-//   bottom: 0;
-//   left: 24px;
-//   right: 24px;
-// }
+body.cordova .my-selector
+  padding-top constant(safe-area-inset-top)
+  padding-top env(safe-area-inset-top)
+  
+</style>
+
+
+<style lang='scss'>
 
 h2 {
   font-size: 1.1rem;
