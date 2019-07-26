@@ -4,6 +4,12 @@
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
       <q-spinner-ios color="grey-10" size="4em"/>
     </div>
+
+    <div 
+      class="top-bar raise-it" 
+      v-touch-swipe.mouse.down="toggleSectionOverview"
+    />
+
     <q-stepper
       v-model="currentStep"
       animated
@@ -72,31 +78,39 @@
     <q-page-sticky class='raise-it' position="top-left" :offset="[18, 24]">
       <q-btn-group rounded>
         <!-- <q-btn @click="changeSection(-1)" style="padding: 0 0.25rem 0 0.25rem" push icon="arrow_left" color="primary" text-color="white" /> -->
-        <q-btn @click="showSectionOverview = true" style="font-weight: bold" rounded :label="'Woche ' + parseInt(currentStep + 1)" color="primary" text-color="white"/>
+        <q-btn 
+          @click="showSectionOverview = true"
+          v-touch-swipe.mouse.down="toggleSectionOverview"
+          style="font-weight: bold" 
+          color="primary" 
+          text-color="white"
+          rounded 
+          :label="'Woche ' + parseInt(currentStep + 1)" 
+ />
         <!-- <q-btn @click="changeSection(1)" style="padding: 0 0.25rem 0 0.25rem " push icon="arrow_right" color="primary" text-color="white"/> -->
       </q-btn-group>
     </q-page-sticky>
 
-    <q-dialog v-model="showSectionOverview" position="left">
-      <q-card class="dialog-card" v-touch-swipe.mouse.left="closeSectionOverview">
+    <q-dialog v-model="showSectionOverview" position="top">
+      <q-card class="dialog-card" v-touch-swipe.mouse.up="toggleSectionOverview">
         <q-card-section>
-          <div class="text-h6">Wochenübersicht</div>
+          <div class="text-h6 text-center">Wochenübersicht</div>
         </q-card-section>
 
-        <q-card-section class="flex justify-start">
-         <q-btn 
-          v-for="(section, index) in activeChallengeSections" :key="section.id"
-          :label="isLocked(section.hardlockDuration) ? '' : index + 1"
-          :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
-          :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
-          :color="isLocked(section.hardlockDuration) ? 'grey-6' : 'primary'"
-          :text-color="isLocked(section.hardlockDuration) ? 'grey-2' : 'white'"
-          @click="selectSection(section, index)"
-          class="dialog-icons"
-          push
-          v-close-popup
-          >
-         </q-btn>
+        <q-card-section class="dialog-button-container">
+          <q-btn 
+            v-for="(section, index) in activeChallengeSections" :key="section.id"
+            :label="isLocked(section.hardlockDuration) ? '' : index + 1"
+            :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
+            :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
+            :color="isLocked(section.hardlockDuration) ? 'grey-6' : 'primary'"
+            :text-color="isLocked(section.hardlockDuration) ? 'grey-2' : 'white'"
+            @click="selectSection(section, index)"
+            class="dialog-buttons"
+            push
+            v-close-popup
+            >
+          </q-btn>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -171,8 +185,8 @@ export default {
       this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
     },
-    closeSectionOverview(event) {
-      this.showSectionOverview = false
+    toggleSectionOverview(event) {
+      this.showSectionOverview = !this.showSectionOverview 
     },
     selectSection(section, index) {
       if (!this.isLocked(section.hardlockDuration)) {
@@ -225,7 +239,8 @@ export default {
         }, 10)
     },
     isLocked(days) {
-      if ((Date.parse(this.currentUser.dateJoined) + (days * 24 * 60 * 60 * 1000) - Date.now()) <= 0) {
+      // 24 * 60 * 60 * 1000 = 86400000
+      if ((Date.parse(this.currentUser.dateJoined) + (days * 86400000) - Date.now()) <= 0) {
         return false 
       } else {
         return true
@@ -259,13 +274,13 @@ export default {
       this.lessonsViewed = tempLessonsViewed
     }
 
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight -1
   },
   updated() {
 
   },
   activated() {
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight -1
     this.getScrollPositions()
   },
   deactivated() {
@@ -277,6 +292,14 @@ export default {
 
 <style lang="scss" scoped>
 
+  .top-bar {
+    min-height: 2.5rem;
+    width: 100%;
+    position: fixed;
+    background: white;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
+  }
+
   .card-container {
     display: flex;
     flex-direction: column;
@@ -284,7 +307,7 @@ export default {
 
     &::before {
       content: '-';
-      height: 2rem;
+      height: 4.5rem;
       color: transparent;
     }
     &::after {
@@ -297,20 +320,26 @@ export default {
 
 
     .dialog-card {
-      width: 95vw;
-      padding: 5vw 7vw 5vw 8vw;
+      min-width: 95vw;
+      max-width: 95vw;
+      padding: 1vh 5vw 2.5vh 5vw;
     }
 
-    .dialog-icons {
-      width: 13vw;
-      height: 13vw;
+    .dialog-button-container {
+      display: grid;
+      grid-template-columns: 25% 25% 25% 25%;
+    }
+
+    .dialog-buttons {
+      width: 14vw;
+      height: 14vw;
       // font-size: 4.25vw;
       font-weight: 900;
       margin: 2.25vw;
 
-      :nth-child(2) {
-        line-height: 0;
-      }
+      // :nth-child(2) {
+      //   line-height: 0;
+      // }
     }
 
   .overlay-loading-long {
@@ -325,7 +354,7 @@ export default {
     right: 0;
     bottom: 0;
     background-color: white; 
-    z-index: 3; 
+    z-index: 100; 
     /* Duration must be indentical to animation duration */
     animation: 1.5s ease-in 0s 1 fadeIn;
   } 
@@ -341,7 +370,7 @@ export default {
   
 
   .raise-it{
-    z-index: 100;
+    z-index: 10;
   }
 
 .my-card {

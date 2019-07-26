@@ -1,5 +1,5 @@
 <template>
-  <q-page style="margin: 4rem 0 2.25rem 0" class='flex column no-wrap'>
+  <q-page style="padding: 4rem 0 2.25rem 0" class='flex column no-wrap'>
     <div class='impressum-content-container q-mx-md q-mb-md' v-for='(element, index) in impressumData' :key='index'>
       <span v-if="element.__typename == 'HeadingType'" v-html='element.value' class="impressum-heading"></span>
       <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body2 impressum-paragraph"></span>

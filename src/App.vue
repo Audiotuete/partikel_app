@@ -69,10 +69,11 @@ iframe {
 
 .q-stepper__header {
   // flex: 1.5;
-  z-index: 1;
-  min-height: 2.5rem !important;
-  border: none;
-  box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
+  display: none;
+  // z-index: 1;
+  // min-height: 2.5rem !important;
+  // border: none;
+  // box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
   // width: 200vw; 
   // flex-wrap: nowrap;
   // overflow-x: scroll;
