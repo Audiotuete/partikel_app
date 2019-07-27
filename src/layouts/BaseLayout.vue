@@ -8,7 +8,6 @@
       <keep-alive :max="10">
         <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
         <router-view v-else id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view>
-        <!-- <router-view id='router-view' :key="$route.fullPath"></router-view> -->
       </keep-alive>
 
       <!-- Shown when phone is in landscape mode -->

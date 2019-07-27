@@ -8,9 +8,9 @@
 export default {
   name: 'custom-page-sticky',
   props: ['offset', 'position'],
-  computed: {
-    processMode() {
-      return process.env.MODE 
+  data() {
+    return {
+      processMode: process.env.MODE
     }
   }
 }

@@ -86,7 +86,7 @@
           text-color="white"
           rounded 
           :label="'Woche ' + parseInt(currentStep + 1)" 
- />
+        />
       </q-btn-group>
     </base-custom-page-sticky>
 
