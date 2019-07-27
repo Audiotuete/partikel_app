@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="org.bewirken.partikel.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>beWirken Partikel</name>
-    <description>Prozessbegleitende beWirken App</description>
+    <name>Projekt Challenge</name>
+    <description>Prozessbegleitende App für Projektmanagement von beWirken - Jugendbildung auf Augenhöhe</description>
     <author email="jan@bewirken.org" href="http://bewirken.org">
         Jan Moll
     </author>

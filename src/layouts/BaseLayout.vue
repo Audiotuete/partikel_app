@@ -74,7 +74,12 @@ export default {
       StatusBar.backgroundColorByHexString("#000")
     }
 
-
+  },
+  mounted() {
+    if(process.env.MODE == 'cordova') {
+      StatusBar.overlaysWebView(true)
+      StatusBar.backgroundColorByHexString("#000")
+    }
   },
   destroyed() {
     window.removeEventListener('orientationchange', () => this.checkWindow(), false)
