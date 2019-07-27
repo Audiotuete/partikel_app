@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="org.bewirken.partikel.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.bewirken.challenge.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Projekt Challenge</name>
-    <description>Prozessbegleitende App für Projektmanagement von beWirken - Jugendbildung auf Augenhöhe</description>
+    <description>Prozessbegleitende beWirken App</description>
     <author email="jan@bewirken.org" href="http://bewirken.org">
         Jan Moll
     </author>
@@ -35,7 +35,7 @@
         <splash density="port-xxxhdpi" src="res/screen/android/screen-xxxhdpi-portrait.png" />
     </platform>
     <platform name="ios">
-        <preference name="StatusBarStyle" value="black" />
+        <preference name="StatusBarStyle" value="default" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="res/ios/icon.png" width="57" />

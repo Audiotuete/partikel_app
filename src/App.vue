@@ -12,8 +12,10 @@ export default {
 
 <style lang='scss'>
 
-body {
+html, body {
   overflow: hidden;
+  position: relative;
+  height: 100%;
 }
 
 h2 {
@@ -49,9 +51,9 @@ iframe {
 
 // Q-Diaglog costumisation
 
-// .fixed-top {
-//   top: -20px;
-// }
+.fixed-top {
+  top: -1.5rem;
+}
 
 
 // Q-Stepper costumisation

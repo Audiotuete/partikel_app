@@ -68,11 +68,6 @@ export default {
   created() {
     window.addEventListener('orientationchange', () => this.checkWindow(), false)
     window.addEventListener("resize", () => this.checkWindow(), false)
-    
-    if(process.env.MODE == 'cordova') {
-      StatusBar.overlaysWebView(true)
-      StatusBar.backgroundColorByHexString("#000")
-    }
 
   },
   mounted() {
@@ -92,8 +87,8 @@ export default {
 
 .statusbar-spacer {
   min-height: 1.5rem;
-  z-index: 6000;
-  background: #000;
+  background: #ffffff;
+  box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
 }
 
 .overlay-loading {

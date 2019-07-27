@@ -181,7 +181,7 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      id: 'org.bewirken.partikel.app'
+      id: 'org.bewirken.challenge.app'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 

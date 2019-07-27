@@ -149,7 +149,7 @@ export default {
       lessonsViewed: [],
       currentStep: 0,
       scrollPositionsHorizontal: {},
-      scrollAreaHeight: 0
+      scrollAreaHeight: 0,
       // activeScrollIndicators: {left: false, right: false}
     }
   },
@@ -183,6 +183,7 @@ export default {
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
     },
     goToImpressum() {
+      console.log(device)
       this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
 
     },
@@ -295,8 +296,8 @@ export default {
     min-height: 2.5rem;
     width: 100%;
     position: fixed;
-    background: white;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, .35);
+    background: #ffffff;
+    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, .35);
   }
 
   .card-container {
