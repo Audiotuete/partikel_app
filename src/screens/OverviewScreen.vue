@@ -76,7 +76,7 @@
       </q-step>
     </q-stepper>
 
-    <q-page-sticky class='raise-it' position="top-left" :offset="[18, 40]">
+    <base-custom-page-sticky class="raise-it" :position="'top-left'" :offset="[14, 24]">
       <q-btn-group rounded>
         <q-btn 
           @click="showSectionOverview = true"
@@ -88,10 +88,10 @@
           :label="'Woche ' + parseInt(currentStep + 1)" 
  />
       </q-btn-group>
-    </q-page-sticky>
+    </base-custom-page-sticky>
 
     <q-dialog v-model="showSectionOverview" position="top">
-      <q-card class="dialog-card" v-touch-swipe.mouse.up="toggleSectionOverview">
+      <q-card class="dialog-card" v-touch-swipe.mouse="toggleSectionOverview">
         <q-card-section>
           <div class="text-h6 text-center">Wochenübersicht</div>
         </q-card-section>
@@ -113,9 +113,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-
-
-    <q-page-sticky class='raise-it'  position="top-right" :offset="[18, 30]">
+    <base-custom-page-sticky class="raise-it"  :position="'top-right'" :offset="[18, 14]">
       <q-fab
         icon="menu"
         direction="down"
@@ -125,13 +123,14 @@
         <q-fab-action @click="goToImpressum()" color="primary" text-color="white" icon="info" />
         <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
       </q-fab>
-    </q-page-sticky>
+    </base-custom-page-sticky>
 
   </q-page>
 </template>
 
 
 <script>
+
 import CURRENT_USER from '../graphql/users/currentUser.gql'
 import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
 
@@ -164,6 +163,9 @@ export default {
     }
   },
   computed: {
+    processMode() {
+      return process.env.MODE
+    },
     activeChallengeSections() {
       return this.currentUser.currentChallenge.challengesectionSet.slice().filter((section) => {
         return section.isPublic
@@ -258,7 +260,6 @@ export default {
       // localStorage.clear()
       // location.reload()
     })
-
   },
   mounted() {
     localStorage.removeItem('nav_positions')
@@ -288,11 +289,10 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 
   .top-bar {
-    min-height: 3.5rem;
+    min-height: 2.5rem;
     width: 100%;
     position: fixed;
     background: white;
@@ -306,7 +306,7 @@ export default {
 
     &::before {
       content: '-';
-      height: 5.5rem;
+      height: 5rem;
       color: transparent;
     }
     &::after {
@@ -317,11 +317,10 @@ export default {
 
   }
 
-
     .dialog-card {
       min-width: 95vw;
       max-width: 95vw;
-      padding: 20px 5vw 2.5vh 5vw;
+      padding: 6vh 5vw 2.5vh 5vw;
     }
 
     .dialog-button-container {
@@ -365,8 +364,6 @@ export default {
       opacity: 0;
     }
   }
-
-  
 
   .raise-it{
     z-index: 10;

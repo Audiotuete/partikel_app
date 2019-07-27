@@ -12,6 +12,7 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
+      'globalComponents',
       'apollo',
       'global-router-guards',
       'vue-youtube',

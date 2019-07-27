@@ -1,45 +1,48 @@
 <template>
-  <q-page v-if="unitData" class='flex column no-wrap'>
-    <q-img
-      basic
-      class='q-mb-lg'
-      :src='unitData.thumbnail.rendition.url'
-      style='width: 100%; max-height: 50vh'
-    >
-      <div class='absolute-bottom text-h6 text-left q-pa-sx'>
-        {{unitData.title}}
-      </div>
-    </q-img>
-    <div class='lesson-content-container q-mx-md q-mb-md' v-for='(element, index) in unitData.content' :key='index'>
-      <span v-if="element.__typename == 'HeadingType'" v-html='element.value' class="lesson-heading"></span>
-      <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body1 lesson-paragraph"></span>
-      <q-img v-else-if="element.__typename == 'ImageType'" :src='element.imageData.rendition.url' class="lesson-image"></q-img>
-      <div v-else-if="element.__typename == 'VideoType'" class="lesson-video-wrapper">
-        <youtube id='video-player' :video-id='getYoutubeId(element.value)' :player-vars="playerVars" ref="youtube"></youtube>
-      </div>
-      
-      <q-carousel v-else-if="element.__typename == 'GalleryType'"
-        class="gallery"
-        arrows
-        animated
-        infinite
-        v-model="slide"
-        height="12rem"
-      >
-        <q-carousel-slide class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="image.rendition.url">
-          <div class="absolute-bottom custom-caption">
-            <div class="text-subtitle1 lesson-gallery-text">{{image.caption}}</div>
+  <q-page v-if="unitData">
+    <q-scroll-area style="width: 100vw; height: 100vh">
+      <div class="flex column no-wrap">
+        <q-img
+          basic
+          class='q-mb-lg'
+          :src='unitData.thumbnail.rendition.url'
+          style='width: 100%; max-height: 50vh'
+        >
+          <div class='absolute-bottom text-h6 text-left q-pa-sx'>
+            {{unitData.title}}
           </div>
-        </q-carousel-slide>
+        </q-img>
+        <div class='lesson-content-container q-mx-md q-mb-md' v-for='(element, index) in unitData.content' :key='index'>
+          <span v-if="element.__typename == 'HeadingType'" v-html='element.value' class="lesson-heading"></span>
+          <span v-else-if="element.__typename == 'ParagraphType'" v-html='element.value' class="text-body1 lesson-paragraph"></span>
+          <q-img v-else-if="element.__typename == 'ImageType'" :src='element.imageData.rendition.url' class="lesson-image"></q-img>
+          <div v-else-if="element.__typename == 'VideoType'" class="lesson-video-wrapper">
+            <youtube id='video-player' :video-id='getYoutubeId(element.value)' :player-vars="playerVars" ref="youtube"></youtube>
+          </div>
+          
+          <q-carousel v-else-if="element.__typename == 'GalleryType'"
+            class="gallery"
+            arrows
+            animated
+            infinite
+            v-model="slide"
+            height="12rem"
+          >
+            <q-carousel-slide class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="image.rendition.url">
+              <div class="absolute-bottom custom-caption">
+                <div class="text-subtitle1 lesson-gallery-text">{{image.caption}}</div>
+              </div>
+            </q-carousel-slide>
 
-      </q-carousel>
-    </div>
-      <q-page-sticky class='nav-back-button-container'  position="top-left" :offset="[16, 36]">
-        <router-link  to="/overview" class="nav-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
-      </q-page-sticky>
-    <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin:  2rem 2rem 4rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
-    <q-btn v-else style="margin: 2rem 2rem 4rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
-
+          </q-carousel>
+        </div>
+          <base-custom-page-sticky class="nav-back-button-container" :position="'top-left'" :offset="[16, 16]">
+            <router-link  to="/overview" class="nav-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
+          </base-custom-page-sticky>
+        <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin:  2rem 2rem 4rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
+        <q-btn v-else style="margin: 2rem 2rem 4rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
+      </div>
+    </q-scroll-area>
   </q-page>
 </template>
 

@@ -1,13 +1,14 @@
 <template>
   <q-layout view="lHh lpr lFf">
-    <q-page-container>
+    <q-page-container >
+      <div v-if="processMode == 'cordova'" class="statusbar-spacer"></div>
       <div v-show='isLoading' class="overlay-loading">        
         <q-spinner-puff color="grey-10" size="30em"/>
       </div>
       <keep-alive :max="10">
-      <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
-        <router-view id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view>
-        <router-view id='router-view' :key="$route.fullPath"></router-view>
+        <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
+        <router-view v-else id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view>
+        <!-- <router-view id='router-view' :key="$route.fullPath"></router-view> -->
       </keep-alive>
 
       <!-- Shown when phone is in landscape mode -->
@@ -34,8 +35,10 @@ export default {
       isMobile: false,
       isLoading: false,
       hasIframe: false,
+      processMode: process.env.MODE
     }
   },
+
   watch:{
     $route(to, from) {
       this.isLoading = true
@@ -66,6 +69,13 @@ export default {
   created() {
     window.addEventListener('orientationchange', () => this.checkWindow(), false)
     window.addEventListener("resize", () => this.checkWindow(), false)
+    
+    if(process.env.MODE == 'cordova') {
+      StatusBar.overlaysWebView(true)
+      StatusBar.backgroundColorByHexString("#000")
+    }
+
+
   },
   destroyed() {
     window.removeEventListener('orientationchange', () => this.checkWindow(), false)
@@ -75,6 +85,12 @@ export default {
 </script>
 
 <style>
+
+.statusbar-spacer {
+  min-height: 1.5rem;
+  z-index: 6000;
+  background: #000;
+}
 
 .overlay-loading {
   position: fixed; /* Sit on top of the page content */

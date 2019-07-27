@@ -12,6 +12,10 @@ export default {
 
 <style lang='scss'>
 
+body {
+  overflow: hidden;
+}
+
 h2 {
   font-size: 1.1rem;
   padding: 0;
@@ -42,16 +46,13 @@ iframe {
   height: 100%;
 }
 
+
 // Q-Diaglog costumisation
 
-.fixed-top {
-  top: -20px;
-}
-
-// .q-dialog__backdrop {
-//   pointer-events: none;
-//   background: rgba(255,255,255,0.9);
+// .fixed-top {
+//   top: -20px;
 // }
+
 
 // Q-Stepper costumisation
 
