@@ -92,7 +92,7 @@
 
     <q-dialog v-model="showSectionOverview" position="top">
       <q-card class="dialog-card" v-touch-swipe.mouse="toggleSectionOverview">
-        <q-card-section>
+        <q-card-section style="padding-top: 2rem">
           <div class="text-h6 text-center">Wochenübersicht</div>
         </q-card-section>
 
