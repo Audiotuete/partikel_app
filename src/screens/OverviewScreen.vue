@@ -189,13 +189,12 @@ export default {
       this.showSectionOverview = !this.showSectionOverview 
     },
     selectSection(section, index) {
-      if (!this.isLocked(section.hardlockDuration)) {
-        this.currentStep = index
-        this.getScrollPositions()
-      } else {
-        alert('Is still locked')
-        this.currentStep = index
-      }
+      this.currentStep = index
+      this.getScrollPositions()
+
+      // if (this.isLocked(section.hardlockDuration)) {
+      //   alert('Is still locked')
+      // }
 
     },
     onClick(value) {
