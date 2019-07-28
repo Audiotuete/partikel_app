@@ -82,18 +82,18 @@ export default {
         let idIndex = this.lessonsCompleted.indexOf(unitId)
         this.lessonsCompleted.splice(idIndex,1)
       }
-        this.$apollo.mutate({
-          mutation: UPDATE_USER_VIEWS,
-          variables: {
-            challengeSectionUnitId: id,
-            isCompleted: completed
-          }
-        }).then((data) => {
-          this.$router.push('/overview')
-        }).catch((error) => {
-          location.reload()
-          // console.error(error)
-        })
+      this.$router.push('/overview')
+      this.$apollo.mutate({
+        mutation: UPDATE_USER_VIEWS,
+        variables: {
+          challengeSectionUnitId: id,
+          isCompleted: completed
+        }
+      }).then((data) => {
+      }).catch((error) => {
+        location.reload()
+        // console.error(error)
+      })
     },
     getYoutubeId(url){
       let ID = '';

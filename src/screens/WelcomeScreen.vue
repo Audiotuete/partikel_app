@@ -54,8 +54,7 @@ export default {
         this.login(data.data.createUser.user.username)
 
       }).catch((error) => {
-        // Error
-        console.error(error)
+        // console.error(error)
       })
     },
 
@@ -74,9 +73,7 @@ export default {
           this.$router.push('/overview')
         }
       }).catch((error) => {
-        // Error
-        console.error(error)
-        // We restore the initial user input
+        // console.error(error)
       })
     },
   }
