@@ -56,6 +56,12 @@ export default {
     },
     openMobileWindow() {
       window.open(window.location.href, "", "width=400, height=720") // Opens a new window
+    },
+    onDeviceReady() {
+      if(process.env.MODE == 'cordova') {
+        StatusBar.overlaysWebView(true)
+        StatusBar.backgroundColorByHexString("#000")
+      }
     }
   },
   updated() {
@@ -65,18 +71,14 @@ export default {
       this.hasIframe = false
     }
   },
-  created() {
+  mounted() {
+    document.addEventListener("deviceready", this.onDeviceReady, false);
     window.addEventListener('orientationchange', () => this.checkWindow(), false)
     window.addEventListener("resize", () => this.checkWindow(), false)
 
   },
-  mounted() {
-    if(process.env.MODE == 'cordova') {
-      StatusBar.overlaysWebView(true)
-      StatusBar.backgroundColorByHexString("#000")
-    }
-  },
   destroyed() {
+    document.remove("deviceready", this.onDeviceReady, false);
     window.removeEventListener('orientationchange', () => this.checkWindow(), false)
     window.removeEventListener("resize", () => this.checkWindow(), false) 
   },

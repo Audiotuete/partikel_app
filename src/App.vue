@@ -1,12 +1,27 @@
 <template>
   <div id="q-app">
-    <router-view />
+    <router-view v-if="isOnline" />
+    <OfflineWarning v-else />
+
   </div>
 </template>
 
 <script>
+import OfflineWarning from './components/pages/OfflineWarning'
+import { setTimeout } from 'timers';
+
+
 export default {
   name: 'App',
+  components: {OfflineWarning},
+  data() {
+    return {
+      isOnline: false,
+    }
+  },
+  created() {
+    this.isOnline = navigator.connection.type != 'none'
+  },
 }
 </script>
 

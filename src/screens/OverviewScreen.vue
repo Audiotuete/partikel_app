@@ -183,9 +183,7 @@ export default {
       this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
     },
     goToImpressum() {
-      console.log(device)
       this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
-
     },
     toggleSectionOverview(event) {
       this.showSectionOverview = !this.showSectionOverview 
@@ -275,13 +273,13 @@ export default {
       this.lessonsViewed = tempLessonsViewed
     }
 
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight -1
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight + 1
   },
   updated() {
 
   },
   activated() {
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight -1
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight + 1
     this.getScrollPositions()
   },
   deactivated() {

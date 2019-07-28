@@ -18,10 +18,11 @@
     <allow-navigation href="*://*.youtube.com/*" />
     <preference name="AllowInlineMediaPlayback" value="true" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="SplashScreenDelay" value="1500" />
     <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarStyle" value="lightcontent" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="res/android/icon-36-ldpi.png" />
