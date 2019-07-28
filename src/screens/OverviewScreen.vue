@@ -2,7 +2,7 @@
   <q-page v-if='currentUser' class="flex">
 
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
-      <q-spinner-ios color="grey-10" size="4em"/>
+      <q-spinner-tail color="primary" size="4em"/>
     </div>
 
     <div 
