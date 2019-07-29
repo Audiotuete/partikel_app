@@ -16,11 +16,13 @@ export default {
   components: {OfflineWarning},
   data() {
     return {
-      isOnline: false,
+      isOnline: true,
     }
   },
   created() {
-    this.isOnline = navigator.connection.type != 'none'
+    if(process.env.MODE == 'cordova') {
+      this.isOnline = navigator.connection.type != 'none'
+    }
   },
 }
 </script>

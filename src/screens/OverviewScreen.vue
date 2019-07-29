@@ -255,8 +255,8 @@ export default {
 
 
     }).catch((error) => {
-      // localStorage.clear()
-      // location.reload()
+      localStorage.clear()
+      location.reload()
     })
   },
   mounted() {

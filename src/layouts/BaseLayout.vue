@@ -3,7 +3,7 @@
     <q-page-container >
       <div v-if="processMode == 'cordova'" class="statusbar-spacer"></div>
       <div v-show='isLoading' class="overlay-loading">        
-        <q-spinner-puff color="grey-10" size="30em"/>
+        <!-- <q-spinner-puff color="grey-10" size="30em"/> -->
       </div>
       <keep-alive :max="10">
         <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>

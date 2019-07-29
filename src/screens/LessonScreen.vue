@@ -39,8 +39,8 @@
           <base-custom-page-sticky class="nav-back-button-container" :position="'top-left'" :offset="[16, 16]">
             <router-link  to="/overview" class="nav-back-button-link"><q-icon name="arrow_back" size="1.5rem"></q-icon></router-link>
           </base-custom-page-sticky>
-        <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin:  2rem 2rem 4rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
-        <q-btn v-else style="margin: 2rem 2rem 4rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
+        <q-btn v-if="!lessonsCompleted.includes(parseInt(unitData.id))" style="margin: 2rem 2rem 6rem 2rem" color='green' @click="markLessonCompleted(unitData.id, true)">Check</q-btn>
+        <q-btn v-else style="margin: 2rem 2rem 6rem 2rem" color='white' text-color='black' @click="markLessonCompleted(unitData.id, false)">uncheck</q-btn>
       </div>
     </q-scroll-area>
   </q-page>
@@ -64,7 +64,8 @@ export default {
         showsearch: 0,
         controls: 1,
         modestbranding: 1,
-        cc_load_policy: 1
+        cc_load_policy: 1,
+        playsinline: 0,
       },
     }
   },

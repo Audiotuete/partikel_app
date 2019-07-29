@@ -25,6 +25,9 @@
           "splashscreenHash": false,
           "splashscreenType": "generate",
           "backgroundColor": "#ffffff"
+        },
+        "spa": {
+          "iconHash": "201591b5ae33bba63a5657c755dd37d8"
         }
       }
     }

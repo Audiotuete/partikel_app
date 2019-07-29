@@ -44,17 +44,10 @@ const routes = [
 ]
 
 // routes: [
-//   { path: '/', 
-//     components: { default: WelcomeScreen },
-//     meta: { requiresNoPoll: true }
-//   },
+
 //   { path: '/tutorial',
 //   components: { default: TutorialScreen, },
 //   meta: { requiresAuth: true },
-//   },
-//   { path: '/umfrage',
-//     components: { default: SwiperScreen },
-//     meta: { requiresAuth: true },
 //   },
 //   { path: '/verify/:activation_key',
 //     components: { default: VerificationScreen },
