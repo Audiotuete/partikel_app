@@ -54,19 +54,20 @@ module.exports = function (ctx) {
         'QSpace',
         'QStepper',
         'QStep',
-        'QStepperNavigation',
+        // 'QStepperNavigation',
         // 'QVideo',
         // 'QTabs',
         // 'QTab',
         // 'QRouteTab',
         'QBtn',
-        'QBtnGroup',
+        // 'QBtnGroup',
         // 'QCheckbox',
         // 'QToolbar',
         // 'QFooter',
         // 'QHeader',
         'QImg',
-        // 'QSpinnerPuff',
+        'QSpinnerPuff',
+        // 'QSpinnerIos',
         'QSpinnerTail',
         'QIcon',
         // 'QList',
@@ -181,7 +182,8 @@ module.exports = function (ctx) {
     },
 
     cordova: {
-      id: 'org.bewirken.challenge.app'
+      id: 'org.bewirken.challenge.app',
+      version: '0.0.1'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
