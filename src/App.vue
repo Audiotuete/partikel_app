@@ -72,6 +72,14 @@ iframe {
   top: -1.5rem;
 }
 
+// Q-Img costumisation
+
+.q-img__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
 
 // Q-Stepper costumisation
 

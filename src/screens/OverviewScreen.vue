@@ -36,16 +36,34 @@
               v-for="unit in section.challengesectionunitSet" 
               :key="unit.id"
               class="my-card"
-            >
+            > 
               <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
                 <!-- gem, eye, carrot, brain, concierge-bell, ice-cream, mask, bolt, paw, parachute-box, seedling  -->
                 <q-icon name="fas fa-seedling" class="overlay-not-viewed-icon"></q-icon>
               </div>
               <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
 
-              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
+              <q-img transition="fade" class='thumbnail' :src="unit.thumbnail.rendition.url">
+                <div 
+                  v-for="(categorie, index) in activeCategories(unit.categories)" :key=index  
+                  :style="{background: categorie.active ? categorie.color : 'rgba(0,0,0,0.25)'}"
+                  class="card-categories"
+
+                >
+                  <q-icon
+                    :name="'fas fa-' + categorie.icon"
+                    size="12px"
+                    :style="{color: categorie.active ? '#fff' : 'rgba(255,255,255,0.25)', width: '102%'}"
+           
+                  />
+                </div>
+
+              </q-img>
 
               <q-card-section class="card-section" align="around">
+                <div>
+   
+               </div>
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
       
@@ -77,7 +95,6 @@
     </q-stepper>
 
     <base-custom-page-sticky class="raise-it" :position="'top-left'" :offset="[14, 24]">
-      <q-btn-group rounded>
         <q-btn 
           @click="showSectionOverview = true"
           v-touch-swipe.mouse.down="toggleSectionOverview"
@@ -87,7 +104,6 @@
           rounded 
           :label="'Woche ' + parseInt(currentStep + 1)" 
         />
-      </q-btn-group>
     </base-custom-page-sticky>
 
     <q-dialog v-model="showSectionOverview" position="top">
@@ -187,6 +203,52 @@ export default {
     },
     toggleSectionOverview(event) {
       this.showSectionOverview = !this.showSectionOverview 
+    },
+    activeCategories(categories) {
+      let activeCategoriesArray = {
+        0: {
+          icon: 'eye',
+          color: '#5DC1EC',
+          active: false
+        },
+        1: {
+          icon: 'user',
+          color: '#28C93F',
+          active: false
+        },
+        2: {
+          icon: 'carrot',
+          color: '#F9BE2F',
+          active: false
+        },
+        3: {
+          icon: 'bell',
+          color: '#F96058',
+          active: false
+        }
+      }
+     categories.forEach((categorie) => {
+        console.log(categorie)
+        switch (categorie.slug) {
+        case 'feedback':
+          activeCategoriesArray[0].active = true
+          break
+        case 'marketing':
+          activeCategoriesArray[1].active = true
+          console.log('active marketing')
+          break
+        case 'projektstruktur-werkzeuge':
+          activeCategoriesArray[2].active = true
+          console.log('active tools')
+          break
+        case 'team':
+          activeCategoriesArray[3].active = true
+          break
+        }
+      }) 
+   
+         
+      return activeCategoriesArray
     },
     selectSection(section, index) {
       this.currentStep = index
@@ -397,6 +459,7 @@ export default {
   }
 
   .overlay-not-viewed {
+    z-index: 1;
     position: absolute;
     display: flex;
     justify-content: center;
@@ -442,8 +505,24 @@ export default {
     background: #000;
   }
 
+  .card-categories {
+    position: relative;
+    top: 0;
+    bottom: 1px;
+    border-radius: 4px 0 0 4px;
+    z-index: 2;
+    width: 8%;
+    padding: 1px;
+    margin-bottom: 4px;
+    color: #ffffff;
+
+    &:first-child {
+      margin-top: 7px;
+    }
+  }
+
   .card-section {
-    // z-index: 0;
+    z-index: 1;
     background: #fff;
     display: flex;
     // justify-content: center;
