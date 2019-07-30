@@ -82,6 +82,7 @@ iframe {
   border-radius: 0;
   box-shadow: none;
   background: #fff
+
 }
 
 .q-stepper__header {
@@ -105,7 +106,7 @@ iframe {
 }
 .q-stepper__content {
   flex: 1;
-  border-bottom: 1px solid rgba(0,0,0,0.12)
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.75)
 }
 
 .q-stepper__tab {

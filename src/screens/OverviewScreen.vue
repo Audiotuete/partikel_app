@@ -27,7 +27,7 @@
 
         <q-scroll-area
           ref='scrollareas'
-          :style="{width: '100vw', height: scrollAreaHeight + 'px'}"
+          :style="{width: '100vw', height: '100vh'}"
           class=""
         >
           <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
@@ -149,7 +149,7 @@ export default {
       lessonsViewed: [],
       currentStep: 0,
       scrollPositionsHorizontal: {},
-      scrollAreaHeight: 0,
+      // scrollAreaHeight: 0,
       // activeScrollIndicators: {left: false, right: false}
     }
   },
@@ -272,13 +272,13 @@ export default {
       this.lessonsViewed = tempLessonsViewed
     }
 
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight + 1
+    // this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
   },
   updated() {
 
   },
   activated() {
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight + 1
+    // this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
     this.getScrollPositions()
   },
   deactivated() {
@@ -291,7 +291,8 @@ export default {
 
   .top-bar {
     min-height: 2.5rem;
-    width: 100%;
+    width: 104%;
+    left: -2%;
     position: fixed;
     background: #ffffff;
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, .35);
@@ -304,12 +305,12 @@ export default {
 
     &::before {
       content: '-';
-      height: 5rem;
+      height: 4.5rem;
       color: transparent;
     }
     &::after {
       content: '-';
-      height: 4rem;
+      height: 5rem;
       color: transparent;
     }
 
