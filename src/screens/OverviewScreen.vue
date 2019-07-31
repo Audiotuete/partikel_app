@@ -42,8 +42,9 @@
                 <q-icon name="fas fa-seedling" class="overlay-not-viewed-icon"></q-icon>
               </div>
               <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
-
-              <q-img transition="fade" class='thumbnail' :src="unit.thumbnail.rendition.url">
+              
+              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
+              <div class="card-categories-container">
                 <div 
                   v-for="(categorie, index) in activeCategories(unit.categories)" :key=index  
                   :style="{background: categorie.active ? categorie.color : 'rgba(0,0,0,0.25)'}"
@@ -57,8 +58,8 @@
            
                   />
                 </div>
+              </div>
 
-              </q-img>
 
               <q-card-section class="card-section" align="around">
                 <div>
@@ -81,8 +82,8 @@
                 <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
               </div>
 
-              <div class='thumbnail'></div>
-
+              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
+              
               <q-card-section class="card-section" align="around">
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
@@ -207,41 +208,38 @@ export default {
     activeCategories(categories) {
       let activeCategoriesArray = {
         0: {
-          icon: 'eye',
+          icon: 'users',
           color: '#5DC1EC',
           active: false
         },
         1: {
-          icon: 'user',
+          icon: 'tools',
           color: '#28C93F',
           active: false
         },
         2: {
-          icon: 'carrot',
+          icon: 'exchange-alt',
           color: '#F9BE2F',
           active: false
         },
         3: {
-          icon: 'bell',
+          icon: 'bullhorn',
           color: '#F96058',
           active: false
         }
       }
      categories.forEach((categorie) => {
-        console.log(categorie)
         switch (categorie.slug) {
-        case 'feedback':
+        case 'team':
           activeCategoriesArray[0].active = true
           break
-        case 'marketing':
-          activeCategoriesArray[1].active = true
-          console.log('active marketing')
-          break
         case 'projektstruktur-werkzeuge':
-          activeCategoriesArray[2].active = true
-          console.log('active tools')
+          activeCategoriesArray[1].active = true
           break
-        case 'team':
+        case 'feedback':
+          activeCategoriesArray[2].active = true
+          break
+        case 'marketing':
           activeCategoriesArray[3].active = true
           break
         }
@@ -449,7 +447,7 @@ export default {
     min-width: 18rem;
     max-width: 18rem;
     height: 100%;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0,0,0,0.75);
 
     .overlay-locked-icon{
       top: 25%;
@@ -503,6 +501,17 @@ export default {
     min-height: 10rem;
     object-fit: cover;
     background: #000;
+  }
+
+  .card-categories-container {
+    z-index: 1;
+    position: absolute;
+    top: 10.5%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
   }
 
   .card-categories {
