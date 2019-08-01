@@ -6,7 +6,8 @@
     </div>
 
     <div 
-      class="top-bar raise-it" 
+      class="top-bar raise-it"
+      @click="toggleSectionOverview()"
       v-touch-swipe.mouse.down="toggleSectionOverview"
     />
 
@@ -45,16 +46,16 @@
               
               <img class='thumbnail' :src="unit.thumbnail.rendition.url">
               <div class="card-categories-container">
+
+                <!-- :style="{background: categorie.active ? 'rgba(0,0,0,0.55) ': 'rgba(0,0,0,0.55) '}" -->
                 <div 
                   v-for="(categorie, index) in activeCategories(unit.categories)" :key=index  
-                  :style="{background: categorie.active ? categorie.color : 'rgba(0,0,0,0.25)'}"
                   class="card-categories"
-
                 >
                   <q-icon
                     :name="'fas fa-' + categorie.icon"
                     size="12px"
-                    :style="{color: categorie.active ? '#fff' : 'rgba(255,255,255,0.25)', width: '102%'}"
+                    :style="{color: categorie.active ? categorie.color + 'cc' : 'rgba(255,255,255,0.25)', width: '102%'}"
            
                   />
                 </div>
@@ -119,8 +120,8 @@
             :label="isLocked(section.hardlockDuration) ? '' : index + 1"
             :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
             :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
-            :color="isLocked(section.hardlockDuration) ? 'grey-6' : 'primary'"
-            :text-color="isLocked(section.hardlockDuration) ? 'grey-2' : 'white'"
+            :color="isLocked(section.hardlockDuration) ? 'grey-7' : 'primary'"
+            :text-color="isLocked(section.hardlockDuration) ? 'grey-3' : 'amber-' + (index + 1)"
             @click="selectSection(section, index)"
             class="dialog-buttons"
             push
@@ -137,7 +138,7 @@
         color="primary"
         text-color="white"
       >
-        <q-fab-action @click="goToImpressum()" color="primary" text-color="white" icon="info" />
+        <q-fab-action @click="goToImpressum()" color="primary" :text-color="'white'" icon="info" />
         <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
       </q-fab>
     </base-custom-page-sticky>
@@ -505,28 +506,31 @@ export default {
 
   .card-categories-container {
     z-index: 1;
+    flex: 1;
     position: absolute;
-    top: 10.5%;
+    top: 0;
+    height: 10rem;
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-end;
   }
 
   .card-categories {
+    display: flex;
+    flex: 1;
+    align-items: center;
     position: relative;
-    top: 0;
-    bottom: 1px;
-    border-radius: 4px 0 0 4px;
     z-index: 2;
     width: 8%;
-    padding: 1px;
-    margin-bottom: 4px;
-    color: #ffffff;
+    background: rgba(0,0,0,0.6);
 
     &:first-child {
-      margin-top: 7px;
+      padding-top: .5rem;
+    }
+    &:last-child {
+      padding-bottom: .5rem;
     }
   }
 

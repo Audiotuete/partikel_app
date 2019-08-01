@@ -130,21 +130,6 @@ export default {
 
 
 <style lang='scss' scoped>
-// .lesson-back-button-container {
-//   height: 3em;
-//   width: 3em;
-//   min-width: 3em;
-//   min-height: 3em;
-//   border-radius: 50%;
-//   background: white;
-//   box-shadow: 0 1px 5px rgba(0,0,0,0.2), 0 2px 2px rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12);
-// }
-
-// .lesson-back-button-link {
-//   padding: 1.5rem 0.6rem;
-//   text-decoration: none;
-//   color: #000000;
-// }
 
 .lesson-content-container {
   max-width: 100vw;
