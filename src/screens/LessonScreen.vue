@@ -25,10 +25,12 @@
             arrows
             animated
             infinite
+            swipeable
+            :fullscreen.sync='isFullscreen'
             v-model="slide"
             height="12rem"
           >
-            <q-carousel-slide class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="image.rendition.url">
+            <q-carousel-slide @click="isFullscreen = !isFullscreen" class="lesson-image" v-for="(image, index) in element.galleryData" :key="index"  :name="index" :img-src="image.rendition.url">
               <div class="absolute-bottom custom-caption">
                 <div class="text-subtitle1 lesson-gallery-text">{{image.caption}}</div>
               </div>
@@ -56,6 +58,7 @@ export default {
   data() {
     return {
       slide: 1,
+      isFullscreen: false,
       rootURL: process.env.ROOT_API,
       playerVars: {
         autoplay: 0,
@@ -108,11 +111,14 @@ export default {
       }
         return ID;
     },
+    toogleGalleryFullscreen() {
+      this.$refs.carousel.toggleFullscreen()
+    }
 
 },
   mounted() {
     // setTimeout(() => window.scrollTo(0,0), 50)
-
+    console.log(this.$refs)
     if (!this.$router.currentRoute.params.unitData) {
       this.$router.push('/overview')
     }
@@ -140,9 +146,22 @@ export default {
   margin-bottom: 1.5rem;
 }
 
+.gallery{
+  background: #121212;
+}
+
 .lesson-image {
+  flex: 1;
   border-radius: 4px;
   overflow: hidden;
+  background-size: cover !important;
+  background-repeat: no-repeat;
+}
+
+@media (orientation: portrait) { 
+  .lesson-image{
+    max-height: 40vh;
+  } 
 }
 
 .lesson-gallery-text{
