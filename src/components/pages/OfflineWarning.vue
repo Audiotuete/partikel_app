@@ -1,7 +1,7 @@
 <template>
   <div class='offline-container'>
     <!-- meteor, sad-cry -->
-    <span class='offline-icon'><q-icon color="grey-9" name="fas fa-sad-cry"></q-icon></span>
+    <span class='offline-icon'><q-icon color="primary" name="fas fa-sad-cry"></q-icon></span>
     <span class='offline-text offline-text__header'>Kein Netz!</span>
     <span class='offline-text'>Verbinde dich mit dem Internet, um weiter zu machen.</span>
     <q-btn @click="reload()" class='offline-retry-button'>Erneut versuchen</q-btn>
