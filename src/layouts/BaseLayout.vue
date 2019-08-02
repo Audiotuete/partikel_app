@@ -7,7 +7,7 @@
       </div>
       <keep-alive :max="10">
         <DesktopWarning v-if='(!$q.platform.is.mobile) && ($q.screen.width > 1024)'><QBtn color="primary" style='width: 16rem; margin-top: 1rem;' @click='openMobileWindow()'>Mobile Ansicht öffnen</QBtn></DesktopWarning>
-        <router-view v-else id='router-view' :key="$route.fullPath" v-show="isPortrait || hasIframe"></router-view>
+        <router-view v-else id='router-view' :key="$route.fullPath" v-show="isPortrait || allowLandscape"></router-view>
       </keep-alive>
 
       <!-- Shown when phone is in landscape mode -->
@@ -33,7 +33,7 @@ export default {
       isPortrait: true,
       isMobile: false,
       isLoading: false,
-      hasIframe: false,
+      allowLandscape: false,
       processMode: process.env.MODE
     }
   },
@@ -69,10 +69,10 @@ export default {
     }
   },
   updated() {
-    if(document.getElementById('video-player')){
-      this.hasIframe = true
+    if(document.getElementById('video') || document.getElementById('gallery')  ){
+      this.allowLandscape = true
     } else {
-      this.hasIframe = false
+      this.allowLandscape = false
     }
   },
   mounted() {
@@ -138,8 +138,8 @@ export default {
   }
 }
 
-/* .locked-notification {
-  width: 94vw;
-} */
+.no-pointer-events {
+  pointer-events: none;
+}
 
 </style>

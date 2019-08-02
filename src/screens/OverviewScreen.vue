@@ -28,8 +28,7 @@
 
         <q-scroll-area
           ref='scrollareas'
-          :style="{width: '100vw', height: '100vh'}"
-          class=""
+          :class="{'main-container': true, 'no-pointer-events' : showSectionOverview}"
         >
           <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
@@ -340,6 +339,7 @@ export default {
 
 
     }).catch((error) => {
+      console.log(error)
       localStorage.clear()
       location.reload()
     })
@@ -363,7 +363,7 @@ export default {
 
   },
   activated() {
-    // this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
+    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
     this.getScrollPositions()
   },
   deactivated() {
@@ -381,6 +381,11 @@ export default {
     position: fixed;
     background: #ffffff;
     box-shadow: 0 4px 2px -2px rgba(0, 0, 0, .35);
+  }
+
+  .main-container {
+    height: 100vh;
+    width: 100vw;
   }
 
   .card-container {

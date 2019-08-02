@@ -84,7 +84,8 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'AppFullscreen'
       ],
       lang: 'de' // Quasar language
     },
