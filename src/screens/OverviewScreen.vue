@@ -148,7 +148,6 @@
 
 
 <script>
-
 import CURRENT_USER from '../graphql/users/currentUser.gql'
 import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
 
@@ -253,9 +252,34 @@ export default {
       this.currentStep = index
       this.getScrollPositions()
 
-      // if (this.isLocked(section.hardlockDuration)) {
-      //   alert('Is still locked')
-      // }
+      if (this.isLocked(section.hardlockDuration)) {
+
+        let msToUnlock = Date.parse(this.currentUser.dateJoined) + (section.hardlockDuration * 86400000) - Date.now()
+        let daysToUnlock = Math.floor(msToUnlock / (24*60*60*1000))
+        let hoursToUnlock = Math.floor(msToUnlock/ (60*60*1000))
+        let minutesToUnlock = Math.ceil(msToUnlock/ (60*1000))
+
+        function generateMessage() {
+          if (daysToUnlock > 0) {
+            return 'Inhalte werden in ' + daysToUnlock + ' Tagen freigeschaltet'
+          } else if (hoursToUnlock > 0) {
+            return 'Inhalte werden in ' + hoursToUnlock + ' Stunden freigeschaltet'
+          } else {
+            return 'Inhalte werden in ' + minutesToUnlock + ' Minuten freigeschaltet'
+          }
+        }
+
+        this.$q.notify(
+          {
+            message: generateMessage(),
+            position: 'bottom',
+            timeout: 2000,
+            textColor: 'white',
+            icon: 'fas fa-lock-open',
+            classes: 'locked-notification'
+          } 
+        )
+      }
 
     },
     onClick(value) {
@@ -544,6 +568,8 @@ export default {
     padding: 0 1rem;
   }
  }
+
+
   
 </style>
 
