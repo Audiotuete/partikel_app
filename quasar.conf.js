@@ -51,7 +51,7 @@ module.exports = function (ctx) {
         'QPageSticky',
         'QScrollArea',
         'QScrollObserver',
-        'QSpace',
+        // 'QSpace',
         'QStepper',
         'QStep',
         // 'QStepperNavigation',
@@ -66,7 +66,7 @@ module.exports = function (ctx) {
         // 'QFooter',
         // 'QHeader',
         'QImg',
-        'QSpinnerPuff',
+        // 'QSpinnerPuff',
         // 'QSpinnerIos',
         'QSpinnerTail',
         'QIcon',
@@ -84,7 +84,7 @@ module.exports = function (ctx) {
 
       // Quasar plugins
       plugins: [
-        // 'Notify'
+        'Notify'
       ],
       lang: 'de' // Quasar language
     },
