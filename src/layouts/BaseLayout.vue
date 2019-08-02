@@ -60,7 +60,11 @@ export default {
     onDeviceReady() {
       if(process.env.MODE == 'cordova') {
         StatusBar.overlaysWebView(true)
-        StatusBar.backgroundColorByHexString("#000")
+        StatusBar.backgroundColorByHexString("#121212")
+        document.addEventListener('backbutton', (e) => {
+          e.preventDefault()
+          navigator.app.exitApp()
+        }, false)
       }
     }
   },
@@ -134,5 +138,9 @@ export default {
     opacity: 0;
   }
 }
+
+/* .locked-notification {
+  width: 94vw;
+} */
 
 </style>
