@@ -6,5 +6,5 @@ export default async ({ app, Vue }) => {
 
   // Install the vue plugin
   Vue.use(VueYoutube)
-  
+
 }

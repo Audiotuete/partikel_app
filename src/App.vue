@@ -2,34 +2,32 @@
   <div id="q-app">
     <router-view v-if="isOnline" />
     <OfflineWarning v-else />
-
   </div>
 </template>
 
 <script>
-import OfflineWarning from './components/pages/OfflineWarning'
-import { setTimeout } from 'timers';
-
+import OfflineWarning from "./components/pages/OfflineWarning";
+import { setTimeout } from "timers";
 
 export default {
-  name: 'App',
-  components: {OfflineWarning},
+  name: "App",
+  components: { OfflineWarning },
   data() {
     return {
-      isOnline: true,
-    }
+      isOnline: true
+    };
   },
   created() {
-    if(process.env.MODE == 'cordova') {
-      this.isOnline = navigator.connection.type != 'none'
+    if (process.env.MODE == "cordova") {
+      this.isOnline = navigator.connection.type != "none";
     }
-  },
-}
+  }
+};
 </script>
 
 <style lang='scss'>
-
-html, body {
+html,
+body {
   overflow: hidden;
   position: relative;
   height: 100%;
@@ -38,23 +36,22 @@ html, body {
 h2 {
   font-size: 1.1rem;
   padding: 0;
-  margin: 0.75rem 0 0 0 ;
+  margin: 0.75rem 0 0 0;
   font-weight: 500;
   line-height: 1.3;
 }
 
 p {
-  margin: 0
+  margin: 0;
 }
 
 p + p {
-  margin-top: 0.75rem
+  margin-top: 0.75rem;
 }
-
 
 a {
   text-decoration: none;
-  color: #e94f35;
+  color: ™#e94f35;
 }
 
 iframe {
@@ -64,7 +61,6 @@ iframe {
   width: 100%;
   height: 100%;
 }
-
 
 // Q-Diaglog costumisation
 
@@ -89,8 +85,7 @@ iframe {
   max-width: 100vw;
   border-radius: 0;
   box-shadow: none;
-  background: #fff
-
+  background: #fff;
 }
 
 .q-stepper__header {
@@ -100,12 +95,12 @@ iframe {
   // min-height: 2.5rem !important;
   // border: none;
   // box-shadow: 0 0px 4px rgba(0, 0, 0, .35);
-  // width: 200vw; 
+  // width: 200vw;
   // flex-wrap: nowrap;
   // overflow-x: scroll;
   // overflow-y: hidden;
   // justify-content: space-between;
-  //  padding: 0 10%; 
+  //  padding: 0 10%;
   // -webkit-overflow-scrolling: touch;
 
   // &::-webkit-scrollbar {
@@ -120,15 +115,14 @@ iframe {
 .q-stepper__tab {
   display: none;
   // min-width: 24% !important;
-  // padding: 0 !important; 
-
+  // padding: 0 !important;
 
   // &:last-child {
-  //   padding-right: 
+  //   padding-right:
   //   .5vw !important;
   // }
   // &:first-child {
-  //   padding-left: 
+  //   padding-left:
   //   .5vw !important;
   // }
 }
@@ -149,8 +143,4 @@ iframe {
   display: flex;
   align-items: center;
 }
-
-
-
-
 </style>

@@ -1,23 +1,25 @@
 <template>
-  <div class='desktop-warning-container'>
-    <span class='desktop-warning-icon'><q-icon color="primary" name='fas fa-mobile-alt'></q-icon></span>
-    <span class='desktop-warning-text'>Die App ist für mobile Geräte optimiert!</span>
+  <div class="desktop-warning-container">
+    <span class="desktop-warning-icon">
+      <q-icon color="primary" name="fas fa-mobile-alt"></q-icon>
+    </span>
+    <span class="desktop-warning-text">Die App ist für mobile Geräte optimiert!</span>
     <p>In der mobilen Ansicht kannst du die Web-App aber trotzdem nutzen</p>
     <slot></slot>
-    <p style='margin-top: 1rem; font-size: 0.75rem'>Wenn du hierhin weitergeleitet wurdest, um deine Mailadresse zu bestätigen, öffne einfach die mobile Ansicht</p>
-  </div> 
+    <p
+      style="margin-top: 1rem; font-size: 0.75rem"
+    >Wenn du hierhin weitergeleitet wurdest, um deine Mailadresse zu bestätigen, öffne einfach die mobile Ansicht</p>
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'DesktopWarning',
-}
+  name: "DesktopWarning"
+};
 </script>
 
 
 <style lang="scss" scoped>
-
 .desktop-warning-container {
   display: flex;
   flex-direction: column;
@@ -34,5 +36,4 @@ export default {
   padding-top: -1rem;
   font-size: 1rem;
 }
-
 </style>

@@ -8,11 +8,11 @@ export default async ({ Vue }) => {
     // The regular expression used to match base component filenames
     /Base[A-Z]\w+\.(vue|js)$/
   )
-  
+
   requireComponent.keys().forEach(fileName => {
     // Get component config
     const componentConfig = requireComponent(fileName)
-  
+
     // Get PascalCase name of component
     const componentName = toPascalCase(
       toCamelCase(
@@ -20,7 +20,7 @@ export default async ({ Vue }) => {
         fileName.replace(/^\.\/(.*)\.\w+$/, '$1')
       )
     )
-    
+
     // Register component globally
     Vue.component(componentName, componentConfig.default || componentConfig)
   })
@@ -37,11 +37,11 @@ export default async ({ Vue }) => {
       .replace(new RegExp(/\s/, 'g'), '')
       .replace(new RegExp(/\w/), s => s.toUpperCase());
   }
-    
-    function toCamelCase(str) {
-      return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index) {
-        return index == 0 ? word.toLowerCase() : word.toUpperCase();
-      }).replace(/\s+/g, '');
-    }
+
+  function toCamelCase(str) {
+    return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index == 0 ? word.toLowerCase() : word.toUpperCase();
+    }).replace(/\s+/g, '');
+  }
 }
 

@@ -1,11 +1,10 @@
 <template>
-  <q-page v-if='currentUser' class="flex">
-
+  <q-page v-if="currentUser" class="flex">
     <div class="overlay-loading-long" v-if="$apollo.queries.currentUser.loading || isLoading">
-      <q-spinner-tail color="primary" size="4em"/>
+      <q-spinner-tail color="primary" size="4em" />
     </div>
 
-    <div 
+    <div
       class="top-bar raise-it"
       @click="toggleSectionOverview()"
       v-touch-swipe.mouse.down="toggleSectionOverview"
@@ -20,91 +19,87 @@
       swipeable
       @input="getScrollPositions()"
     >
-      
-      <q-step v-for="(section, index) in activeChallengeSections" :key="section.id"
-        title=""
+      <q-step
+        v-for="(section, index) in activeChallengeSections"
+        :key="section.id"
+        title
         :name="index"
       >
-
         <q-scroll-area
-          ref='scrollareas'
+          ref="scrollareas"
           :class="{'main-container': true, 'no-pointer-events' : showSectionOverview}"
         >
           <div v-if="!isLocked(section.hardlockDuration)" class="card-container">
             <q-card
-              @click="goToLesson(unit)" 
-              v-for="unit in section.challengesectionunitSet" 
+              @click="goToLesson(unit)"
+              v-for="unit in section.challengesectionunitSet"
               :key="unit.id"
               class="my-card"
-            > 
-              <div v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))" class="overlay-not-viewed">
+            >
+              <div
+                v-if="!lessonsViewed.includes(parseInt(unit.id)) && !lessonsCompleted.includes(parseInt(unit.id))"
+                class="overlay-not-viewed"
+              >
                 <!-- gem, eye, carrot, brain, concierge-bell, ice-cream, mask, bolt, paw, parachute-box, seedling  -->
                 <q-icon name="fas fa-seedling" class="overlay-not-viewed-icon"></q-icon>
               </div>
-              <q-icon name="fas fa-check" class="overlay-completed" v-if="lessonsCompleted.includes(parseInt(unit.id))"></q-icon>
-              
-              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
-              <div class="card-categories-container">
+              <q-icon
+                name="fas fa-check"
+                class="overlay-completed"
+                v-if="lessonsCompleted.includes(parseInt(unit.id))"
+              />
 
+              <img class="thumbnail" :src="unit.thumbnail.rendition.url" />
+              <div class="card-categories-container">
                 <!-- :style="{background: categorie.active ? 'rgba(0,0,0,0.55) ': 'rgba(0,0,0,0.55) '}" -->
-                <div 
-                  v-for="(categorie, index) in activeCategories(unit.categories)" :key=index  
+                <div
+                  v-for="(categorie, index) in activeCategories(unit.categories)"
+                  :key="index"
                   class="card-categories"
                 >
                   <q-icon
                     :name="'fas fa-' + categorie.icon"
                     size="12px"
                     :style="{color: categorie.active ? categorie.color + 'cc' : 'rgba(255,255,255,0.25)', width: '102%'}"
-           
                   />
                 </div>
               </div>
 
-
               <q-card-section class="card-section" align="around">
-                <div>
-   
-               </div>
+                <div></div>
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
-      
-  
             </q-card>
           </div>
 
           <div v-else class="row no-wrap card-container">
-            <q-card
-            v-for="unit in section.challengesectionunitSet" 
-            :key="unit.id"
-            class="my-card"
-            >
+            <q-card v-for="unit in section.challengesectionunitSet" :key="unit.id" class="my-card">
               <div class="overlay-locked">
                 <q-icon name="fas fa-lock" class="overlay-locked-icon"></q-icon>
               </div>
 
-              <img class='thumbnail' :src="unit.thumbnail.rendition.url">
-              
+              <img class="thumbnail" :src="unit.thumbnail.rendition.url" />
+
               <q-card-section class="card-section" align="around">
                 <div class="text-body1 text-left">{{unit.title}}</div>
               </q-card-section>
-    
             </q-card>
           </div>
           <q-scroll-observer debounce="250" @scroll="setScrollPositions" />
-        </q-scroll-area> 
+        </q-scroll-area>
       </q-step>
     </q-stepper>
 
     <base-custom-page-sticky class="raise-it" :position="'top-left'" :offset="[14, 24]">
-        <q-btn 
-          @click="showSectionOverview = true"
-          v-touch-swipe.mouse.down="toggleSectionOverview"
-          style="font-weight: bold" 
-          color="primary" 
-          text-color="white"
-          rounded 
-          :label="'Woche ' + parseInt(currentStep + 1)" 
-        />
+      <q-btn
+        @click="showSectionOverview = true"
+        v-touch-swipe.mouse.down="toggleSectionOverview"
+        style="font-weight: bold"
+        color="primary"
+        text-color="white"
+        rounded
+        :label="'Woche ' + parseInt(currentStep + 1)"
+      />
     </base-custom-page-sticky>
 
     <q-dialog v-model="showSectionOverview" position="top">
@@ -114,8 +109,9 @@
         </q-card-section>
 
         <q-card-section class="dialog-button-container">
-          <q-btn 
-            v-for="(section, index) in activeChallengeSections" :key="section.id"
+          <q-btn
+            v-for="(section, index) in activeChallengeSections"
+            :key="section.id"
             :label="isLocked(section.hardlockDuration) ? '' : index + 1"
             :icon="isLocked(section.hardlockDuration) ? 'fas fa-lock' : ''"
             :size="isLocked(section.hardlockDuration) ? '4vw' : '5vw'"
@@ -125,33 +121,26 @@
             class="dialog-buttons"
             push
             v-close-popup
-            >
-          </q-btn>
+          ></q-btn>
         </q-card-section>
       </q-card>
     </q-dialog>
-    <base-custom-page-sticky class="raise-it"  :position="'top-right'" :offset="[18, 14]">
-      <q-fab
-        icon="menu"
-        direction="down"
-        color="primary"
-        text-color="white"
-      >
+    <base-custom-page-sticky class="raise-it" :position="'top-right'" :offset="[18, 14]">
+      <q-fab icon="menu" direction="down" color="primary" text-color="white">
         <q-fab-action @click="goToImpressum()" color="primary" :text-color="'white'" icon="info" />
         <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
       </q-fab>
     </base-custom-page-sticky>
-
   </q-page>
 </template>
 
 
 <script>
-import CURRENT_USER from '../graphql/users/currentUser.gql'
-import CHECK_CURRENT_USER from '../graphql/users/checkCurrentUser.gql'
+import CURRENT_USER from "../graphql/users/currentUser.gql";
+import CHECK_CURRENT_USER from "../graphql/users/checkCurrentUser.gql";
 
 export default {
-  name: 'overview-screen',
+  name: "overview-screen",
   data() {
     return {
       currentUser: {
@@ -164,15 +153,15 @@ export default {
       showSectionOverview: false,
       lessonsViewed: [],
       currentStep: 0,
-      scrollPositionsHorizontal: {},
+      scrollPositionsHorizontal: {}
       // scrollAreaHeight: 0,
       // activeScrollIndicators: {left: false, right: false}
-    }
+    };
   },
   apollo: {
     currentUser: {
       query: CURRENT_USER,
-      fetchPolicy: 'cache-and-network',
+      fetchPolicy: "cache-and-network"
       // update(data) {
       //   return data.currentUser
       // }
@@ -180,283 +169,305 @@ export default {
   },
   computed: {
     processMode() {
-      return process.env.MODE
+      return process.env.MODE;
     },
     activeChallengeSections() {
-      return this.currentUser.currentChallenge.challengesectionSet.slice().filter((section) => {
-        return section.isPublic
-      })
-  
+      return this.currentUser.currentChallenge.challengesectionSet
+        .slice()
+        .filter(section => {
+          return section.isPublic;
+        });
     },
     lessonsCompleted() {
-      return this.currentUser.lessonsCompleted
-    },
-
+      return this.currentUser.lessonsCompleted;
+    }
   },
   methods: {
     goToLesson(unit) {
-      this.markLessonViewed(unit.id)
-      this.$router.push({name: 'LessonScreen', params: {id: unit.id, unitData: unit, lessonsCompleted: this.currentUser.lessonsCompleted} })
+      this.markLessonViewed(unit.id);
+      this.$router.push({
+        name: "LessonScreen",
+        params: {
+          id: unit.id,
+          unitData: unit,
+          lessonsCompleted: this.currentUser.lessonsCompleted
+        }
+      });
     },
     goToImpressum() {
-      this.$router.push({name: 'ImpressumScreen', params: {impressumData: this.currentUser.currentChallenge.impressum} })
+      this.$router.push({
+        name: "ImpressumScreen",
+        params: { impressumData: this.currentUser.currentChallenge.impressum }
+      });
     },
     toggleSectionOverview(event) {
-      this.showSectionOverview = !this.showSectionOverview 
+      this.showSectionOverview = !this.showSectionOverview;
     },
     activeCategories(categories) {
       let activeCategoriesArray = {
         0: {
-          icon: 'users',
-          color: '#5DC1EC',
+          icon: "users",
+          color: "#5DC1EC",
           active: false
         },
         1: {
-          icon: 'tools',
-          color: '#28C93F',
+          icon: "tools",
+          color: "#28C93F",
           active: false
         },
         2: {
-          icon: 'exchange-alt',
-          color: '#F9BE2F',
+          icon: "exchange-alt",
+          color: "#F9BE2F",
           active: false
         },
         3: {
-          icon: 'bullhorn',
-          color: '#F96058',
+          icon: "bullhorn",
+          color: "#F96058",
           active: false
         }
-      }
-     categories.forEach((categorie) => {
+      };
+      categories.forEach(categorie => {
         switch (categorie.slug) {
-        case 'team':
-          activeCategoriesArray[0].active = true
-          break
-        case 'projektstruktur-werkzeuge':
-          activeCategoriesArray[1].active = true
-          break
-        case 'feedback':
-          activeCategoriesArray[2].active = true
-          break
-        case 'marketing':
-          activeCategoriesArray[3].active = true
-          break
+          case "team":
+            activeCategoriesArray[0].active = true;
+            break;
+          case "projektstruktur-werkzeuge":
+            activeCategoriesArray[1].active = true;
+            break;
+          case "feedback":
+            activeCategoriesArray[2].active = true;
+            break;
+          case "marketing":
+            activeCategoriesArray[3].active = true;
+            break;
         }
-      }) 
-   
-         
-      return activeCategoriesArray
+      });
+
+      return activeCategoriesArray;
     },
     selectSection(section, index) {
-      this.currentStep = index
-      this.getScrollPositions()
+      this.currentStep = index;
+      this.getScrollPositions();
 
       if (this.isLocked(section.hardlockDuration)) {
-
-        let msToUnlock = Date.parse(this.currentUser.dateJoined) + (section.hardlockDuration * 86400000) - Date.now()
-        let daysToUnlock = Math.floor(msToUnlock / (24*60*60*1000))
-        let hoursToUnlock = Math.floor(msToUnlock/ (60*60*1000))
-        let minutesToUnlock = Math.ceil(msToUnlock/ (60*1000))
+        let msToUnlock =
+          Date.parse(this.currentUser.dateJoined) +
+          section.hardlockDuration * 86400000 -
+          Date.now();
+        let daysToUnlock = Math.floor(msToUnlock / (24 * 60 * 60 * 1000));
+        let hoursToUnlock = Math.floor(msToUnlock / (60 * 60 * 1000));
+        let minutesToUnlock = Math.ceil(msToUnlock / (60 * 1000));
 
         function generateMessage() {
           if (daysToUnlock > 0) {
-            return 'Inhalte werden in ' + daysToUnlock + ' Tagen freigeschaltet'
+            return (
+              "Inhalte werden in " + daysToUnlock + " Tagen freigeschaltet"
+            );
           } else if (hoursToUnlock > 0) {
-            return 'Inhalte werden in ' + hoursToUnlock + ' Stunden freigeschaltet'
+            return (
+              "Inhalte werden in " + hoursToUnlock + " Stunden freigeschaltet"
+            );
           } else {
-            return 'Inhalte werden in ' + minutesToUnlock + ' Minuten freigeschaltet'
+            return (
+              "Inhalte werden in " + minutesToUnlock + " Minuten freigeschaltet"
+            );
           }
         }
 
-        this.$q.notify(
-          {
-            message: generateMessage(),
-            position: 'bottom',
-            timeout: 2000,
-            textColor: 'white',
-            icon: 'fas fa-lock-open',
-            classes: 'locked-notification'
-          } 
-        )
+        this.$q.notify({
+          message: generateMessage(),
+          position: "bottom",
+          timeout: 2000,
+          textColor: "white",
+          icon: "fas fa-lock-open",
+          classes: "locked-notification"
+        });
       }
-
     },
-    onClick(value) {
-
-    },
+    onClick(value) {},
     markLessonViewed(id) {
       if (this.lessonsViewed) {
-        if(!this.lessonsViewed.includes(parseInt(id))) {
-          this.lessonsViewed.push(parseInt(id))
-          localStorage.setItem('lessons_viewed', JSON.stringify(this.lessonsViewed))
+        if (!this.lessonsViewed.includes(parseInt(id))) {
+          this.lessonsViewed.push(parseInt(id));
+          localStorage.setItem(
+            "lessons_viewed",
+            JSON.stringify(this.lessonsViewed)
+          );
         }
       } else {
-        this.lessonsViewed.push(parseInt(id))
-        return localStorage.setItem('lessons_viewed', JSON.stringify([parseInt(id)]))
+        this.lessonsViewed.push(parseInt(id));
+        return localStorage.setItem(
+          "lessons_viewed",
+          JSON.stringify([parseInt(id)])
+        );
       }
     },
 
-    setScrollPositions(event) {        
-
+    setScrollPositions(event) {
       for (let [index, scrollarea] of this.$refs.scrollareas.entries()) {
-        if(!scrollarea._inactive) {
-          this.scrollPositionsHorizontal[scrollarea._uid] = event.position
+        if (!scrollarea._inactive) {
+          this.scrollPositionsHorizontal[scrollarea._uid] = event.position;
         }
       }
-    // Only Userfull with reload (when Vue Instance is destroyed)
+      // Only Userfull with reload (when Vue Instance is destroyed)
       // localStorage.setItem('nav_positions', JSON.stringify({
       //   scrollPositionsHorizontal: this.scrollPositionsHorizontal}))
     },
     getScrollPositions() {
       // Only Userfull with reload (when Vue Instance is destroyed)
       // let navPositions = JSON.parse(localStorage.getItem('nav_positions'))
-        setTimeout(() => {
-          for (const [index, position] of Object.entries(this.scrollPositionsHorizontal)) {
-            try {
-              this.$refs.scrollareas.find(bar => { return bar._uid == index}).setScrollPosition(position)
-            } catch (err) {
-              // console.log(err)
-              // Ignore
-            }
+      setTimeout(() => {
+        for (const [index, position] of Object.entries(
+          this.scrollPositionsHorizontal
+        )) {
+          try {
+            this.$refs.scrollareas
+              .find(bar => {
+                return bar._uid == index;
+              })
+              .setScrollPosition(position);
+          } catch (err) {
+            // console.log(err)
+            // Ignore
           }
-        }, 10)
+        }
+      }, 10);
     },
     isLocked(days) {
       // 24 * 60 * 60 * 1000 = 86400000
-      if ((Date.parse(this.currentUser.dateJoined) + (days * 86400000) - Date.now()) <= 0) {
-        return false 
+      if (
+        Date.parse(this.currentUser.dateJoined) +
+          days * 86400000 -
+          Date.now() <=
+        0
+      ) {
+        return false;
       } else {
-        return true
+        return true;
       }
-    },
-    
+    }
   },
   created() {
-    this.$apollo.query({
-      query: CHECK_CURRENT_USER,
-      fetchPolicy: 'no-cache',
-    }).then((data) => {
-
-
-    }).catch((error) => {
-      console.log(error)
-      localStorage.clear()
-      location.reload()
-    })
+    this.$apollo
+      .query({
+        query: CHECK_CURRENT_USER,
+        fetchPolicy: "no-cache"
+      })
+      .then(data => {})
+      .catch(error => {
+        console.log(error);
+        localStorage.clear();
+        location.reload();
+      });
   },
   mounted() {
-    localStorage.removeItem('nav_positions')
-    this.isLoading = true
+    localStorage.removeItem("nav_positions");
+    this.isLoading = true;
     setTimeout(() => {
-      this.isLoading = false
-    }, 1500)
+      this.isLoading = false;
+    }, 1500);
 
-
-    let tempLessonsViewed = JSON.parse(localStorage.getItem('lessons_viewed'))
+    let tempLessonsViewed = JSON.parse(localStorage.getItem("lessons_viewed"));
     if (tempLessonsViewed) {
-      this.lessonsViewed = tempLessonsViewed
+      this.lessonsViewed = tempLessonsViewed;
     }
 
     // this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
   },
-  updated() {
-
-  },
+  updated() {},
   activated() {
-    this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
-    this.getScrollPositions()
+    this.scrollAreaHeight = document.querySelector(
+      ".q-stepper__content"
+    ).offsetHeight;
+    this.getScrollPositions();
   },
-  deactivated() {
-  }
-
-}
+  deactivated() {}
+};
 </script>
 
 <style lang="scss" scoped>
+.top-bar {
+  min-height: 2.5rem;
+  width: 104%;
+  left: -2%;
+  position: fixed;
+  background: #ffffff;
+  box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.35);
+}
 
-  .top-bar {
-    min-height: 2.5rem;
-    width: 104%;
-    left: -2%;
-    position: fixed;
-    background: #ffffff;
-    box-shadow: 0 4px 2px -2px rgba(0, 0, 0, .35);
+.main-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &::before {
+    content: "-";
+    height: 4.5rem;
+    color: transparent;
   }
-
-  .main-container {
-    height: 100vh;
-    width: 100vw;
+  &::after {
+    content: "-";
+    height: 5rem;
+    color: transparent;
   }
+}
 
-  .card-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.dialog-card {
+  min-width: 95vw;
+  max-width: 95vw;
+  padding: 6vh 5vw 2.5vh 5vw;
+}
 
-    &::before {
-      content: '-';
-      height: 4.5rem;
-      color: transparent;
-    }
-    &::after {
-      content: '-';
-      height: 5rem;
-      color: transparent;
-    }
+.dialog-button-container {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+}
 
+.dialog-buttons {
+  width: 14vw;
+  height: 14vw;
+  // font-size: 4.25vw;
+  font-weight: 900;
+  margin: 2.25vw;
+
+  // :nth-child(2) {
+  //   line-height: 0;
+  // }
+}
+
+.overlay-loading-long {
+  position: fixed; /* Sit on top of the page content */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  z-index: 100;
+  /* Duration must be indentical to animation duration */
+  animation: 1.5s ease-in 0s 1 fadeIn;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 1;
   }
-
-    .dialog-card {
-      min-width: 95vw;
-      max-width: 95vw;
-      padding: 6vh 5vw 2.5vh 5vw;
-    }
-
-    .dialog-button-container {
-      display: grid;
-      grid-template-columns: 25% 25% 25% 25%;
-    }
-
-    .dialog-buttons {
-      width: 14vw;
-      height: 14vw;
-      // font-size: 4.25vw;
-      font-weight: 900;
-      margin: 2.25vw;
-
-      // :nth-child(2) {
-      //   line-height: 0;
-      // }
-    }
-
-  .overlay-loading-long {
-    position: fixed; /* Sit on top of the page content */
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%; 
-    top: 0; 
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: white; 
-    z-index: 100; 
-    /* Duration must be indentical to animation duration */
-    animation: 1.5s ease-in 0s 1 fadeIn;
-  } 
-  @keyframes fadeIn {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+  100% {
+    opacity: 0;
   }
+}
 
-  .raise-it{
-    z-index: 10;
-  }
+.raise-it {
+  z-index: 10;
+}
 
 .my-card {
   margin: 0.5rem;
@@ -468,7 +479,6 @@ export default {
   // max-width: 80vw;
   overflow: hidden;
 
-
   .overlay-locked {
     position: absolute;
     display: flex;
@@ -477,9 +487,9 @@ export default {
     min-width: 18rem;
     max-width: 18rem;
     height: 100%;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
 
-    .overlay-locked-icon{
+    .overlay-locked-icon {
       top: 25%;
       color: rgba(255, 255, 255, 0.3);
       font-size: 4rem;
@@ -495,15 +505,14 @@ export default {
     min-width: 18rem;
     max-width: 18rem;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
 
-    .overlay-not-viewed-icon{
+    .overlay-not-viewed-icon {
       top: 20%;
       color: rgba(255, 255, 255, 0.75);
       font-size: 4rem;
     }
   }
-
 
   .overlay-completed {
     z-index: 2;
@@ -511,7 +520,7 @@ export default {
     right: 5%;
     bottom: 18%;
     // FlatUI Dutch Palette
-    color: #A3CB38; // Android Green
+    color: #a3cb38; // Android Green
     font-size: 4rem;
     text-shadow: 0 0px 4px rgba(0, 148, 49, 0.5); // Pixelated Grass
     // animation-name: pulse;
@@ -524,7 +533,6 @@ export default {
     //   to { transform: scale(1); }
     // }
   }
-
 
   .thumbnail {
     max-height: 10rem;
@@ -553,13 +561,13 @@ export default {
     position: relative;
     z-index: 2;
     width: 8%;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
 
     &:first-child {
-      padding-top: .5rem;
+      padding-top: 0.5rem;
     }
     &:last-child {
-      padding-bottom: .5rem;
+      padding-bottom: 0.5rem;
     }
   }
 
@@ -572,9 +580,6 @@ export default {
     min-height: 4rem;
     padding: 0 1rem;
   }
- }
-
-
-  
+}
 </style>
 
