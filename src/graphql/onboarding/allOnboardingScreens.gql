@@ -1,0 +1,11 @@
+query allOnboardingScreens($challengeSlug: String!) { 
+  allOnboardingScreens(challengeSlug: $challengeSlug){   
+    title
+    text
+    image {
+      rendition(max: "756x1024"){
+        url
+      }
+    }
+  }
+}

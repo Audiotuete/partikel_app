@@ -100,6 +100,7 @@ module.exports = function (ctx) {
         USER_PASSWORD: env_dev.USER_PASSWORD,
         TOKEN_ID: env_dev.TOKEN_ID,
         CHALLENGE_ID: env_dev.CHALLENGE_ID,
+        CHALLENGE_SLUG: env_dev.CHALLENGE_SLUG,
       }
       : { // and on build (production):
         MODUS: env_prod.MODUS,
@@ -107,6 +108,7 @@ module.exports = function (ctx) {
         USER_PASSWORD: env_prod.USER_PASSWORD,
         TOKEN_ID: env_prod.TOKEN_ID,
         CHALLENGE_ID: env_prod.CHALLENGE_ID,
+        CHALLENGE_SLUG: env_dev.CHALLENGE_SLUG,
       },
       
       scopeHoisting: true,
