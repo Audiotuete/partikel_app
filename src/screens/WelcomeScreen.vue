@@ -131,6 +131,7 @@ export default {
 .slide-container {
   display: flex;
   flex-direction: column;
+  background: #121212;
 }
 
 .welcome-top-container {

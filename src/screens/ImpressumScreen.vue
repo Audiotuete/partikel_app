@@ -53,7 +53,7 @@
       :position="'top-left'"
       :offset="[16, 16]"
     >
-      <router-link to="/overview" class="nav-back-button-link">
+      <router-link to="/" class="nav-back-button-link">
         <q-icon name="arrow_back" size="1.5rem"></q-icon>
       </router-link>
     </base-custom-page-sticky>
