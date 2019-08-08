@@ -128,7 +128,7 @@ export default {
     0 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
-.nav-back-button-™ {
+.nav-back-button-link {
   padding: 1.5rem 0.6rem;
   text-decoration: none;
   color: #263238;

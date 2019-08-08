@@ -1,9 +1,9 @@
 <template>
   <q-page class="flex column no-wrap">
-    <q-scroll-area style="width: 100vw; height: 100vh;">
+    <q-scroll-area v-if="impressumData" style="width: 100vw; height: 100vh;">
       <div
         class="impressum-content-container q-mx-md q-mb-md"
-        v-for="(element, index) in impressumData"
+        v-for="(element, index) in impressumData.data"
         :key="index"
       >
         <span
@@ -61,22 +61,37 @@
 </template>
 
 <script>
+import IMPRESSUM_DATA from "../graphql/impressum/impressumData.gql";
+
 export default {
   name: "impressum-screen",
-  props: ["impressumData"],
   data() {
     return {};
   },
-  mounted() {
-    if (!this.$router.currentRoute.params.impressumData) {
-      this.$router.push("/overview");
-    }
-  },
-  activated() {
-    if (!this.$router.currentRoute.params.impressumData) {
-      this.$router.push("/overview");
-    }
+  apollo: {
+  impressumData: {
+    query: IMPRESSUM_DATA,
+    fetchPolicy: "cache-and-network",
+    variables: {
+      challengeSlug: process.env.CHALLENGE_SLUG
+    },
+    // update(data) {
+    //   console.log(data)
+    //   return data
+    // }
   }
+  },
+
+  // mounted() {
+  //   if (!this.$router.currentRoute.params.impressumData) {
+  //     this.$router.push("/overview");
+  //   }
+  // },
+  // activated() {
+  //   if (!this.$router.currentRoute.params.impressumData) {
+  //     this.$router.push("/overview");
+  //   }
+  // }
 };
 </script>
 

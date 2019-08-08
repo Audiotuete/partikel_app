@@ -197,7 +197,6 @@ export default {
     goToImpressum() {
       this.$router.push({
         name: "ImpressumScreen",
-        params: { impressumData: this.currentUser.currentChallenge.impressum }
       });
     },
     toggleSectionOverview(event) {
@@ -580,6 +579,10 @@ export default {
     min-height: 4rem;
     padding: 0 1rem;
   }
+  // .card-text {
+  //   font-size: 1rem;
+  //   font-weight: 400;
+  // }
 }
 </style>
 

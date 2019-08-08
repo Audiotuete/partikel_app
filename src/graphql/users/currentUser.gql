@@ -6,36 +6,6 @@ query currentUser {
     lessonsCompleted
     currentChallenge {
       title
-      impressum {
-        __typename
-        ... on HeadingType {
-          value
-        }
-        ... on ParagraphType {
-          value
-        }
-        ... on ImageType {
-          imageData {
-            title
-            caption
-            rendition(max: "600x400"){
-              url
-            }
-          }
-        }
-        ... on GalleryType {
-          galleryData{
-            title
-            caption
-            rendition(max: "600x400") {
-              url
-            }
-          }
-        }
-        ... on VideoType {
-          value
-        }        
-      }
       challengesectionSet {
         id
         title

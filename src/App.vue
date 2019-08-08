@@ -51,7 +51,7 @@ p + p {
 
 a {
   text-decoration: none;
-  color: ™#e94f35;
+  color: #e94f35;
 }
 
 iframe {

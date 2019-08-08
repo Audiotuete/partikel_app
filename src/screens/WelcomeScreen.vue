@@ -1,20 +1,41 @@
 
 <template>
   <q-page>
-    <q-carousel keep-alive animated navigation swipeable v-model="slide" height="100vh">
+    <q-carousel keep-alive animated swipeable v-model="currentScreen" height="100vh">
       <q-carousel-slide
+        class="slide-container"
         v-for="(screen, index) in allOnboardingScreens"
         :key="index"
         :name="index"
         :img-src="screen.image.rendition.url"
-      ></q-carousel-slide>
+      >
+        <div class="welcome-top-container">
+          <span class="welcome-title">{{screen.title}}</span>
+          <span class="welcome-text">{{screen.text}}</span>
+        </div>
+        <div class="welcome-bottom-container">
+          <div class="screen-indicator-container">
+            <q-icon
+              v-for="(dot, index) in allOnboardingScreens "
+              :key="index"
+              :class="{'screen-indicator': true, 'active': index == currentScreen}"
+              name="fas fa-circle"
+              size="3.5vw"
+            ></q-icon>
+          </div>
+          <q-btn
+            class="welcome-btn"
+            @click="register()"
+            color="white"
+            text-color="primary"
+          >Challenge Starten</q-btn>
+          <div class="welcome-impressum-container">
+            <img class="welcome-impressum-icon" src="../statics/app-logo-128x128.png" alt />
+            <router-link to="/impressum" class="welcome-impressum-link">Impressum</router-link>
+          </div>
+        </div>
+      </q-carousel-slide>
     </q-carousel>
-    <q-btn
-      @click="register()"
-      style="width:100%; position: absolute; bottom: 10px"
-      color="primary"
-      class
-    >Challenge Starten</q-btn>
   </q-page>
 </template>
 
@@ -30,15 +51,8 @@ export default {
   components: {},
   data() {
     return {
-      allOnboardingScreens: [
-        {
-          id: 0,
-          title: "Hello",
-          image:
-            "https://agrarproduktion-lindstedt.de/wp-content/uploads/2018/04/Platzhalter-3.png"
-        }
-      ],
-      slide: 0
+      allOnboardingScreens: [],
+      currentScreen: 0
     };
   },
   apollo: {
@@ -114,60 +128,84 @@ export default {
 </script>
 
 <style lang='scss'>
-.startscreen-container-outer {
+.slide-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  .startscreen-container-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 85%;
-  }
 }
 
-.call-to-action-text {
-  font-size: 1rem;
-  width: 70vw;
-}
-
-.startscreen-heading {
-  margin-top: 1rem;
-  margin-bottom: 0.25rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.image {
-  position: relative;
-  z-index: -1;
-  margin-top: -1.5rem;
-  margin-left: 0.5rem;
-  position: relative;
-  background-repeat: no-repeat;
-  background-size: auto;
-  background-position: center;
+.welcome-top-container {
   display: flex;
-  width: 75vw;
-  height: 14rem;
-  background-size: 16rem 10.75rem;
+  flex: 5;
+  flex-direction: column;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.9);
+  margin-top: 5vh;
+}
+
+.welcome-title {
+  font-size: 5.5vw;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0.1rem;
+}
+
+.welcome-text {
+  font-size: 5vw;
+  font-weight: 400;
+  text-align: center;
+  padding: 0 6vw;
+}
+
+.welcome-bottom-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2.5vh;
+}
+.welcome-btn {
+  width: 90%;
+  min-height: 11vw;
+  font-size: 4vw;
+  margin-bottom: 1rem;
+}
+
+.welcome-impressum-container {
+  display: flex;
   justify-content: center;
   align-items: center;
 
-  .text-block {
-    position: absolute;
-    bottom: 1rem;
-    right: 0rem;
+  .welcome-impressum-icon {
+    width: 10vw;
+    margin: 0.25rem;
+  }
+
+  .welcome-impressum-link {
+    text-decoration: none;
+    color: #fff;
+    font-size: 4.5vw;
+    padding-right: 0.5rem;
   }
 }
 
-.impressum-link {
-  margin: 0rem 0.5rem 0 0.5rem;
-  font-size: 0.8rem;
-  text-align: center;
-  color: red;
-  line-height: 1.3;
-  font-weight: 500;
+.screen-indicator-container {
+  display: flex;
+  width: 50%;
+  height: 4vw;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 1.75rem;
+
+  .screen-indicator {
+    color: rgba(255, 255, 255, 0.6);
+
+    &.active {
+      color: #e94f35;
+      border-radius: 50%;
+      background: #e94f35;
+      box-shadow: 0 0 6px 2px #e94f35;
+    }
+  }
 }
 </style>
