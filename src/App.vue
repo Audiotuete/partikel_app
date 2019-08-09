@@ -51,7 +51,8 @@ p + p {
 }
 
 a {
-  outline: none!important;
+  outline: none !important;
+  background: none !important;
   text-decoration: none;
   color: #e94f35;
 }
@@ -63,8 +64,6 @@ iframe {
   width: 100%;
   height: 100%;
 }
-
-
 
 // Q-Diaglog costumisation
 
