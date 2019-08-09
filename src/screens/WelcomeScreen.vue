@@ -1,42 +1,47 @@
 
 <template>
-  <q-page>
-    <q-carousel keep-alive animated swipeable v-model="currentScreen" height="100vh">
-      <q-carousel-slide
-        class="slide-container"
-        v-for="(screen, index) in allOnboardingScreens"
-        :key="index"
-        :name="index"
-        :img-src="screen.image.rendition.url"
-      >
-        <div class="welcome-top-container">
-          <span class="welcome-title">{{screen.title}}</span>
-          <span class="welcome-text">{{screen.text}}</span>
-        </div>
-        <div class="welcome-bottom-container">
-          <div class="screen-indicator-container">
-            <q-icon
-              v-for="(dot, index) in allOnboardingScreens "
-              :key="index"
-              :class="{'screen-indicator': true, 'active': index == currentScreen}"
-              name="fas fa-circle"
-              size="3.5vw"
-            ></q-icon>
+  <transition name="fade">
+    <q-page v-show="allOnboardingScreens">
+      <q-carousel keep-alive animated swipeable v-model="currentScreen" height="100vh">
+        <q-carousel-slide
+          class="slide-container"
+          v-for="(screen, index) in allOnboardingScreens"
+          :key="index"
+          :name="index"
+          :img-src="screen.image.rendition.url"
+        >
+          <div class="welcome-top-container">
+            <span class="welcome-title">{{screen.title}}</span>
+            <span class="welcome-text">{{screen.text}}</span>
           </div>
-          <q-btn
-            class="welcome-btn"
-            @click="register()"
-            color="white"
-            text-color="primary"
-          >Challenge Starten</q-btn>
-          <div class="welcome-impressum-container">
-            <img class="welcome-impressum-icon" src="../statics/app-logo-128x128.png" alt />
-            <router-link to="/impressum" class="welcome-impressum-link">Impressum</router-link>
+          <div
+            :class="{'welcome-bottom-container': true, 'browser-adjustments': displayedInBrowser }"
+          >
+            <div class="screen-indicator-container">
+              <q-icon v-show="currentScreen < 2" @click="currentScreen += 1" class="screen-indicator-arrow" name="arrow_forward_ios"></q-icon>
+              <q-icon
+                v-for="(dot, index) in allOnboardingScreens "
+                :key="index"
+                :class="{'screen-indicator-dot': true, 'active': index == currentScreen}"
+                name="lens"
+                size="3.5vw"
+              ></q-icon>
+            </div>
+            <q-btn
+              class="welcome-btn"
+              @click="register()"
+              color="white"
+              text-color="primary"
+            >Challenge Starten</q-btn>
+            <div class="welcome-impressum-container">
+              <img class="welcome-impressum-icon" src="../statics/app-logo-128x128.png" alt />
+              <router-link to="/impressum" class="welcome-impressum-link">Impressum</router-link>
+            </div>
           </div>
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
-  </q-page>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-page>
+  </transition>
 </template>
 
 <script>
@@ -51,9 +56,14 @@ export default {
   components: {},
   data() {
     return {
-      allOnboardingScreens: [],
+      allOnboardingScreens: null,
       currentScreen: 0
     };
+  },
+  computed: {
+    displayedInBrowser() {
+      return process.env.MODE == "spa";
+    }
   },
   apollo: {
     allOnboardingScreens: {
@@ -161,21 +171,27 @@ export default {
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 2.5vh;
 }
+
+.browser-adjustments {
+  margin-bottom: 10vh;
+}
+
 .welcome-btn {
   width: 90%;
   min-height: 11vw;
   font-size: 4vw;
-  margin-bottom: 1rem;
 }
 
 .welcome-impressum-container {
   display: flex;
+  min-height: 10vh;
   justify-content: center;
   align-items: center;
+  padding-top: 3vh;
 
   .welcome-impressum-icon {
     width: 10vw;
@@ -197,8 +213,21 @@ export default {
   justify-content: space-around;
   align-items: center;
   margin-bottom: 1.75rem;
+  position: relative;
 
-  .screen-indicator {
+  .screen-indicator-arrow {
+    position: absolute;
+    top: -25vh;
+    right: -25vw;
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.15);
+
+    &:hover {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  .screen-indicator-dot {
     color: rgba(255, 255, 255, 0.6);
 
     &.active {
@@ -208,5 +237,13 @@ export default {
       box-shadow: 0 0 6px 2px #e94f35;
     }
   }
+}
+
+.fade-enter-active {
+  transition: opacity 1s;
+}
+
+.fade-enter {
+  opacity: 0;
 }
 </style>

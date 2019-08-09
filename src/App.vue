@@ -31,6 +31,7 @@ body {
   overflow: hidden;
   position: relative;
   height: 100%;
+  background: transparent;
 }
 
 h2 {
@@ -50,6 +51,7 @@ p + p {
 }
 
 a {
+  outline: none!important;
   text-decoration: none;
   color: #e94f35;
 }
@@ -61,6 +63,8 @@ iframe {
   width: 100%;
   height: 100%;
 }
+
+
 
 // Q-Diaglog costumisation
 
