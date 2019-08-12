@@ -186,8 +186,8 @@ module.exports = function (ctx) {
 
     cordova: {
       id: 'org.bewirken.challenge.app',
-      version: '0.0.2',
-      androidVersionCode: '2'
+      version: '0.0.3',
+      androidVersionCode: '3'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
