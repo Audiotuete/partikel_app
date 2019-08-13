@@ -53,9 +53,9 @@
       :position="'top-left'"
       :offset="[16, 16]"
     >
-      <router-link to="/" class="nav-back-button-link">
+      <a @click="navigateBack()" class="nav-back-button-link">
         <q-icon name="arrow_back" size="1.5rem"></q-icon>
-      </router-link>
+      </a>
     </base-custom-page-sticky>
   </q-page>
 </template>
@@ -69,18 +69,23 @@ export default {
     return {};
   },
   apollo: {
-  impressumData: {
-    query: IMPRESSUM_DATA,
-    fetchPolicy: "cache-and-network",
-    variables: {
-      challengeSlug: process.env.CHALLENGE_SLUG
-    },
-    // update(data) {
-    //   console.log(data)
-    //   return data
-    // }
-  }
+    impressumData: {
+      query: IMPRESSUM_DATA,
+      fetchPolicy: "cache-and-network",
+      variables: {
+        challengeSlug: process.env.CHALLENGE_SLUG
+      },
+      // update(data) {
+      //   console.log(data)
+      //   return data
+      // }
+    }
   },
+  methods: {
+    navigateBack() {
+      this.$router.go(-1);
+    },
+  }
 
   // mounted() {
   //   if (!this.$router.currentRoute.params.impressumData) {

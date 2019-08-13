@@ -85,9 +85,9 @@
           :position="'top-left'"
           :offset="[16, 16]"
         >
-          <router-link to="/overview" class="nav-back-button-link">
+          <a @click="navigateBack()" class="nav-back-button-link">
             <q-icon name="arrow_back" size="1.5rem"></q-icon>
-          </router-link>
+          </a>
         </base-custom-page-sticky>
 
         <q-btn
@@ -139,6 +139,9 @@ export default {
     }
   },
   methods: {
+    navigateBack() {
+      this.$router.go(-1);
+    },
     markLessonCompleted(id, completed) {
       let unitId = parseInt(id);
       if (!this.lessonsCompleted.includes(unitId) && completed) {
@@ -147,7 +150,7 @@ export default {
         let idIndex = this.lessonsCompleted.indexOf(unitId);
         this.lessonsCompleted.splice(idIndex, 1);
       }
-      this.$router.push("/overview");
+      this.$router.go(-1);
       this.$apollo
         .mutate({
           mutation: UPDATE_USER_VIEWS,

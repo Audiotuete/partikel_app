@@ -3,6 +3,7 @@ import Error404 from '../components/pages/Error404'
 
 // Screens
 import WelcomeScreen from '../screens/WelcomeScreen'
+import TutorialScreen from '../screens/TutorialScreen'
 import OverviewScreen from '../screens/OverviewScreen'
 import LessonScreen from '../screens/LessonScreen'
 import ImpressumScreen from '../screens/ImpressumScreen'
@@ -20,6 +21,12 @@ const routes = [
         component: WelcomeScreen,
         meta: { requiresNoChallenge: true }
       },
+      {
+        name: 'TutorialScreen', 
+        path: 'tutorial', 
+        component: TutorialScreen,
+        meta: { requiresAuth: true }
+      }, 
       {
         name: 'OverviewScreen', 
         path: 'overview', 

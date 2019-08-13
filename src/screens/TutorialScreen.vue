@@ -102,6 +102,28 @@
       />
     </base-custom-page-sticky>
 
+    <base-custom-page-sticky class="raise-it" :position="'top-left'" :offset="[14, 24]">
+      <q-btn
+        @click="showSectionOverview = true"
+        v-touch-swipe.mouse.down="toggleSectionOverview"
+        style="font-weight: bold"
+        color="primary"
+        text-color="white"
+        rounded
+        :label="'Tutorial'"
+      />
+    </base-custom-page-sticky>
+
+    <base-custom-page-sticky class="raise-it" :position="'bottom'" :offset="[14, 24]">
+      <q-btn
+        @click="$router.push('/overview')"
+        style="font-weight: bold"
+        color="primary"
+        text-color="white"
+        :label="'Tutorial beenden'"
+      />
+    </base-custom-page-sticky>
+
     <q-dialog v-model="showSectionOverview" position="top">
       <q-card class="dialog-card" v-touch-swipe.mouse="toggleSectionOverview">
         <q-card-section style="padding-top: 2rem">
@@ -125,12 +147,6 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <base-custom-page-sticky class="raise-it" :position="'top-right'" :offset="[18, 14]">
-      <q-fab icon="menu" direction="down" color="primary" text-color="white">
-        <q-fab-action @click="goToImpressum()" color="primary" :text-color="'white'" icon="info" />
-        <!-- <q-fab-action @click="onClick()" color="primary" text-color="white" icon="mail" /> -->
-      </q-fab>
-    </base-custom-page-sticky>
   </q-page>
 </template>
 
@@ -172,11 +188,7 @@ export default {
       return process.env.MODE;
     },
     activeChallengeSections() {
-      return this.currentUser.currentChallenge.challengesectionSet
-        .slice(1)
-        .filter(section => {
-          return section.isPublic;
-        });
+      return this.currentUser.currentChallenge.challengesectionSet.slice(0,2)
     },
     lessonsCompleted() {
       return this.currentUser.lessonsCompleted;
@@ -375,9 +387,6 @@ export default {
   },
   updated() {},
   activated() {
-    this.scrollAreaHeight = document.querySelector(
-      ".q-stepper__content"
-    ).offsetHeight;
     this.getScrollPositions();
   },
   deactivated() {}
