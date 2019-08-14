@@ -85,18 +85,9 @@ export default {
     navigateBack() {
       this.$router.go(-1);
     },
-  }
+  },
 
-  // mounted() {
-  //   if (!this.$router.currentRoute.params.impressumData) {
-  //     this.$router.push("/overview");
-  //   }
-  // },
-  // activated() {
-  //   if (!this.$router.currentRoute.params.impressumData) {
-  //     this.$router.push("/overview");
-  //   }
-  // }
+
 };
 </script>
 

@@ -373,14 +373,14 @@ export default {
 
     // this.scrollAreaHeight = document.querySelector('.q-stepper__content').offsetHeight
   },
-  updated() {},
-  activated() {
-    this.scrollAreaHeight = document.querySelector(
-      ".q-stepper__content"
-    ).offsetHeight;
-    this.getScrollPositions();
-  },
-  deactivated() {}
+  // updated() {},
+  // activated() {
+  //   // this.scrollAreaHeight = document.querySelector(
+  //   //   ".q-stepper__content"
+  //   // ).offsetHeight;
+  //   // this.getScrollPositions();
+  // },
+  // deactivated() {}
 };
 </script>
 
