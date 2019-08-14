@@ -71,8 +71,11 @@ export default {
         document.addEventListener(
           "backbutton",
           e => {
-            e.preventDefault();
-            navigator.app.exitApp();
+            if(this.$route.name == 'OverviewScreen') {
+              e.preventDefault();
+              navigator.app.exitApp();
+            }
+
           },
           false
         );
