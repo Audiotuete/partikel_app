@@ -1,0 +1,10 @@
+	Only build in XCode - Legacy Mode (not per cordova build)
+    
+    <key>UIBackgroundModes</key>
+        <array>
+        <string>remote-notification</string>
+        </array>
+
+    // Not really needed
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	    <false/>

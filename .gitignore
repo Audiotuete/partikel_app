@@ -7,6 +7,8 @@ node_modules
 /dist
 /src/statics/icons
 /src-cordova/google-services.json
+/src-cordova/GoogleService-Info.plist
+/src-cordova/Projekt Challenge-Info.plist
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins
