@@ -15,14 +15,20 @@
             <span class="welcome-text">{{screen.text}}</span>
           </div>
           <div
-            :class="{'welcome-bottom-container': true, 'browser-adjustments': displayedInBrowser }"
+            :class="{'welcome-bottom-container': true, 'browser-adjustments': displayedInBrowser, 'ios-adjustments': displayedInIOS }"
           >
             <div class="screen-indicator-container">
-              <q-icon v-show="currentScreen < 2" @click="currentScreen += 1" class="screen-indicator-arrow" name="arrow_forward_ios"></q-icon>
+              <q-icon
+                v-show="currentScreen < allOnboardingScreens.length -1"
+                @click="currentScreen += 1"
+                class="screen-indicator-arrow"
+                name="arrow_forward_ios"
+              ></q-icon>
               <q-icon
                 v-for="(dot, index) in allOnboardingScreens "
                 :key="index"
                 :class="{'screen-indicator-dot': true, 'active': index == currentScreen}"
+                @click="currentScreen = index"
                 name="lens"
                 size="3.5vw"
               ></q-icon>
@@ -33,7 +39,7 @@
               color="white"
               text-color="primary"
             >Challenge Starten</q-btn>
-            <div class="welcome-impressum-container">
+            <div @click="goToImpressum()" class="welcome-impressum-container">
               <img class="welcome-impressum-icon" src="../statics/app-logo-128x128.png" alt />
               <router-link to="/impressum" class="welcome-impressum-link">Impressum</router-link>
             </div>
@@ -63,6 +69,12 @@ export default {
   computed: {
     displayedInBrowser() {
       return process.env.MODE == "spa";
+    },
+    displayedInIOS() {
+      if (process.env.MODE == "cordova") {
+        return device.platform == "iOS";
+      }
+      // return this.$q.device.platform == "iOS";
     }
   },
   apollo: {
@@ -78,6 +90,11 @@ export default {
     }
   },
   methods: {
+    goToImpressum() {
+      this.$router.push({
+        name: "ImpressumScreen"
+      });
+    },
     register() {
       this.$apollo
         .mutate({
@@ -173,11 +190,15 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2.5vh;
+  margin-bottom: 4vh;
 }
 
 .browser-adjustments {
   margin-bottom: 10vh;
+}
+
+.ios-adjustments {
+  margin-bottom: 12.5vh;
 }
 
 .welcome-btn {
@@ -217,7 +238,7 @@ export default {
 
   .screen-indicator-arrow {
     position: absolute;
-    top: -25vh;
+    top: -28vh;
     right: -25vw;
     font-size: 4rem;
     color: rgba(255, 255, 255, 0.15);
@@ -229,6 +250,7 @@ export default {
 
   .screen-indicator-dot {
     color: rgba(255, 255, 255, 0.6);
+    margin: 1rem;
 
     &.active {
       color: #e94f35;
