@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh lpr lFf">
     <q-page-container>
-      <div v-if="processMode == 'cordova'" class="statusbar-spacer"></div>
+      <div v-if="displayedInIOS" class="statusbar-spacer"></div>
       <div v-show="isLoading" class="overlay-loading">
         <!-- <q-spinner-puff color="grey-10" size="30em"/> -->
       </div>
@@ -41,10 +41,15 @@ export default {
       isMobile: false,
       isLoading: false,
       allowLandscape: false,
-      processMode: process.env.MODE
     };
   },
-
+  computed: {
+    displayedInIOS() {
+      if (process.env.MODE == "cordova") {
+        return device.platform == "iOS";
+      }
+    }
+  },
   watch: {
     $route(to, from) {
       this.isLoading = true;
@@ -66,7 +71,6 @@ export default {
     },
     onDeviceReady() {
       if (process.env.MODE == "cordova") {
-        StatusBar.overlaysWebView(true);
         StatusBar.backgroundColorByHexString("#121212");
         document.addEventListener(
           "backbutton",

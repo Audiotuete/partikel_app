@@ -1,5 +1,5 @@
 <template>
-  <q-page-sticky :class="{'top-sticky': processMode == 'cordova'}" :position=position :offset=offset>
+  <q-page-sticky :class="{'top-sticky': displayedInIOS}" :position=position :offset=offset>
     <slot></slot>
   </q-page-sticky>
 </template>
@@ -8,11 +8,13 @@
 export default {
   name: 'custom-page-sticky',
   props: ['offset', 'position'],
-  data() {
-    return {
-      processMode: process.env.MODE
+  computed: {
+    displayedInIOS() {
+      if (process.env.MODE == "cordova") {
+        return device.platform == "iOS";
+      }
     }
-  }
+  },
 }
 </script>
 

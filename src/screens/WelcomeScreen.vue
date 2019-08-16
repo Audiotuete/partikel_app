@@ -74,7 +74,6 @@ export default {
       if (process.env.MODE == "cordova") {
         return device.platform == "iOS";
       }
-      // return this.$q.device.platform == "iOS";
     }
   },
   apollo: {
