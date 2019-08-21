@@ -2,6 +2,7 @@ import BaseLayout from '../layouts/BaseLayout'
 import Error404 from '../components/pages/Error404'
 
 // Screens
+import CanvasScreen from '../screens/CanvasScreen'
 import WelcomeScreen from '../screens/WelcomeScreen'
 import TutorialScreen from '../screens/TutorialScreen'
 import OverviewScreen from '../screens/OverviewScreen'
@@ -16,9 +17,9 @@ const routes = [
     component: BaseLayout,
     children: [
       {
-        name: 'WelcomeScreen', 
+        name: 'CanvasScreen', 
         path: '', 
-        component: WelcomeScreen,
+        component: CanvasScreen,
         meta: { requiresNoChallenge: true }
       },
       {
