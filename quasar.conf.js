@@ -44,6 +44,7 @@ module.exports = function (ctx) {
         'QCarouselControl',
         'QCarouselSlide',
         'QDialog',
+        'QInput',
         'QPageContainer',
         'QPage',
         'QFab',
