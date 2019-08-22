@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-scroll-area>
+    <q-scroll-area vertical>
       <div class="canvas-container">
         <!-- <CanvasSection
           v-for="(section, index) in canvas"
@@ -145,6 +145,8 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+
+
 .canvas-container {
   display: grid;
   padding: 0.5rem;
@@ -210,7 +212,6 @@ export default {
 .dialog-card {
   min-width: 16rem;
   max-width: 16rem;
-  bottom: 30vh;
   padding: 0.5rem 1.25rem 0.75rem 1.25rem;
 }
 </style>
