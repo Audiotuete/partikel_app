@@ -3,54 +3,74 @@
     <q-scroll-area vertical>
       <div class="canvas-container">
         <CanvasSection
+          @add-sticker="openDialog(null, problem)"
+          @edit-sticker="openDialog($event, problem)"
           :list="problem"
           group="projekt-canvas"
           class="canvas-section canvas-section__problem"
         >
           Problem
-          <q-icon class="add-icon" @click="openAddDialog(problem)" name="add" />
+          <!-- <q-icon class="add-icon" @click="openAddDialog(problem)" name="add" /> -->
         </CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, zielgruppe)"
+          @edit-sticker="openDialog($event, zielgruppe)"
           :list="zielgruppe"
           group="projekt-canvas"
           class="canvas-section canvas-section__zielgruppe"
         >Zielgruppe</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, loesung)"
+          @edit-sticker="openDialog($event, loesung)"
           :list="loesung"
           group="projekt-canvas"
           class="canvas-section canvas-section__loesung"
         >Lösung</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, aktivitaeten)"
+          @edit-sticker="openDialog($event, aktivitaeten)"
           :list="aktivitaeten"
           group="projekt-canvas"
           class="canvas-section canvas-section__aktivitaeten"
         >Aktivitäten</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, ressourcen)"
+          @edit-sticker="openDialog($event, ressourcen)"
           :list="ressourcen"
           group="projekt-canvas"
           class="canvas-section canvas-section__ressourcen"
         >Ressourcen</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, beteiligte)"
+          @edit-sticker="openDialog($event, beteiligte)"
           :list="beteiligte"
           group="projekt-canvas"
           class="canvas-section canvas-section__beteiligte"
         >Beteiligte</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, vorstellung)"
+          @edit-sticker="openDialog($event, vorstellung)"
           :list="vorstellung"
           group="projekt-canvas"
           class="canvas-section canvas-section__vorstellung"
         >Vorstellung</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, kanaele)"
+          @edit-sticker="openDialog($event, kanaele)"
           :list="kanaele"
           group="projekt-canvas"
           class="canvas-section canvas-section__kanaele"
         >Kanäle</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, kosten)"
+          @edit-sticker="openDialog($event, kosten)"
           :list="kosten"
           group="projekt-canvas"
           class="canvas-section canvas-section__kosten"
         >Kosten</CanvasSection>
         <CanvasSection
+          @add-sticker="openDialog(null, einnahmen)"
+          @edit-sticker="openDialog($event, einnahmen)"
           :list="einnahmen"
           group="projekt-canvas"
           class="canvas-section canvas-section__einnahmen"
@@ -103,24 +123,61 @@ export default {
       einnahmen: [],
 
       showAddDialog: false,
-      pendingStickerList: [],
-      pendingStickerText: ""
+      pendingList: null,
+      pendingStickerIndex: -1,
+      pendingStickerText: "",
+      pendingStickerId: 0,
     };
   },
   apollo: {},
   methods: {
-    openAddDialog(list) {
-      this.pendingStickerText = "";
-      this.pendingStickerList = list;
-      this.showAddDialog = !this.showAddDialog;
+    openDialog(payload, list) {
+      if (payload) {
+        this.pendingStickerText = payload.name;
+        this.pendingStickerId = payload.id
+        this.pendingList = list;
+
+        let currentList = this.pendingList;
+        this.pendingStickerIndex = currentList.findIndex(
+          currentList => currentList.id === payload.id
+        );
+
+        this.showAddDialog = !this.showAddDialog;
+      } else {
+        this.pendingList = list;
+        this.pendingStickerIndex = -1;
+        this.pendingStickerText = "";
+        this.showAddDialog = !this.showAddDialog;
+      }
     },
     addSticker() {
-      if (this.pendingStickerText) {
-        this.pendingStickerList.push({ name: this.pendingStickerText, id: 30 });
+      if (this.pendingStickerIndex === -1 && this.pendingStickerText) {
+        this.pendingList.push({
+          name: this.pendingStickerText,
+          id: this.generateUniqueID()
+        });
+      } else if (this.pendingStickerText) {
+        this.pendingList[this.pendingStickerIndex] = {
+          name: this.pendingStickerText,
+          id: this.pendingStickerId
+        };
       }
     },
     removeItem() {
       console.log("Hello");
+    },
+    generateUniqueID() {
+      let currentList = this.pendingList;
+      let index = 0;
+      let generatedId = 0;
+
+      while (index !== -1) {
+        generatedId = Math.floor(Math.random() * 1000) + 1;
+        index = currentList.findIndex(
+          currentList => currentList.id === generatedId
+        );
+      }
+      return generatedId;
     },
     navigateBack() {
       this.$router.go(-1);
@@ -133,12 +190,12 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
 .canvas-container {
   display: grid;
   padding: 0.5rem;
   height: 100vh;
   width: 300vw;
+  background: #f1f1f1;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: 4fr 4fr 3fr;
   grid-template-areas:
@@ -151,10 +208,10 @@ export default {
 .canvas-section {
   position: relative;
   padding: 0.75rem 0.5rem;
-  background: #f1f1f1;
+  background: #fff;
   overflow: hidden;
   border-radius: 3px;
-  border: 1px solid #333;
+  border: 1px solid #eeeeee;
 
   &__problem {
     grid-area: problem;

@@ -1,8 +1,8 @@
 <template>
-  <div style="height: 100%">
+  <div @click="$emit('add-sticker')" style="height: 100%">
   <slot></slot>
-  <draggable class="canvas-sticker-dragger" :list="list" :group="group">
-    <q-card class="canvas-sticker" v-for="element in list" :key="element.id">
+  <draggable  class="canvas-sticker-dragger" :list="list" :group="group">
+    <q-card @click.stop="$emit('edit-sticker', element)" class="canvas-sticker" v-for="element in list" :key="element.id">
       <div class="canvas-sticker-text">{{element.name}}</div>
     </q-card>
   </draggable>
@@ -15,13 +15,22 @@ import draggable from "vuedraggable";
 export default {
   name: "canvas-sticker",
   props: ["label", "list", "group"],
-  components: { draggable }
+  components: { draggable },
+  methods: {
+    editSticker() {
+      console.log('Hi there')
+    },
+    addSticker() {
+      this.$parent.openAddDialog()
+    }
+  }
 };
 </script>
 
 <style lang="scss">
 .canvas-sticker {
   display: flex;
+  z-index: 1000;
   // align-self: flex-start;
   background: #fff;
   margin: 0.3rem 0.25rem;
