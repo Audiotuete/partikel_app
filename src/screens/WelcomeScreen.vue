@@ -2,9 +2,16 @@
 <template>
   <transition name="fade">
     <q-page v-show="allOnboardingScreens">
-      <q-carousel keep-alive animated swipeable v-model="currentScreen" height="100vh">
+      <q-carousel
+        keep-alive
+        animated
+        swipeable
+        v-model="currentScreen"
+        height="100vh"
+        class="carousel-container"
+      >
         <q-carousel-slide
-          class="slide-container"
+          class="carousel-slide-container"
           v-for="(screen, index) in allOnboardingScreens"
           :key="index"
           :name="index"
@@ -73,6 +80,8 @@ export default {
     displayedInIOS() {
       if (process.env.MODE == "cordova") {
         return device.platform == "iOS";
+      } else if (this.getBrowserInfo().includes("Safari") && this.getOSInfo() != "MacIntel") {
+        return true
       }
     }
   },
@@ -101,8 +110,8 @@ export default {
           variables: {
             challengeId: process.env.CHALLENGE_ID,
             // browserInfo and osInfo must be requested differently on native WebViews
-            browserInfo: "this.getBrowserInfo()",
-            osInfo: "navigator.platform"
+            browserInfo: this.getBrowserInfo(),
+            osInfo: this.getOSInfo()
           }
         })
         .then(data => {
@@ -133,31 +142,54 @@ export default {
         .catch(error => {
           // console.error(error)
         });
+    },
+    getOSInfo() {
+      if (process.env.MODE == "cordova") {
+        return device.platform;
+      } else if (process.env.MODE == "spa") {
+        return navigator.platform;
+      }
+    },
+    getBrowserInfo() {
+      if (process.env.MODE == "spa") {
+        var ua = navigator.userAgent,
+          tem,
+          M =
+            ua.match(
+              /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
+            ) || [];
+        if (/trident/i.test(M[1])) {
+          tem = /\brv[ :]+(\d+)/g.exec(ua) || [];
+          return "IE " + (tem[1] || "");
+        }
+        if (M[1] === "Chrome") {
+          tem = ua.match(/\b(OPR|Edge?)\/(\d+)/);
+          if (tem != null)
+            return tem
+              .slice(1)
+              .join(" ")
+              .replace("OPR", "Opera")
+              .replace("Edg ", "Edge ");
+        }
+        M = M[2]
+          ? [M[1], M[2]]
+          : [navigator.appName, navigator.appVersion, "-?"];
+        if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
+        return M.join(" ");
+      }
     }
-    // getBrowserInfo() {
-    //   var ua= navigator.userAgent, tem,
-    //   M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []
-    //   if(/trident/i.test(M[1])){
-    //       tem=  /\brv[ :]+(\d+)/g.exec(ua) || []
-    //       return 'IE '+(tem[1] || '')
-    //   }
-    //   if(M[1]=== 'Chrome'){
-    //       tem= ua.match(/\b(OPR|Edge?)\/(\d+)/)
-    //       if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera').replace('Edg ', 'Edge ')
-    //   }
-    //   M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?']
-    //   if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1])
-    //   return M.join(' ')
-    // },
   }
 };
 </script>
 
 <style lang='scss'>
-.slide-container {
+.carousel-container {
+  background: #121212;
+}
+
+.carousel-slide-container {
   display: flex;
   flex-direction: column;
-  background: #121212;
 }
 
 .welcome-top-container {
@@ -198,6 +230,10 @@ export default {
 
 .ios-adjustments {
   margin-bottom: 12.5vh;
+}
+
+.browser-adjustments.ios-adjustments {
+  margin-bottom: 24vh;
 }
 
 .welcome-btn {

@@ -17,9 +17,9 @@ const routes = [
     component: BaseLayout,
     children: [
       {
-        name: 'CanvasScreen', 
+        name: 'WelcomeScreen', 
         path: '', 
-        component: CanvasScreen,
+        component: WelcomeScreen,
         meta: { requiresNoChallenge: true }
       },
       {
