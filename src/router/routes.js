@@ -10,16 +10,15 @@ import LessonScreen from '../screens/LessonScreen'
 import ImpressumScreen from '../screens/ImpressumScreen'
 
 
-
 const routes = [
   {
     path: '/',
     component: BaseLayout,
     children: [
       {
-        name: 'WelcomeScreen', 
+        name: 'CanvasScreen', 
         path: '', 
-        component: WelcomeScreen,
+        component: CanvasScreen,
         meta: { requiresNoChallenge: true }
       },
       {

@@ -2,18 +2,6 @@
   <q-page>
     <q-scroll-area vertical>
       <div class="canvas-container">
-        <!-- <CanvasSection
-          v-for="(section, index) in canvas"
-          :key="index"
-          :list="section[Object.keys(section)[1]]"
-          group="projekt-canvas"
-          :class="'canvas-section canvas-section__' + Object.keys(section)[1]"
-        >
-          <div>
-            {{section[Object.keys(section)[0]]}}
-            <q-icon @click="addSticker(promblem)" name="add" />
-          </div>
-        </CanvasSection>-->
         <CanvasSection
           :list="problem"
           group="projekt-canvas"
@@ -145,7 +133,6 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-
 
 .canvas-container {
   display: grid;
