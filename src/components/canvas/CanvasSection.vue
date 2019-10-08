@@ -2,7 +2,7 @@
   <div @click="$emit('add-sticker')" style="height: 100%">
   <slot></slot>
   <draggable  class="canvas-sticker-dragger" :list="list" :group="group">
-    <q-card @click.stop="$emit('edit-sticker', element)" class="canvas-sticker" v-for="element in list" :key="element.id">
+    <q-card @click.stop="$emit('edit-sticker', element)" :class="['canvas-sticker', 'bg-' + element.color]" v-for="element in list" :key="element.id">
       <div class="canvas-sticker-text">{{element.name}}</div>
     </q-card>
   </draggable>
@@ -36,6 +36,8 @@ export default {
   margin: 0.3rem 0.25rem;
   min-width: 48vw;
   max-width: 65vw;
+  border-radius: 2px;
+
 }
 
 .canvas-sticker-text {
