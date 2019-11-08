@@ -176,6 +176,8 @@ export default {
           : [navigator.appName, navigator.appVersion, "-?"];
         if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
         return M.join(" ");
+      } else {
+        return "-"
       }
     }
   }
